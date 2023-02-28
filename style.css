@@ -16,6 +16,10 @@
     width: 600px;
     max-width: 23vw;
 }
+#results {
+    padding: 20px;
+    border-radius: 12px;
+}
 #cardArea > div {
     width: 32%;
     height: min-content;    

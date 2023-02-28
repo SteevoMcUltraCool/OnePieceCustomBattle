@@ -19,8 +19,7 @@ DON.submitCardBu.onclick = async function(){
         DON.results.innerHTML = "Card Successfully Uploaded! Hooray!"
         DON.results.style.backgroundColor = "rgb(150,250,200)"
     }else {
-        DON.results.innerHTML = `There was an issue uploading the card!
-        ${results.details}`
+        DON.results.innerHTML = `There was an issue uploading the card!\n${results.details}`
         console.log(results)
         DON.results.style.backgroundColor = "rgb(250,100,50)"      
     }
