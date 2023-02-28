@@ -22,7 +22,9 @@
     border-radius: 12px;
 }
 #cardArea > div {
-    width: 32%;
+    width: 500px;
+    min-width: 30%;
+    max-width: 100%;
     height: min-content;    
     aspect-ratio: 2.5/3.5;
     margin-bottom: 50px;
