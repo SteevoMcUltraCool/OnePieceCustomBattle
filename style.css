@@ -12,6 +12,7 @@
     display: flex;
     flex-wrap:wrap;
     flex-direction: row;
+    justify-contet:space-around;
 }
 #searchText {
     width: 600px;
@@ -23,11 +24,11 @@
     border-radius: 12px;
 }
 #cardArea > div {
-    width: 2.381in;
+    width: 2.5in;
     min-width: 30%;
     max-width: 100%;
     aspect-ratio: 2.5/3.5;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     margin-left: 10px;
     margin-right: 10px;
     background-position: 0px 0px;
