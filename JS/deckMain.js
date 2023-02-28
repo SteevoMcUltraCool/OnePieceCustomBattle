@@ -12,9 +12,21 @@ async function load(search){
         console.log(search)
         return cards[key].name.toLowerCase().includes((search||"").toLowerCase())
     }).forEach(key => {
-        DON.cardArea.insertAdjacentHTML("afterbegin",
-        `<div style="background-image:url('${cards[key].img}')">
-        </div>`)
+        let newCardDiv = document.createElement("div")
+        newCardDiv.style.backgroundImage = `url('${cards[key].img}')`
+        let hidden = document.createElement("div")
+        hidden.className= "hidden"
+        newCardDiv.onmouseenter= function() {
+            hidden.beingShown = true
+            hidden.style.opacity = "100%"
+        }
+        newCardDiv.onmouseleave= function() {
+            hidden.beingShown = false
+            hidden.style.opacity = "0%"
+        }
+
+        newCardDiv.appendChild(hidden)
+        DON.cardArea.insertAdjacentElement("afterbegin",newCardDiv)
     });
 }
 
