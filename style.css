@@ -12,7 +12,7 @@
     display: flex;
     flex-wrap:wrap;
     flex-direction: row;
-    justify-contet:space-around;
+    justify-contet:stretch;
 }
 #searchText {
     width: 600px;
