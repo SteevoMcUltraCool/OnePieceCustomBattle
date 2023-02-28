@@ -1,4 +1,39 @@
-#imageLink {
+#cardImageLink {
     width: 1000px;
     max-width: 98vw;
 }
+#mommy {
+    margin: auto auto;
+    display: flex;
+    height: 99vh;
+}
+#cardArea {
+    width: 49vw;
+    display: flex;
+    flex-direction: row;
+}
+#cardArea > div {
+    width: 32%;
+    height: min-content;    
+    aspect-ratio: 2.5/3.5;
+    margin-top: 50px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-position: 0px 0px;
+    background-size: cover;
+    background-attachment: local;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+#cardArea > div:hover{
+    transform: scale(1.05);
+    box-shadow: 0px 0px 12px black;
+}
+#deckArea {
+    width: 49vw;
+}
+
+body {
+    background-color: #DDD;
+}
+

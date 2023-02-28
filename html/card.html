@@ -11,12 +11,16 @@
 
 <body>
     <button id="back">Back</button>
-    <script src="../JS/minorPageBase.js" type="module"></script>
     <section id="creatCard">
         <p>Name:<input id="cardName"></p>
         <p>Image Link:<input id="cardImageLink"></p>
         <p>Card Text (optional):</p><textarea id="cardText"></textarea>
-        <button id="submitCard"></button>
+        <br>
+        <button id="submitCard">Submit</button>
+        <script src="https://cdn.jsdelivr.net/npm/faunadb@latest/dist/faunadb.js"></script>
+        <script src="../JS/minorPageBase.js" type="module"></script>
+        <script src="../JS/cardMain.js" type="module"></script>
+
     </section>
 </body>
 
