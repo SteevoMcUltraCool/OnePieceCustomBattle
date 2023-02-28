@@ -20,5 +20,5 @@ async function load(search){
 
 load()
 
-DON.reloadBu.onclick = load
+DON.reloadBu.onclick = function(){load()}
 DON.searchText.oninput = function(){load(searchText.value)}
