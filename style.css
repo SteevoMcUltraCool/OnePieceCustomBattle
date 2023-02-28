@@ -12,6 +12,10 @@
     display: flex;
     flex-direction: row;
 }
+#searchText {
+    width: 600px;
+    max-width: 23vw;
+}
 #cardArea > div {
     width: 32%;
     height: min-content;    
