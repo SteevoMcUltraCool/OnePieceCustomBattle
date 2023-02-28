@@ -13,11 +13,19 @@
     <button id="back">Back</button>
     <button id="reload">↻</button>
     <section id="mommy">
-        <section id="deckArea">
+        <section>
+            <div id="topBar">
+                <input id="deckString">
+                <button id="importDeck">Import Deck </button>
+                <button id="clearDeck">Export Deck</button>
+            </div>
+            <div id="deckArea">
+                <span id="leaderArea"></span>
+            </div>
         </section>
         <section>
             <p>Search:<input id="searchText"> </p>
-        <section id="cardArea"></section>
+        <div id="cardArea"></div>
         </section>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/faunadb@latest/dist/faunadb.js"></script>
