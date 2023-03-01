@@ -25,11 +25,11 @@ async function load(search){
         let hidden = document.createElement("div")
         hidden.className= "hidden"
         newCardDiv.id = cards[key].id
-        hidden.onmouseenter= function() {
+        newCardDiv.onmouseenter= function() {
             hidden.beingShown = true
             hidden.style.opacity = "100%"
         }
-        hidden.onmouseleave= function() {
+        newCardDiv.onmouseleave= function() {
             hidden.beingShown = false
             hidden.style.opacity = "0%"
         }
