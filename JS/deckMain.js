@@ -31,7 +31,7 @@ async function load(search){
         }
         hidden.onmouseleave= function() {
             hidden.beingShown = false
-            hidden.style.opacity = "0%"
+            hidden.style.opacity = "30%"
         }
         let inspectBu = document.createElement("button")
         inspectBu.className = "inspect"
