@@ -6,7 +6,8 @@ const DON = {
     deckArea: document.getElementById("deckArea"),
     leaderArea: document.getElementById("leaderArea"),
     importDeckBu: document.getElementById("importDeck"),
-    deckTextImport: document.getElementById("deckString")
+    deckTextImport: document.getElementById("deckString"),
+    exportDeckBu: document.getElementById("exportDeck"),
 }
 import { GetAllCards, UploadCard } from "./fauna.js"
 import { dkB } from "./deckBuildingModule.js"
@@ -95,6 +96,11 @@ function deckLoad(str){
 }
 DON.importDeckBu.onclick= function(){
     deckLoad(DON.deckTextImport.value)
+}
+DON.exportDeckBu.onclick= function(){
+    let str = dkB.arrayToString(led,deck)
+    DON.deckTextImport.value = str
+    navigator.clipboard.writeText(str)
 }
 DON.reloadBu.onclick = function(){load()}
 DON.searchText.oninput = function(){load(searchText.value)}
