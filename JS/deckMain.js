@@ -24,7 +24,7 @@ async function load(search){
         newCardDiv.style.backgroundImage = `url('${cards[key].img}')`
         let hidden = document.createElement("div")
         hidden.className= "hidden"
-        newCardDiv.id = cards[key].id
+        newCardDiv.id = cards[key].idBase10
         console.log(newCardDiv.id)
         newCardDiv.onmouseenter= function() {
             hidden.beingShown = true
