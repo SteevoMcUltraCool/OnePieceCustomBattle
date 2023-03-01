@@ -30,6 +30,8 @@
 #cardArea>div {
     width: 300px;
     min-width: 30%;
+    position:relative;
+    top:0px;
     max-width: 100%;
     aspect-ratio: 2.5/3.5;
     margin-bottom: 20px;
