@@ -25,6 +25,7 @@ async function load(search){
         let hidden = document.createElement("div")
         hidden.className= "hidden"
         newCardDiv.id = cards[key].id
+        console.log(newCardDiv.id)
         newCardDiv.onmouseenter= function() {
             hidden.beingShown = true
             hidden.style.opacity = "100%"
@@ -68,6 +69,7 @@ function deckLoad(str){
     }
     DON.deckArea.innerHTML = `               <span id="leaderArea"></span>    `
     DON.leaderArea = document.getElementById("leaderArea")
+    console.log(led, deck)
     led.forEach(minicard => {
         let id = minicard.id
         let count = minicard.count
