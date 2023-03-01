@@ -32,7 +32,18 @@ async function load(search){
             hidden.beingShown = false
             hidden.style.opacity = "0%"
         }
-
+        let inspectBu = document.createElement("button")
+        inspectBu.className = "inspect"
+        inspectBu.innerHTML = "Inspect"
+        let leaderBu = document.createElement("button")
+        leaderBu.className = "setLeader"
+        leaderBu.innerHTML = "Leader"
+        let addDeckBu = document.createElement("button")
+        addDeckBu.className = "addToDeck"
+        addDeckBu.innerHTML = "Add To Deck"
+        hidden.appendChild(addDeckBu)
+        hidden.appendChild(inspectBu)
+        hidden.appendChild(leaderBu)
         newCardDiv.appendChild(hidden)
         DON.cardArea.insertAdjacentElement("afterbegin",newCardDiv)
     });

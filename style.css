@@ -64,6 +64,7 @@
     background-color: black;
     padding: 10px;
     padding-top: 0px;
+    max-width: 100%;
 }
 
 #deckArea>div, #leaderArea>div {
@@ -112,7 +113,51 @@ body {
     transition: all 0.32s;
     bottom: 0px;
     width: 100%;
-    height: 65%;
+    height: 59%;
     background-image: linear-gradient(#0000, #000C, #000E, #000F);
 }
+.hidden .inspect {
+    position: absolute;
+    left: 25%;
+    transform: translate(-50%, 0%);
+    border-radius: 5px;
+    background-color: transparent;
+    color: white;
+    border: 3px solid white;
+    top: 45%;
+    font-size: 20px;
+    padding: 5px;
+    transition: all 0.32s;
+}
+.hidden .setLeader {
+    position: absolute;
+    left: 75%;
+    transform: translate(-50%, 0%);
+    border-radius: 5px;
+    background-color: transparent;
+    color: white;
+    border: 3px solid white;
+    top: 45%;
+    font-size: 20px;
+    padding: 5px;    
+    transition: all 0.32s;
 
+}
+.hidden .addToDeck {
+    position: absolute;
+    left: 10%;
+    border-radius: 5px;
+    background-color: transparent;
+    color: white;
+    border: 3px solid white;
+    bottom: 12%;
+    font-size: 20px;
+    width: 80%;
+    padding: 5px;
+    text-align: center;
+    transition: all 0.32s;
+}
+
+.hidden button:hover {
+    background-color: #FFF7;
+}
