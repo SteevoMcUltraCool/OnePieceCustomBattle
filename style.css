@@ -106,7 +106,7 @@ body {
 .hidden {
     position: absolute;
     display: inline;
-    opacity: 30%;
+    opacity: 0%;
     transition: all 0.32s;
     bottom: 0px;
     width: 100%;
