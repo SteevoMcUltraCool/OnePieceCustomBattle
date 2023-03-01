@@ -42,9 +42,6 @@
     transition: all 0.3s;
 }
 
-#cardArea> div * {
-    pointer-events: none;
-}
 
 #cardArea>div:hover {
     transform: scale(1.05);
@@ -84,9 +81,7 @@
     top:0px;
 }
 
-#deckArea>div *, #leaderArea>div* {
-    pointer-events: none;
-}
+
 .count{
     position: absolute;
     right: 0px;
