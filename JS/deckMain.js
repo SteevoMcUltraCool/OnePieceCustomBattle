@@ -31,7 +31,7 @@ async function load(search){
         }
         hidden.onmouseleave= function() {
             hidden.beingShown = false
-            hidden.style.opacity = "30%"
+            hidden.style.opacity = "0%"
         }
         let inspectBu = document.createElement("button")
         inspectBu.className = "inspect"
@@ -47,7 +47,7 @@ async function load(search){
             deckLoad()
         }
         leaderBu.onclick = function() {
-            deck.push({id:newCardDiv.id, count:4})
+            led.push({id:newCardDiv.id, count:1})
             deckLoad()
         }
         hidden.appendChild(addDeckBu)
