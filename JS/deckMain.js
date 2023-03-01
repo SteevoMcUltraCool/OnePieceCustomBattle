@@ -59,7 +59,7 @@ async function load(search){
 }
 
 load()
-async function deckLoad(str){
+function deckLoad(str){
     if (str) {
         deck = dkB.stringToArray(str)
         led = deck.leaderArray
