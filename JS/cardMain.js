@@ -6,7 +6,6 @@ let DON = {
  results: document.getElementById("results")
 }
 import { GetAllCards, UploadCard } from "./fauna.js"
-
   
 
 DON.submitCardBu.onclick = async function(){

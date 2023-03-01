@@ -2,11 +2,19 @@ const DON = {
     cardArea: document.getElementById("cardArea"),
     reloadBu: document.getElementById("reload"),
     searchButton: document.getElementById("searchButton"),
-    searchText: document.getElementById("searchText")
+    searchText: document.getElementById("searchText"),
+    deckArea: document.getElementById("deckArea"),
+    leaderArea: document.getElementById("leaderArea"),
+    importDeckBu: document.getElementById("importDeck"),
+    deckTextImport: document.getElementById("deckString")
 }
 import { GetAllCards, UploadCard } from "./fauna.js"
+import { dkB } from "./deckBuildingModule.js"
+let deck = []
+let led = []
+let cards 
 async function load(search){
-    let cards = await GetAllCards()
+    cards = await GetAllCards()
     DON.cardArea.innerHTML = ""
     Object.keys(cards).filter(key=> {
         console.log(search)
@@ -31,6 +39,40 @@ async function load(search){
 }
 
 load()
-
+async function deckLoad(str){
+    if (str) {
+        deck = dkB.stringToArray(str)
+        led = deck.leaderArray
+        deck = deck.deckArray
+        console.log(led)
+    }
+    DON.deckArea.innerHTML = `               <span id="leaderArea"></span>    `
+    DON.leaderArea = document.getElementById("leaderArea")
+    led.forEach(minicard => {
+        let id = minicard.id
+        let count = minicard.count
+        let newCard = document.createElement("div")
+        newCard.style.backgroundImage = `url('${cards[id].img}')`
+        let counter = document.createElement("div")
+        counter.className = "count"
+        counter.innerHTML = count
+        newCard.appendChild(counter)
+        DON.leaderArea.insertAdjacentElement("beforeend",newCard)
+    })
+    deck.forEach(minicard => {
+        let id = minicard.id
+        let count = minicard.count
+        let newCard = document.createElement("div")
+        newCard.style.backgroundImage = `url('${cards[id].img}')`
+        let counter = document.createElement("div")
+        counter.className = "count"
+        counter.innerHTML = count
+        newCard.appendChild(counter)
+        DON.deckArea.insertAdjacentElement("beforeend",newCard)
+    })
+}
+DON.importDeckBu.onclick= function(){
+    deckLoad(DON.deckTextImport.value)
+}
 DON.reloadBu.onclick = function(){load()}
 DON.searchText.oninput = function(){load(searchText.value)}

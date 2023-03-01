@@ -42,7 +42,7 @@
     transition: all 0.3s;
 }
 
-#cardarea div * {
+#cardArea> div * {
     pointer-events: none;
 }
 
@@ -53,11 +53,56 @@
 
 #deckArea {
     width: 49vw;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+#leaderArea {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background-color: black;
+    padding: 10px;
+    padding-top: 0px;
 }
 
+#deckArea>div, #leaderArea>div {
+    width: 300px;
+    min-width: 30%;
+    max-width: 100%;
+    aspect-ratio: 2.5/3.5;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-position: 0px 0px;
+    background-size: cover;
+    background-attachment: local;
+    border-radius: 10px;
+    transition: all 0.3s;
+    position: relative;
+    top:0px;
+}
+
+#deckArea>div *, #leaderArea>div* {
+    pointer-events: none;
+}
+.count{
+    position: absolute;
+    right: 0px;
+    top:0px;
+    transform: translate(50%, -25%);
+    border-radius: 50%;
+    padding: 0px 18px;
+    aspect-ratio: 1;
+    background-color: white;
+    color: black;
+    font-size: 50px;
+    font-weight: 900;
+    text-align: center;
+    border: 2px solid black;
+}
 body {
     background-color: #DDD;
-    flext-wrap: wrap;
 }
 
 .hidden {
@@ -70,3 +115,4 @@ body {
     height: 65%;
     background-image: linear-gradient(#0000, #000C, #000E, #000F);
 }
+
