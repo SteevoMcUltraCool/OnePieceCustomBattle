@@ -24,6 +24,7 @@ async function load(search){
         newCardDiv.style.backgroundImage = `url('${cards[key].img}')`
         let hidden = document.createElement("div")
         hidden.className= "hidden"
+        newCardDiv.id = cards[key].id
         newCardDiv.onmouseenter= function() {
             hidden.beingShown = true
             hidden.style.opacity = "100%"
@@ -41,6 +42,14 @@ async function load(search){
         let addDeckBu = document.createElement("button")
         addDeckBu.className = "addToDeck"
         addDeckBu.innerHTML = "Add To Deck"
+        addDeckBu.onclick = function() {
+            deck.push({id:newCardDiv.id, count:4})
+            deckLoad()
+        }
+        leaderBu.onclick = function() {
+            deck.push({id:newCardDiv.id, count:4})
+            deckLoad()
+        }
         hidden.appendChild(addDeckBu)
         hidden.appendChild(inspectBu)
         hidden.appendChild(leaderBu)
