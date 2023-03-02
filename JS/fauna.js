@@ -48,7 +48,7 @@ async function uploadCard(name,img,text,cards){
     }
 }
 async function getGamesWithXPlayers(x){
-    return await (client.query( q.Map(
+    return (await client.query( q.Map(
         q.Paginate(
           q.Match(q.Index("gamesByPlayers"), x||0)
         ),
