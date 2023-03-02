@@ -55,10 +55,10 @@ async function load(search){
             hidden.beingShown = false
             hidden.style.opacity = "0%"
         }
-        newCardDiv.ontouchend = function(){
+        newCardDiv.ontouchend = function() {
             hidden.beingShown = !hidden.beingShown
-            hidden.style.opacity = (hidden.beingShown &&"100%") || 0%
-        }
+            hidden.style.opacity = (hidden.beingShown &&"100%") || "0%";
+            }
         let inspectBu = document.createElement("button")
         inspectBu.className = "inspect"
         inspectBu.innerHTML = "Inspect"
