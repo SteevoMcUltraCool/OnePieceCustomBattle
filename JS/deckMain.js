@@ -8,12 +8,31 @@ const DON = {
     importDeckBu: document.getElementById("importDeck"),
     deckTextImport: document.getElementById("deckString"),
     exportDeckBu: document.getElementById("exportDeck"),
+    cardsInLeaderLabel:document.getElementById("cardsInLeaderArea"),
+    cardsInDeckLabel: document.getElementById("cardsInDeckArea"),
+    exportDECKresultsLabel: document.getElementById("exportDECKresults")
 }
 import { GetAllCards, UploadCard } from "./fauna.js"
 import { dkB } from "./deckBuildingModule.js"
 let deck = []
 let led = []
 let cards 
+let cardsInDeck
+let cardsInLed 
+function displayCardsCount(){
+    DON.cardsInLeaderLabel.innerHTML = "Leader Area: " + cardsInLed + " cards"
+    DON.cardsInDeckLabel.innerHTML = "Main Deck: " + cardsInDeck + " cards"
+    if (cardsInLed==1){
+        DON.cardsInLeaderLabel.style.backgroundColor = "green"
+    }else if (cardsInLed>=1){
+        DON.cardsInLeaderLabel.style.backgroundColor="red"
+    }else {DON.cardsInLeaderLabel.style.backgroundColor = "transparent"}
+    if (cardsInDeck==50){
+        DON.cardsInDeckLabel.style.backgroundColor="green"
+    }else if (cardsInDeck>=50){
+        DON.cardsInDeckLabel.style.backgroundColor="red"
+    }else {DON.cardsInDeckLabel.style.backgroundColor = "transparent"}
+}
 async function load(search){
     cards = await GetAllCards()
     DON.cardArea.innerHTML = ""
@@ -45,12 +64,16 @@ async function load(search){
         addDeckBu.className = "addToDeck"
         addDeckBu.innerHTML = "Add To Deck"
         addDeckBu.onclick = function() {
+            if ((deck.filter(part=>part.id == newCardDiv.id)).length<1){
             deck.push({id:newCardDiv.id, count:4})
             deckLoad()
+            }
         }
         leaderBu.onclick = function() {
-            led.push({id:newCardDiv.id, count:1})
-            deckLoad()
+            if ((led.filter(part=>part.id == newCardDiv.id)).length<1){
+                led.push({id:newCardDiv.id, count:1})
+                deckLoad()
+            }
         }
         hidden.appendChild(addDeckBu)
         hidden.appendChild(inspectBu)
@@ -62,6 +85,8 @@ async function load(search){
 
 load()
 function deckLoad(str){
+    cardsInDeck = 0
+    cardsInLed = 0
     if (str) {
         deck = dkB.stringToArray(str)
         led = deck.leaderArray
@@ -79,8 +104,54 @@ function deckLoad(str){
         let counter = document.createElement("div")
         counter.className = "count"
         counter.innerHTML = count
+        let plus = document.createElement("button")
+        plus.className="plus"
+        plus.innerHTML = "+"
+        newCard.appendChild(plus)
+        let minus = document.createElement("button")
+        minus.className="minus"
+        minus.innerHTML = "-"
+
+        if (count>=1){
+            plus.style.backgroundColor = "red"
+        }
+        if (count<=1){
+            minus.style.backgroundColor = "red"
+        }
+        plus.onclick=function(){
+            let lilAR = led.filter(minicard=>minicard.id == id)
+            if (lilAR[0]){
+                lilAR[0].count = lilAR[0].count + 1
+                if (lilAR[0].count < 1){plus.style.backgroundColor="white"}
+                if (lilAR[0].count > 1){minus.style.backgroundColor="white"}
+                else{plus.style.backgroundColor="red"}
+                count +=1
+                cardsInLed += 1
+                counter.innerHTML = count
+                displayCardsCount()
+            } 
+        }
+        minus.onclick=function(){
+            let lilAR = led.filter(minicard=>minicard.id == id)
+            if (lilAR[0]){
+                lilAR[0].count = lilAR[0].count + 1
+                if (lilAR[0].count < 4){plus.style.backgroundColor="white"}
+                if (lilAR[0].count > 1){minus.style.backgroundColor="white"}else{minus.style.backgroundColor="red"}
+                count -=1
+                counter.innerHTML = count
+                cardsInLed -= 1
+
+                if (count==0){
+                    led = led.filter(minicard=> minicard!=lilAR[0])
+                    deckLoad()
+                }
+                displayCardsCount()
+            }             
+        }
+        newCard.appendChild(minus)
         newCard.appendChild(counter)
         DON.leaderArea.insertAdjacentElement("beforeend",newCard)
+        cardsInLed +=count
     })
     deck.forEach(minicard => {
         let id = minicard.id
@@ -90,17 +161,81 @@ function deckLoad(str){
         let counter = document.createElement("div")
         counter.className = "count"
         counter.innerHTML = count
+        let plus = document.createElement("button")
+        plus.className="plus"
+        plus.innerHTML = "+"
+        newCard.appendChild(plus)
+        let minus = document.createElement("button")
+        minus.className="minus"
+        minus.innerHTML = "-"
+        let remove = document.createElement("button")
+        remove.className="remove"
+        remove.innerHTML = "X"
+        remove.onclick = function(){
+            let lilAR = deck.filter(minicard=>minicard.id == id)
+            deck = deck.filter(minicard=> minicard!=lilAR[0])
+            cardsInDeck -= lilAR[0].count
+            deckLoad()
+        }
+        if (count>=4){
+            plus.style.backgroundColor = "red"
+        }
+        if (count<=1){
+            minus.style.backgroundColor = "red"
+        }
+        plus.onclick=function(){
+            let lilAR = deck.filter(minicard=>minicard.id == id)
+            if (lilAR[0]){
+                lilAR[0].count = lilAR[0].count + 1
+                if (lilAR[0].count < 4){plus.style.backgroundColor="white"}else{plus.style.backgroundColor="red"}
+                if (lilAR[0].count > 1){minus.style.backgroundColor="white"}
+                count +=1
+                cardsInDeck +=1
+                counter.innerHTML = count
+                displayCardsCount()
+            } 
+        }
+        minus.onclick=function(){
+            let lilAR = deck.filter(minicard=>minicard.id == id)
+            if (lilAR[0]){
+                lilAR[0].count = lilAR[0].count + 1
+                if (lilAR[0].count < 4){plus.style.backgroundColor="white"}
+                if (lilAR[0].count > 1){minus.style.backgroundColor="white"}else{minus.style.backgroundColor="red"}
+
+                count -=1
+                cardsInDeck -= 1
+                counter.innerHTML = count
+                if (count==0){
+                    deck = deck.filter(minicard=> minicard!=lilAR[0])
+                    deckLoad()
+                }
+                displayCardsCount()
+            }             
+        }
+        newCard.appendChild(remove)
+        newCard.appendChild(minus)
         newCard.appendChild(counter)
         DON.deckArea.insertAdjacentElement("beforeend",newCard)
+        cardsInDeck+=count
     })
+    displayCardsCount()
 }
 DON.importDeckBu.onclick= function(){
     deckLoad(DON.deckTextImport.value)
 }
-DON.exportDeckBu.onclick= function(){
+DON.exportDeckBu.onclick= async function(){
     let str = dkB.arrayToString(led,deck)
+    if (str.length >=4){
     DON.deckTextImport.value = str
     navigator.clipboard.writeText(str)
+    DON.exportDECKresultsLabel.innerHTML = "<br> <br>Success! Deck dataText copied to clipboard!<br>"
+    DON.exportDECKresultsLabel.style.backgroundColor = "aquamarine"
+    setTimeout(function(){DON.exportDECKresultsLabel.innerHTML=""}, 7000)
+    }else {
+        DON.exportDECKresultsLabel.innerHTML = "<br> <br>Failed! make sure to add some cards! <br>"
+        DON.exportDECKresultsLabel.style.backgroundColor = "#E44"
+        setTimeout(function(){DON.exportDECKresultsLabel.innerHTML=""}, 7000)     
+    }
 }
 DON.reloadBu.onclick = function(){load()}
 DON.searchText.oninput = function(){load(searchText.value)}
