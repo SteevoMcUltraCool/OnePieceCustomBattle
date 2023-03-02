@@ -122,9 +122,8 @@ function deckLoad(str){
             let lilAR = led.filter(minicard=>minicard.id == id)
             if (lilAR[0]){
                 lilAR[0].count = lilAR[0].count + 1
-                if (lilAR[0].count < 1){plus.style.backgroundColor="white"}
+                if (lilAR[0].count < 1){plus.style.backgroundColor="white"}else{plus.style.backgroundColor="red"}
                 if (lilAR[0].count > 1){minus.style.backgroundColor="white"}
-                else{plus.style.backgroundColor="red"}
                 count +=1
                 cardsInLed += 1
                 counter.innerHTML = count
@@ -134,8 +133,8 @@ function deckLoad(str){
         minus.onclick=function(){
             let lilAR = led.filter(minicard=>minicard.id == id)
             if (lilAR[0]){
-                lilAR[0].count = lilAR[0].count + 1
-                if (lilAR[0].count < 4){plus.style.backgroundColor="white"}
+                lilAR[0].count = lilAR[0].count - 1
+                if (lilAR[0].count < 1){plus.style.backgroundColor="white"}
                 if (lilAR[0].count > 1){minus.style.backgroundColor="white"}else{minus.style.backgroundColor="red"}
                 count -=1
                 counter.innerHTML = count
@@ -198,10 +197,9 @@ function deckLoad(str){
         minus.onclick=function(){
             let lilAR = deck.filter(minicard=>minicard.id == id)
             if (lilAR[0]){
-                lilAR[0].count = lilAR[0].count + 1
+                lilAR[0].count = lilAR[0].count - 1
                 if (lilAR[0].count < 4){plus.style.backgroundColor="white"}
                 if (lilAR[0].count > 1){minus.style.backgroundColor="white"}else{minus.style.backgroundColor="red"}
-
                 count -=1
                 cardsInDeck -= 1
                 counter.innerHTML = count

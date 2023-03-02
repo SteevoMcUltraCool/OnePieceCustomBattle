@@ -21,11 +21,11 @@ deckB.stringToArray = function(deckString) {
     characters.shift();leaders.shift()
     leaders.forEach(str => {
         let stuff = str.split("I")
-        newObj.leaderArray.push({count:stuff[0], id:stuff[1]})
+        newObj.leaderArray.push({count:Number(stuff[0]), id:Number(stuff[1])})
     })
     characters.forEach(str => {
         let stuff = str.split("I")
-        newObj.deckArray.push({count:stuff[0], id:stuff[1]})
+        newObj.deckArray.push({count:Number(stuff[0]), id:Number(stuff[1])})
     })
     return newObj
 }
