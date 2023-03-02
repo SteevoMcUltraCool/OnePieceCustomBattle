@@ -55,6 +55,10 @@ async function load(search){
             hidden.beingShown = false
             hidden.style.opacity = "0%"
         }
+        newCardDiv.ontouchend = function(){
+            hidden.beingShown = !hidden.beingShown
+            hidden.style.opacity = (hidden.beingShown &&"100%") || 0%
+        }
         let inspectBu = document.createElement("button")
         inspectBu.className = "inspect"
         inspectBu.innerHTML = "Inspect"
@@ -65,13 +69,13 @@ async function load(search){
         addDeckBu.className = "addToDeck"
         addDeckBu.innerHTML = "Add To Deck"
         addDeckBu.onclick = function() {
-            if ((deck.filter(part=>part.id == newCardDiv.id)).length<1){
+            if ((deck.filter(part=>part.id == newCardDiv.id)).length<1 &&hidden.beingShown){
             deck.push({id:newCardDiv.id, count:4})
             deckLoad()
             }
         }
         leaderBu.onclick = function() {
-            if ((led.filter(part=>part.id == newCardDiv.id)).length<1){
+            if ((led.filter(part=>part.id == newCardDiv.id)).length<1&&hidden.beingShown){
                 led.push({id:newCardDiv.id, count:1})
                 deckLoad()
             }
