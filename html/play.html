@@ -11,6 +11,12 @@
 
 <body>
     <button id="back">Back</button>
+    <section id="gameArea">
+        <label>Game Name: <input id="gameNameText"></label><button id="createGameButton">Create Game</button>
+        <p> Note: When you create a game, you will automatically join that game. If you leave that game, you may not be able to rejoin.</p>
+        <div id="gameSlots">
+        </div>
+    </section>
     <script src="https://cdn.jsdelivr.net/npm/faunadb@latest/dist/faunadb.js"></script>
     <script src="../JS/minorPageBase.js" type="module"></script>
     <script src="../JS/playMain.js" type="module"></script>
