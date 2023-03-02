@@ -47,4 +47,16 @@ async function uploadCard(name,img,text,cards){
         return {good:false, details: error}
     }
 }
-export let GetAllCards = getAllCards, UploadCard = uploadCard
+async function getGamesWithXPlayers(x){
+    return await (client.query( q.Map(
+        q.Paginate(
+          q.Match(q.Index("gamesByPlayers"), x||0)
+        ),
+        q.Lambda(
+          "game",
+          q.Get(q.Var("game"))
+        )
+      )
+    )).data
+}
+export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers
