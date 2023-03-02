@@ -34,10 +34,11 @@ function displayCardsCount(){
     }else {DON.cardsInDeckLabel.style.backgroundColor = "transparent"}
 }
 async function load(search){
-    cards = await GetAllCards()
+    if (!search){
+        cards = await GetAllCards()
+    }
     DON.cardArea.innerHTML = ""
     Object.keys(cards).filter(key=> {
-        console.log(search)
         return cards[key].name.toLowerCase().includes((search||"").toLowerCase())
     }).forEach(key => {
         let newCardDiv = document.createElement("div")
