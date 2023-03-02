@@ -55,7 +55,7 @@ async function load(search){
             hidden.beingShown = false
             hidden.style.opacity = "0%"
         }
-        newCardDiv.ontouchend = function() {
+        newCardDiv.ontouchstart = function() {
             hidden.beingShown = !hidden.beingShown
             hidden.style.opacity = (hidden.beingShown &&"100%") || "0%";
             }
