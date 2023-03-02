@@ -6,3 +6,4 @@ async function load(){
     let fullGames = await GetGamesWithXPlayers(2)
     console.log(openGames,closedGames,fullGames)
 }
+load()
