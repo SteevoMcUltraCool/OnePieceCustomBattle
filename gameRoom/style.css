@@ -1,0 +1,32 @@
+#playingField {
+    height: calc(100vh - 40px);
+    width: 106vh;
+}
+#topPlayerArea {
+    height: 50%;
+    display: grid;
+    grid-template-rows: 30% 70%;
+    grid-template-columns: 20% 60% 20%;
+    border: 2px solid cyan;position: relative;
+    top: 0px;
+}
+#botPlayerArea {
+    height: 50%;
+    display: grid;
+    grid-template-rows: 70% 30%;
+    grid-template-columns: 20% 60% 20%;
+    border: 2px solid cyan;
+}
+#topPlayerArea div {
+    border: 1px solid black;
+}
+
+#topDONArea {
+    position: absolute;
+    left: 20%;
+    top:30%;
+    height: 20%;
+    width: 60%;
+    background-color: white;
+    transform: translate(0px, -50%);
+}

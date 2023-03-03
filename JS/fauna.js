@@ -1,3 +1,4 @@
+
 const faunadb = window.faunadb
 const q = faunadb.query
 const secret = "fnAE91_9J0AAUytuSXc_AT-79VLF3usA3D3jPMS-"
@@ -48,7 +49,7 @@ async function uploadCard(name,img,text,cards){
     }
 }
 async function getGamesWithXPlayers(x){
-    return (await client.query( q.Map(
+    let newStuff = (await client.query( q.Map(
         q.Paginate(
           q.Match(q.Index("gamesByPlayers"), x||0)
         ),
@@ -58,5 +59,37 @@ async function getGamesWithXPlayers(x){
         )
       )
     )).data
+    console.log(newStuff)
+    newStuff = newStuff.map(game => {
+        game.data.ref = game.ref
+        return game.data
+    })
+    console.log(newStuff)
+    return newStuff
 }
-export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers
+async function getGameWithXId(x){
+    let newStuff = (await client.query( q.Map(
+        q.Paginate(
+          q.Match(q.Index("gamesById"), x||0)
+        ),
+        q.Lambda(
+          "game",
+          q.Get(q.Var("game"))
+        )
+      )
+    )).data
+    console.log(newStuff)
+    newStuff = newStuff.map(game => {
+        game.data.ref = game.ref
+        return game.data
+    })
+    console.log(newStuff)
+    return newStuff[0]
+}
+async function updateData(ref,changes){
+    await client.query(q.Update(ref, changes))
+}
+async function requestToJoinGame(ref){
+
+}
+export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId
