@@ -25,4 +25,17 @@
     border: 1px solid black;
 }
 
+@media (screen) and (min-aspect-ratio: 3/7) { /*narrow (a little less wide than a regular iphone) */
+    
+}
+@media (screen) and (min-aspect-ratio: 8/9){  /* square (a little less wide than a square)*/
+}
+@media (screen) and (min-aspect-ratio: 11/9){  /* wide (a little less wide than a regular i-pad)*/
+}
+@media (screen) and (min-aspect-ratio: 14/9) {  /*very wide (a little less wide than normal pc)*/
+    /* default, look above */
+}
+
+
+
 
