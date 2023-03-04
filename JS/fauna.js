@@ -125,11 +125,11 @@ async function createGame(name) {
         }
       } }
     ),
-    q.Update(q.Ref(q.Collection("Games"),"358110001113333847"),{data: {players: Number(q.Select("lastGameId",
+    q.Update(q.Ref(q.Collection("Games"),"358110001113333847"),{data: {players: Number(q.Add(await q.Select("lastGameId",
           q.Select("data",
           q.Get(q.Ref(q.Collection("Games"),"358110001113333847"))
-          )
-        )) + 1}}
+          )),1
+        )}}
   ))
   )
   return newGame
