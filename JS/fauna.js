@@ -126,7 +126,11 @@ async function createGame(name) {
       } }
     ),
     q.Update(q.Ref(q.Collection("Games"),"358110001113333847"),{data: 
-                                                                {lastGameId: 4}})
+                                                                {lastGameId: await q.Add(await q.Select("lastGameId",
+          q.Select("data",
+          q.Get(q.Ref(q.Collection("Games"),"358110001113333847"))
+          )),1
+        )}})
   ))
   return newGame
 }
