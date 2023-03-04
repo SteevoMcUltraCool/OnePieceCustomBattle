@@ -104,7 +104,7 @@ async function createGame(name) {
         gameID: await q.Add(await q.Select("lastGameId",
           q.Select("data",
           q.Get(q.Ref(q.Collection("Games"),"358110001113333847"))
-          ),1)
+          )),1
         ),
         gameName: name || "OPTCC Game",
         player1: {
