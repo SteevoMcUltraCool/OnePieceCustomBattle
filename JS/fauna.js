@@ -95,7 +95,7 @@ async function createGame(name) {
   console.log(await client.query(q.Select("lastGameId",
           q.Select("data",
           q.Get(q.Ref(q.Collection("Games"),"358110001113333847"))
-          )))))
+          ))))
   let newGame = await client.query(q.Do(
     q.Create(
       q.Collection("Games"),
