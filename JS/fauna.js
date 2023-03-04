@@ -88,8 +88,10 @@ async function getGameWithXId(x){
 async function updateData(ref,changes){
     await client.query(q.Update(ref, changes))
 }
-async function requestToJoinGame(id){
-
+async function requestToJoinGame(refID){
+  return (await client.query(
+    await q.Call("addPlayerToGame", refID)
+  ))
 }
 async function createGame(name) {
   console.log(await client.query(q.Select("lastGameId",
@@ -120,7 +122,8 @@ async function createGame(name) {
             hand: [],
             trash: [],
             leaderArea: [],
-            stageArea: []
+            stageArea: [],
+            life: [],
           }
         }
       } }
@@ -134,4 +137,5 @@ async function createGame(name) {
   ))
   return newGame
 }
-export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId, CreateGame = createGame
+export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId, CreateGame = createGame,
+RequestToJoinGame=requestToJoinGame
