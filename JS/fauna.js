@@ -125,13 +125,9 @@ async function createGame(name) {
         }
       } }
     ),
-    q.Update(q.Ref(q.Collection("Games"),"358110001113333847"),{data: {lastGameId: q.Add(await q.Select("lastGameId",
-          q.Select("data",
-          q.Get(q.Ref(q.Collection("Games"),"358110001113333847"))
-          )),1
-        )}}
+    q.Update(q.Ref(q.Collection("Games"),"358110001113333847"),{data: 
+                                                                {lastGameId: }}
   ))
-  )
   return newGame
 }
 export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId, CreateGame = createGame
