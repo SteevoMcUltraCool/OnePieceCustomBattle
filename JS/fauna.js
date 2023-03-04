@@ -101,7 +101,7 @@ async function createGame(name) {
       q.Collection("Games"),
       { data: {
         players: 1,
-        gameID: Number(q.Select("lastGameId",
+        gameID: await q.Select("lastGameId",
           q.Select("data",
           q.Get(q.Ref(q.Collection("Games"),"358110001113333847"))
           )
