@@ -78,9 +78,8 @@ async function getGameWithXId(x){
         )
       )
     )).data
-    console.log(newStuff)
     newStuff = newStuff.map(game => {
-        game.data.ref = game.ref
+        game.data.id = game.ref.id || "chubb"
         return game.data
     })
     console.log(newStuff)
@@ -89,7 +88,46 @@ async function getGameWithXId(x){
 async function updateData(ref,changes){
     await client.query(q.Update(ref, changes))
 }
-async function requestToJoinGame(ref){
+async function requestToJoinGame(id){
 
 }
-export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId
+async function createGame(name) {
+  let newGame = await client.query(q.Do(
+    q.Create(
+      q.Collection("Games"),
+      { data: {
+        players: 1,
+        gameID: Number(q.Select("lastGameId",
+          q.Select("data",
+          q.Get(q.Ref(q.Collection("Games"),"358110001113333847"))
+          )
+        )) + 1,
+        gameName: name || "OPTCC Game",
+        player1: {
+          name: "Anonymous",
+          playerID: 1,
+          deckString: "No Deck Loaded...",
+          initiated: false,
+          gameParts: {
+            mainDeck: [],
+            playArea: [],
+            donDeck: [],
+            donArea: [],
+            hand: [],
+            trash: [],
+            leaderArea: [],
+            stageArea: []
+          }
+        }
+      } }
+    ),
+    q.Update(q.Ref(q.Collection("Games"),"358110001113333847"),{data: {players: Number(q.Select("lastGameId",
+          q.Select("data",
+          q.Get(q.Ref(q.Collection("Games"),"358110001113333847"))
+          )
+        )) + 1}}
+  ))
+  )
+  return newGame
+}
+export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId, CreateGame = createGame

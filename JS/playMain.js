@@ -1,7 +1,7 @@
-import {GetGamesWithXPlayers} from "./fauna.js"
+import {GetGamesWithXPlayers, CreateGame} from "./fauna.js"
 let DON = {
        gameSlots: document.getElementById("gameSlots"),
-       
+       createGameBu: document.getElementById("createGameButton")
 }
 async function load(){
     let openGames = await GetGamesWithXPlayers(1)
@@ -25,3 +25,6 @@ async function load(){
 }
 load()
 setInterval(load, 3000)
+DON.createGameBu.onclick = function(){
+    CreateGame()
+}
