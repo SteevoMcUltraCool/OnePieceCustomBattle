@@ -105,7 +105,7 @@ async function createGame(name) {
           q.Select("data",
           q.Get(q.Ref(q.Collection("Games"),"358110001113333847"))
           )
-        )) + 1,
+        ),
         gameName: name || "OPTCC Game",
         player1: {
           name: "Anonymous",
