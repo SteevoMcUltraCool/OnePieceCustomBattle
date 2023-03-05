@@ -82,11 +82,14 @@ async function getGameWithXId(x){
         game.data.id = game.ref.id || "chubb"
         return game.data
     })
-    console.log(newStuff)
     return newStuff[0]
 }
-async function updateData(ref,changes){
-    await client.query(q.Update(ref, changes))
+async function updateData(refID,changes){
+    await client.query(q.Update(q.Ref(q.Collection("Games"),refID), {data:changes}))
+}
+async function addChatToLog(refID, oldLog, chat,origin) {
+  oldLog.push({text:chat, sender:origin})
+  return updateData(refID, {chatLog:oldLog})
 }
 async function requestToJoinGame(refID){
   return (await client.query(
@@ -109,6 +112,7 @@ async function createGame(name) {
           )),1
         ),
         gameName: name || "OPTCC Game",
+        chatLog: [],
         player1: {
           name: "Anonymous",
           playerID: 1,
@@ -138,4 +142,4 @@ async function createGame(name) {
   return newGame
 }
 export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId, CreateGame = createGame,
-RequestToJoinGame=requestToJoinGame
+RequestToJoinGame=requestToJoinGame, AddChatToLog = addChatToLog, UpdateData = updateData

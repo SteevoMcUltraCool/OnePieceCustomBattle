@@ -2,7 +2,8 @@ import {GetGamesWithXPlayers, CreateGame} from "./fauna.js"
 let DON = {
        gameSlots: document.getElementById("gameSlots"),
        createGameBu: document.getElementById("createGameButton"),
-       gameNameText: document.getElementById("gameNameText")
+       gameNameText: document.getElementById("gameNameText"),
+       joinRecentGameBu: document.getElementById("joinRecentGame")
 }
 async function load(){
     let openGames = await GetGamesWithXPlayers(1)
@@ -33,4 +34,7 @@ DON.createGameBu.onclick = async function(){
         gameNameText.value = ""
         window.location.replace("../gameRoom/index.html?gameID="+gameBig.data.lastGameId+"&player=1")
     }
+}
+DON.joinRecentGameBu.onclick = function(){
+    window.location.replace("../gameRoom/index.html")  
 }

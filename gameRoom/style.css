@@ -1,7 +1,7 @@
 #playingField {
     height: calc(100vh - 40px);
     width: 106vh;
-    margin-left: 2vw;
+    margin-left: 2vh;
 }
 #topPlayerArea {
     height: 50%;
@@ -25,6 +25,60 @@
     border: 1px solid black;
 }
 
+#popOutBox {
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    max-width: 100%;
+    height: 600px;
+    max-height: 90%;
+    box-shadow: 7px 12px 10px black;
+    background-color: #aaa
+
+}
+#gameLogMain {
+    position: absolute;
+    left: 110vh;
+    top: 50vh;
+    height: 48vh;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-content: end;
+    justify-content: end;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+#gameLog {
+    overflow: auto;
+
+}
+#gameLog h4, #gameLogMain h4 {
+    margin: 0px;
+}
+#gameLog p {
+    margin: 0px;
+}
+#gamelog > div {
+    padding: 2px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    width: calc(100vw - 115vh);
+}
+#gameLogMain > div {
+    padding: 2px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;    
+    width: calc(100vw - 115vh);
+}
+#gamelogMain input {
+    width: 82%
+}
+#gamelogmain button {
+    width: 18%
+}
 @media (screen) and (min-aspect-ratio: 3/7) { /*narrow (a little less wide than a regular iphone) */
     
 }
@@ -35,7 +89,23 @@
 @media (screen) and (min-aspect-ratio: 14/9) {  /*very wide (a little less wide than normal pc)*/
     /* default, look above */
 }
+@media (screen) and (min-aspect-ratio: 2/1) {  /*super very wide (widescreen pc)*/
+}
 
 
 
 
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 3px;
+}
+
+::-webkit-scrollbar-thumb{
+    border-radius: 4px;
+    background-color: gray;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
