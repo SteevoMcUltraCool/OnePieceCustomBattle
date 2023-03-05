@@ -122,8 +122,10 @@ function updateChatLog(){
         localChatLog.push(chat)
         DON.gameLog.insertAdjacentHTML("beforeend", `
         <div><h4>${chat.sender}</h4><p>${chat.text}</p></div>`)
-        if (chat.sender == PlayerOBJ.name){
+        if (PlayerOBJ) {
+           if (chat.sender == PlayerOBJ.name){
             check = 0
+           }
         }
     })
     if (Math.abs(check) < 300){
