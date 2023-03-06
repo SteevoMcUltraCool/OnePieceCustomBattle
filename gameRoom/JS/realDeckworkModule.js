@@ -18,6 +18,8 @@ dWM.expandArray = function(basicArray,shuffle,cards){
                 y: 0,
                 imgString: card.img,
                 faceUp: {1:false, 2:false},
+                rested:false,
+                attachedDON: 0,
             })
             x+=1
         }while(x<=part.count)
