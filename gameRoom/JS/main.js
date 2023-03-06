@@ -15,8 +15,17 @@ let DON = {
         donMain: document.getElementById("tDonMain"),
         leaderStage: document.getElementById("tLeaderStage"),
         characterArea: document.getElementById("tCharacterArea"),
-        DONN: document.getElementById("DONN")
-    }
+        DONN: document.getElementById("tDONN")
+    },
+    bottomPlayerArea: {
+        self:  document.getElementById("bottomPlayerArea"),
+        lifeTrash:document.getElementById("bLifeTrash"),
+        hand: document.getElementById("bHand"),
+        donMain: document.getElementById("bDonMain"),
+        leaderStage: document.getElementById("bLeaderStage"),
+        characterArea: document.getElementById("bCharacterArea"),
+        DONN: document.getElementById("bDONN")
+    },
 }
 let gameID = Number(urlParams.get('gameID'))
 let player = Number(urlParams.get('player'))
@@ -168,5 +177,6 @@ window.addEventListener("keypress", function(event){
 
 
 function loadBoard(){
-
+   let bottomPlayer = thisGame["player"+player]
+   let topPlayer = thisGame["player"+Math.ceil((player+0.9)%2)]
 }
