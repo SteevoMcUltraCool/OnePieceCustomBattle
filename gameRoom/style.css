@@ -1,6 +1,6 @@
 #playingField {
     height: calc(100vh - 40px);
-    width: 116vh;
+    width: 120vh;
     margin-left: 2vh;
 }
 #topPlayerArea {
@@ -40,7 +40,7 @@
 }
 #gameLogMain {
     position: absolute;
-    left: 120vh;
+    left: 124vh;
     top: 50vh;
     height: 48vh;
     display: flex;
@@ -65,13 +65,13 @@
     padding: 2px;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
-    width: calc(100vw - 122vh);
+    width: calc(100vw - 126vh);
 }
 #gameLogMain > div {
     padding: 2px;
     border-top: 1px solid black;
     border-bottom: 1px solid black;    
-    width: calc(100vw - 115vh);
+    width: calc(100vw - 126vh);
 }
 #gamelogMain input {
     width: 82%
