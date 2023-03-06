@@ -1,11 +1,22 @@
 import {dkB} from "../../JS/deckBuildingModule.js";
+import { DWM } from "./realDeckworkModule.js";
 import { GetAllCards, GetGameWithXId, GetGamesWithXPlayers, UploadCard, RequestToJoinGame, AddChatToLog, UpdateData} from "../../JS/fauna.js";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+let Cards = await GetAllCards()
 let DON = {
     gameLog: document.getElementById("gameLog"),
     messageInput:document.getElementById("message"),
-    sendButton:document.getElementById("sendButton")
+    sendButton:document.getElementById("sendButton"),
+    topPlayerArea: {
+        self:  document.getElementById("topPlayerArea"),
+        lifeTrash:document.getElementById("tLifeTrash"),
+        hand: document.getElementById("tHand"),
+        donMain: document.getElementById("tDonMain"),
+        leaderStage: document.getElementById("tLeaderStage"),
+        characterArea: document.getElementById("tCharacterArea"),
+        DONN: document.getElementById("DONN")
+    }
 }
 let gameID = Number(urlParams.get('gameID'))
 let player = Number(urlParams.get('player'))
@@ -48,9 +59,16 @@ function promptInitiatePlayer(){
 }
 async function initialize(name,deck){
     let AR = {}
+    let deckk = dkB.stringToArray(deck)
+    let charDeck = DWM.expandArray(deckk.deckArray,true,Cards)
+    let leadDeck = DWM.expandArray(deckk.leaderArray,false,Cards)
     AR[`player${player}`] = {
         name: name.length>1&&name || "Anonymous",
-        deck:deck
+        initiated: true,
+        gameParts: {
+            mainDeck: charDeck,
+            leaderArea: leadDeck
+        }
     }
     await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id, thisGame.chatLog, AR[`player${player}`].name + " is ready to play!", "Server")
@@ -147,3 +165,8 @@ window.addEventListener("keypress", function(event){
         localSendMessage()
     }
 })
+
+
+function loadBoard(){
+
+}
