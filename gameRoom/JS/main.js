@@ -76,7 +76,8 @@ async function initialize(name,deck){
         initiated: true,
         gameParts: {
             mainDeck: charDeck,
-            leaderArea: leadDeck
+            leaderArea: leadDeck,
+            donDeck: [10],
         }
     }
     await UpdateData(thisGame.id, AR)
@@ -136,10 +137,10 @@ setInterval(async function(){
             thisGame = newthisGame
             PlayerOBJ = thisGame["player"+player]
             console.log(thisGame.chatLog)
-            updateChatLog()
+            loadBoard()
         }
     }
-},111)
+},92)
 function updateChatLog(){
     let latestGotChat = localChatLog.length
     let newChat =  thisGame.chatLog.slice(latestGotChat)
@@ -159,7 +160,7 @@ function updateChatLog(){
         DON.gameLog.scrollTop = DON.gameLog.scrollHeight;
     }
 }
-updateChatLog()
+loadBoard()
 
 function localSendMessage(){
         let message = DON.messageInput.value
@@ -177,6 +178,62 @@ window.addEventListener("keypress", function(event){
 
 
 function loadBoard(){
-   let bottomPlayer = thisGame["player"+player]
+    updateChatLog()
+   let bottomPlayerP = thisGame["player"+player].gameParts
    let topPlayer = thisGame["player"+Math.ceil((player+0.9)%2)]
+   //donMain
+   DON.bottomPlayerArea.donMain.innerHTML = ""
+   let mCount = bottomPlayerP.mainDeck.length
+   let dCount = bottomPlayerP.donDeck[0]
+   DON.bottomPlayerArea.donMain.innerHTML = `
+    <div class="DON" id="d1">
+    <div class="count" >
+        <p><span class="donIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${dCount}</p>
+    </div>
+    </div>
+    <div class="main" id="m1">
+    <div class="count">
+        <p><span class="mainIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${mCount}</p>
+    </div>
+    </div>
+`
+    let main = document.getElementById("m1")
+    if (mCount >=1) main.style.backgroundImage = `url('${DWM.sleeve}')`
+    let don = document.getElementById("d1")
+    if (dCount >=1) don.style.backgroundImage = `url('${DWM.donSleeve}')`
+
+    //lifeTrash
+    DON.bottomPlayerArea.lifeTrash.innerHTML = ""
+    let lCount = bottomPlayerP.life.length
+    let tCount = bottomPlayerP.trash.length
+    DON.bottomPlayerArea.lifeTrash.innerHTML = `
+    <div class="life" id="l1">
+    <div class="count">
+        <p><span class="heartIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${lCount}</p>
+    </div>
+</div>
+<div class="trash" id="t1">
+    <div class="count">
+        <p><span class="trashIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${tCount}</p>
+    </div>
+</div>
+ `
+     let life = document.getElementById("l1")
+     if (lCount >=1) life.style.backgroundImage = `url('${DWM.sleeve}')`
+     let trash = document.getElementById("t1")
+     if (lCount >=1) trash.style.backgroundImage = `url('${bottomPlayerP.trash[0].imgString}')`
+
+    //hand 
+    DON.bottomPlayerArea.hand.innerHTML = ""
+    let hCount = bottomPlayerP.hand.length
+    bottomPlayerP.hand.forEach(card =>{
+        let divCard = document.createElement("div")
+        divCard.style.backgroundImage = `url('${card.imgString}')`
+    })
 }
+
+let getHoveredElement = function(){return (document.querySelectorAll(':hover'))[0]}
+let checkHoveredList = function(thing){return (document.querySelectorAll(':hover').includes(thing))}
+window.addEventListener("mousemove", (event)=>{
+
+})

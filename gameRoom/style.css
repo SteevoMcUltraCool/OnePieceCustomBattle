@@ -1,19 +1,25 @@
 body {
     transform-style: preserve-3d;
 }
+
 #playingField {
     height: calc(100vh - 40px);
     width: 120vh;
     margin-left: 2vh;
 }
-#bCharacterArea, #tCharacterArea {
+
+#bCharacterArea,
+#tCharacterArea {
     position: relative;
     top: 0px;
 
 }
-#bDONArea, #bDONArea {
+
+#bDONArea,
+#tDONArea {
     position: relative;
 }
+
 .donRealArea {
     height: 50%;
     width: 100%;
@@ -25,19 +31,23 @@ body {
     flex-wrap: nowrap;
     justify-content: space-around;
 }
+
 .CCard {
     position: absolute;
     background-size: cover;
     height: 40%;
     aspect-ratio: 2.5/3.5;
 }
-.CCard .DONCard, .LCard .DONCard {
+
+.CCard .DONCard,
+.LCard .DONCard {
     transform: translateZ(-10px);
     position: absolute;
     top: 3em;
     right: 4em;
     height: 100%;
 }
+
 .DONCard {
     height: 75%;
     aspect-ratio: 2.5/3.5;
@@ -45,23 +55,28 @@ body {
     position: relative;
     top: 12.5%;
 }
+
 .LCard {
     position: absolute;
     background-size: cover;
     height: 55%;
     aspect-ratio: 2.5/3.5;
 }
+
 .rested {
     transform: rotate(90deg);
 }
+
 #topPlayerArea {
     height: 50%;
     display: grid;
     grid-template-rows: 30% 70%;
     grid-template-columns: 20% 60% 20%;
-    border: 2px solid navy;position: relative;
+    border: 2px solid navy;
+    position: relative;
     top: 0px;
 }
+
 #botPlayerArea {
     height: 50%;
     display: grid;
@@ -69,9 +84,11 @@ body {
     grid-template-columns: 20% 60% 20%;
     border: 2px solid navy;
 }
+
 #topPlayerArea div {
     border: 1px solid black;
 }
+
 #botPlayerArea div {
     border: 1px solid black;
 }
@@ -79,7 +96,7 @@ body {
 #popOutBox {
     position: absolute;
     top: 50%;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     width: 800px;
     max-width: 100%;
@@ -87,8 +104,8 @@ body {
     max-height: 90%;
     box-shadow: 7px 12px 10px black;
     background-color: #aaa
-
 }
+
 #gameLogMain {
     position: absolute;
     left: 124vh;
@@ -102,61 +119,89 @@ body {
     border: 2px solid black;
     border-radius: 4px;
 }
+
 #gameLog {
     overflow: auto;
 
 }
-#gameLog h4, #gameLogMain h4 {
+
+#gameLog h4,
+#gameLogMain h4 {
     margin: 0px;
 }
+
 #gameLog p {
     margin: 0px;
 }
-#gamelog > div {
+
+#gamelog>div {
     padding: 2px;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     width: calc(100vw - 126vh);
 }
-#gameLogMain > div {
+
+#gameLogMain>div {
     padding: 2px;
     border-top: 1px solid black;
-    border-bottom: 1px solid black;    
+    border-bottom: 1px solid black;
     width: calc(100vw - 126vh);
 }
+
 #gamelogMain input {
     width: 82%
 }
+
 #gamelogmain button {
     width: 18%
 }
-@media (screen) and (min-aspect-ratio: 3/7) { /*narrow (a little less wide than a regular iphone) */
-    
-}
-@media (screen) and (min-aspect-ratio: 8/9){  /* square (a little less wide than a square)*/
-}
-@media (screen) and (min-aspect-ratio: 11/9){  /* wide (a little less wide than a regular i-pad)*/
-}
-@media (screen) and (min-aspect-ratio: 14/9) {  /*very wide (a little less wide than normal pc)*/
-    /* default, look above */
-}
-@media (screen) and (min-aspect-ratio: 2/1) {  /*super very wide (widescreen pc)*/
+
+@media (screen) and (min-aspect-ratio: 3/7) {
+    /*narrow (a little less wide than a regular iphone) */
+
 }
 
-#bDonMain, #tDonMain,#bLifeTrash, #tLifeTrash {
+@media (screen) and (min-aspect-ratio: 8/9) {
+    /* square (a little less wide than a square)*/
+}
+
+@media (screen) and (min-aspect-ratio: 11/9) {
+    /* wide (a little less wide than a regular i-pad)*/
+}
+
+@media (screen) and (min-aspect-ratio: 14/9) {
+    /*very wide (a little less wide than normal pc)*/
+    /* default, look above */
+}
+
+@media (screen) and (min-aspect-ratio: 2/1) {
+    /*super very wide (widescreen pc)*/
+}
+
+#bDonMain,
+#tDonMain,
+#bLifeTrash,
+#tLifeTrash {
     display: flex;
     align-content: space-around;
     justify-content: space-around;
 }
-#bDonMain > div, #tDonMain>div, #bLifeTrash >div , #tLifeTrash >div {
+
+#bDonMain>div,
+#tDonMain>div,
+#bLifeTrash>div,
+#tLifeTrash>div {
     height: 90%;
     aspect-ratio: 2.5/3.5;
     position: relative;
     top: 5%;
     border: 2px solid black;
     background-size: cover;
+    background-color: #4444;
 }
-#bHand, #tHand {
+
+#bHand,
+#tHand {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -166,7 +211,9 @@ body {
     padding-right: 2px;
     padding-top: 0px;
 }
-#bHand>div, #tHand>div {
+
+#bHand>div,
+#tHand>div {
     margin-left: 4px;
     margin-right: 4px;
     margin-top: 0px;
@@ -184,6 +231,7 @@ body {
     right: 0px;
     background-color: #2222;
 }
+
 .heartIMG {
     position: relative;
     width: 1.5em;
@@ -193,6 +241,7 @@ body {
     border: none;
     outline: none;
 }
+
 .trashIMG {
     position: relative;
     width: 1.2em;
@@ -202,6 +251,7 @@ body {
     border: none;
     outline: none;
 }
+
 .handIMG {
     position: relative;
     width: 1.2em;
@@ -211,6 +261,7 @@ body {
     border: none;
     outline: none;
 }
+
 .donIMG {
     position: relative;
     width: 1.2em;
@@ -218,8 +269,9 @@ body {
     background-image: url("../images/DON.png");
     background-size: cover;
     border: none;
-    outline: none;   
+    outline: none;
 }
+
 .mainIMG {
     position: relative;
     width: 1.2em;
@@ -227,9 +279,10 @@ body {
     background-image: url("../images/main.png");
     background-size: cover;
     border: none;
-    outline: none;      
+    outline: none;
 }
-.count > p {
+
+.count>p {
     margin: 2px;
     font-size: 1.2em;
     color: white;
@@ -242,7 +295,7 @@ body {
     height: 6px;
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: gray;
 }

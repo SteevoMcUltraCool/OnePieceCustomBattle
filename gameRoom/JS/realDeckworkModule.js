@@ -3,7 +3,8 @@ let dWM = {
 
 }
 let allCards
-dWM.sleeve = "https://media.discordapp.net/attachments/1082104049878437948/1082145417074061382/cardback.png"
+dWM.sleeve = "https://media.discordapp.net/attachments/1075611996038381660/1082705638351712326/sleeve.png"
+dWM.donSleeve ="https://media.discordapp.net/attachments/1075611996038381660/1082707407731433512/donsleeve.png"
 dWM.expandArray = function(basicArray,shuffle,cards){
     allCards =allCards || cards
     let deck = []
