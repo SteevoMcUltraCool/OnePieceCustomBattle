@@ -8,7 +8,11 @@ body {
 }
 #bCharacterArea, #tCharacterArea {
     position: relative;
+    top: 0px;
 
+}
+#bDONArea, #bDONArea {
+    position: relative;
 }
 .donRealArea {
     height: 50%;
@@ -19,6 +23,8 @@ body {
     top: 0px;
     display: flex;
     flex-wrap: nowrap;
+    justify-content: space-around;
+    alignt-content: center;
 }
 .CCard {
     position: absolute;
@@ -34,7 +40,7 @@ body {
     height: 100%;
 }
 .DONCard {
-    height: 65%;
+    height: 50%;
     aspect-ratio: 2.5/3.5;
     border: 2px solid black
 }
