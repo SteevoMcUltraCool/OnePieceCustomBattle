@@ -195,8 +195,8 @@ body {
 }
 .trashIMG {
     position: relative;
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.2em;
+    height: 1.2em;
     background-image: url("../images/trash.png");
     background-size: cover;
     border: none;
@@ -204,8 +204,8 @@ body {
 }
 .handIMG {
     position: relative;
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.2em;
+    height: 1.2em;
     background-image: url("../images/Hand.png");
     background-size: cover;
     border: none;
@@ -213,8 +213,8 @@ body {
 }
 .donIMG {
     position: relative;
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.2em;
+    height: 1.2em;
     background-image: url("../images/DON.png");
     background-size: cover;
     border: none;
@@ -222,8 +222,8 @@ body {
 }
 .mainIMG {
     position: relative;
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.2em;
+    height: 1.2em;
     background-image: url("../images/main.png");
     background-size: cover;
     border: none;
@@ -231,7 +231,7 @@ body {
 }
 .count > p {
     margin: 2px;
-    font-size: 1.5em;
+    font-size: 1.2em;
     color: white;
     text-shadow: 1px 2px 1px black;
 }
