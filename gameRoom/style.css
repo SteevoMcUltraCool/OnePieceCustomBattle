@@ -16,6 +16,8 @@ body {
     margin: 0px;
     border-bottom: 1px;
     position: absolute;
+    display: flex;
+    flex-wrap: nowrap;
 }
 .CCard {
     position: absolute;
