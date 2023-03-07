@@ -3,6 +3,10 @@
     width: 120vh;
     margin-left: 2vh;
 }
+#bCharacterArea, #tCharacterArea {
+    position: relative;
+
+}
 #topPlayerArea {
     height: 50%;
     display: grid;
@@ -92,13 +96,103 @@
 @media (screen) and (min-aspect-ratio: 2/1) {  /*super very wide (widescreen pc)*/
 }
 
+#bDonMain, #tDonMain,#bLifeTrash, #tLifeTrash {
+    display: flex;
+    align-content: space-around;
+    justify-content: space-around;
+}
+#bDonMain > div, #tDonMain>div, #bLifeTrash >div , #tLifeTrash >div {
+    height: 90%;
+    aspect-ratio: 2.5/3.5;
+    position: relative;
+    top: 5%;
+    border: 2px solid black;
+    background-size: cover;
+}
+#bHand, #tHand {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: center;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 0px;
+}
+#bHand>div, #tHand>div {
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 0px;
+    height: 96%;
+    aspect-ratio: 2.5/3.5;
+    position: relative;
+    top: 2%;
+    border: 2px solid black;
+    background-size: cover;
+}
 
-
+.count {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background-color: #2222;
+}
+.heartIMG {
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    background-image: url("../images/heart.png");
+    background-size: cover;
+    border: none;
+    outline: none;
+}
+.trashIMG {
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    background-image: url("../images/trash.png");
+    background-size: cover;
+    border: none;
+    outline: none;
+}
+.handIMG {
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    background-image: url("../images/Hand.png");
+    background-size: cover;
+    border: none;
+    outline: none;
+}
+.donIMG {
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    background-image: url("../images/DON.png");
+    background-size: cover;
+    border: none;
+    outline: none;   
+}
+.mainIMG {
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    background-image: url("../images/main.png");
+    background-size: cover;
+    border: none;
+    outline: none;      
+}
+.count > p {
+    margin: 2px;
+    font-size: 1.5em;
+    color: white;
+    text-shadow: 1px 2px 1px black;
+}
 
 
 ::-webkit-scrollbar {
     width: 4px;
-    height: 3px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-thumb{
