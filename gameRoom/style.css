@@ -10,6 +10,13 @@ body {
     position: relative;
 
 }
+.donRealArea {
+    height: 50%;
+    width: 100%;
+    margin: 0px;
+    border-bottom: 1px;
+    position: absolute;
+}
 .CCard {
     position: absolute;
     background-size: cover;
@@ -24,7 +31,7 @@ body {
     height: 100%;
 }
 .DONCard {
-    height: 30%;
+    height: 65%;
     aspect-ratio: 2.5/3.5;
     border: 2px solid black
 }
