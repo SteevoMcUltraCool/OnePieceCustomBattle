@@ -19,7 +19,7 @@ body {
     width: 100%;
     margin: 0px;
     border-bottom: 1px;
-    position: absolute;
+    position: relative;
     top: 0px;
     display: flex;
     flex-wrap: nowrap;
