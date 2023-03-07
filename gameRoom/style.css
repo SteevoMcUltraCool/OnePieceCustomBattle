@@ -24,7 +24,7 @@ body {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-around;
-    alignt-content: center;
+    align-content: center;
 }
 .CCard {
     position: absolute;
