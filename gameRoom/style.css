@@ -24,7 +24,6 @@ body {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-around;
-    align-content: center;
 }
 .CCard {
     position: absolute;
@@ -40,9 +39,11 @@ body {
     height: 100%;
 }
 .DONCard {
-    height: 50%;
+    height: 75%;
     aspect-ratio: 2.5/3.5;
-    border: 2px solid black
+    border: 2px solid black;
+    position: relative;
+    top: 12.5%;
 }
 .LCard {
     position: absolute;
