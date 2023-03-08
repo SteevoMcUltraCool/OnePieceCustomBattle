@@ -216,13 +216,13 @@ function loadBoard(first){
     DON.mainmain.Name = "Main Deck"
     DON.mainmain.Type = "MD"
     DON.mainmain.buttons = createButtons(["Draw", "Flip Top","More"])
-    DON.mainmain.appendChild(main.buttons)
+    DON.mainmain.appendChild(DON.mainmain.buttons)
     DON.mainmain.buttons.Draw.execute = mainDeckDrawFrom
     DON.dondon = document.getElementById("d1")
     DON.dondon.IsA = "Card"
     DON.dondon.Name = "DON!! Deck"
     DON.dondon.buttons = createButtons(["Draw","Draw x2", "More"])
-    DON.dondon.appendChild(don.buttons)
+    DON.dondon.appendChild(DON.dondon.buttons)
     DON.dondon.Type = "DDN"
     }
     if (mCount >=1) DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`
