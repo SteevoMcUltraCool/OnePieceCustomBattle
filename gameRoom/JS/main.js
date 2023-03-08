@@ -225,9 +225,9 @@ function loadBoard(first){
     DON.dondon.appendChild(DON.dondon.buttons)
     DON.dondon.Type = "DDN"
     }
-    if (mCount >=1) DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`
     let mCount = bottomPlayerP.mainDeck.length
     let dCount = bottomPlayerP.donDeck[0]
+    if (mCount >=1) DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`
     if (dCount >=1) DON.dondon.style.backgroundImage = `url('${DWM.donSleeve}')`
     DON.mCount.innerHTML = mCount
     DON.dCount.innerHTML = dCount
