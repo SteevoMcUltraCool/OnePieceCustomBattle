@@ -15,8 +15,6 @@ dWM.expandArray = function(basicArray,shuffle,cards){
             deck.push({
                 name: card.name,
                 id: part.id,
-                x: 0,
-                y: 0,
                 imgString: card.img,
                 faceUp: {1:false, 2:false},
                 rested:false,

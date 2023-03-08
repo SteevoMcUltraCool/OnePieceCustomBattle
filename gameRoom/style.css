@@ -12,7 +12,9 @@ body {
 #tCharacterArea {
     position: relative;
     top: 0px;
-
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 #bDONArea,
@@ -33,10 +35,11 @@ body {
 }
 
 .CCard {
-    position: absolute;
     background-size: cover;
-    height: 40%;
+    height: 45%;
     aspect-ratio: 2.5/3.5;
+    position: relative;
+    margin: auto 6px
 }
 
 .CCard .DONCard,
@@ -46,6 +49,7 @@ body {
     top: 3em;
     right: 4em;
     height: 100%;
+    width: 100%;
 }
 
 .DONCard {
@@ -105,6 +109,7 @@ body {
     box-shadow: 7px 12px 10px black;
     background-color: #aaa
 }
+
 .buttons {
     position: absolute;
     width: 100%;
@@ -120,7 +125,8 @@ body {
     margin: 0px;
     padding: 0px;
 }
-.buttons > div {
+
+.buttons>div {
     border: 2px solid white;
     padding: 2px;
     font-size: 1.2em;
@@ -132,6 +138,7 @@ body {
     margin: auto auto;
     border-radius: 100px;
 }
+
 #gameOptions {
     position: absolute;
     left: 124vh;
@@ -140,7 +147,7 @@ body {
     width: calc(100vw - 126vh);
     margin: 0px;
     display: flex;
-    overflow:visible;
+    overflow: visible;
 }
 
 #gameLogMain {
@@ -156,30 +163,34 @@ body {
     border: 2px solid black;
     border-radius: 4px;
 }
+
 #gameButtons {
     width: calc(100% - calc(5/7 * calc(49vh - 24px)));
     height: calc(100%-10px);
-    min-width:  30%;
+    min-width: 30%;
     border: 2px solid black
 }
+
 #cardDisplay {
     height: calc(100%-10px);
     aspect-ratio: 2.5/3.5;
     border-radius: 4px;
     border: 2px solid black;
-    max-width:  70%;
+    max-width: 70%;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 
 }
+
 #cardDisplayHeader {
     text-align: center;
     margin: 4px;
     color: black;
-    text-shadow: 2px 4px 2px white,2px 4px 2px white ;
+    text-shadow: 2px 4px 2px white, 2px 4px 2px white;
     font-size: 1.4em;
 }
+
 #gameLog {
     overflow: auto;
 

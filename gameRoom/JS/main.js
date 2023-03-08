@@ -136,7 +136,7 @@ setInterval(async function(){
     if (thisGame){
         let newthisGame = await GetGameWithXId(gameID)
         console.log(thisGame.chatLog.length, newthisGame.chatLog.length)
-        if (thisGame.chatLog.length != newthisGame.chatLog.length){
+        if (localChatLog.length != newthisGame.chatLog.length){
             thisGame = newthisGame
             PlayerOBJ = thisGame["player"+player]
             console.log(thisGame.chatLog, PlayerOBJ)
@@ -228,8 +228,10 @@ function loadBoard(first){
     }
     let mCount = bottomPlayerP.mainDeck.length
     let dCount = bottomPlayerP.donDeck[0]
-    if (mCount >=1) DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`
-    if (dCount >=1) DON.dondon.style.backgroundImage = `url('${DWM.donSleeve}')`
+    if (mCount >=1) {DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`}
+    else{DON.mainmain.style.backgroundImage = "none"}
+    if (dCount >=1) {DON.dondon.style.backgroundImage = `url('${DWM.donSleeve}')`}
+    else{DON.mainmain.style.backgroundImage = "none"}
     DON.mCount.innerHTML = mCount
     DON.dCount.innerHTML = dCount
     //lifeTrash
@@ -270,6 +272,39 @@ function loadBoard(first){
                 playFromHand(card.uniqueGameId)
         }
         DON.bottomPlayerArea.hand.appendChild(divCard)
+    })
+    //charArea
+    DON.bottomPlayerArea.characterArea.innerHTML = `<div class="count">
+    <p><span class="handIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${hCount}</p>
+</div>`
+    bottomPlayerP.playArea.forEach(card =>{
+        let divCard = document.createElement("div")
+        divCard.className = "CCard"
+        if (card.faceUp[player]) {divCard.style.backgroundImage = `url('${card.imgString}')`}
+        else {divCard.style.backgroundImage= `url(${DWM.sleeve})`}
+        divCard.IsA = "Card"
+        divCard.Type = "InPlay"
+        divCard.Name = ""
+        divCard.buttons = createButtons(["Rest","Trash","More"])
+        divCard.appendChild(divCard.buttons)
+        divCard.buttons.Rest.execute = async function(){
+            let cN = divCard.className
+            let rested
+            if (cN.includes("rested")){
+                divCard.className = "CCard"
+                rested = true
+            }else {
+                divCard.className = "CCard rested"
+                rested = false
+            }
+            let indx = bottomPlayerP.playArea.findIndex(car => car.uniqueGameId == card.uniqueGameId)
+            let AR = {}; AR[`player${player}`] = {gameParts:{playArea:[]}}
+            AR[`player${player}`].gameParts.playArea[indx] = card
+            card.rested = true
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} rested ${card.name}.`, "Server")
+        }
+        DON.bottomPlayerArea.characterArea.appendChild(divCard)       
     })
 }
 
