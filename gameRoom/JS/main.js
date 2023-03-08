@@ -262,6 +262,11 @@ function loadBoard(first){
         if (card.faceUp[player]) {divCard.style.backgroundImage = `url('${card.imgString}')`}
         else {divCard.style.backgroundImage= `url(${DWM.sleeve})`}
         divCard.IsA = "Card"
+        divCard.Type = "Type"
+        divCard.buttons = createButtons(["Play","Trash","More"])
+        divCard.buttons.Play.execute = function(){
+                playFromHand(card.uniqueGameId)
+        }
         DON.bottomPlayerArea.hand.appendChild(divCard)
     })
 }
@@ -307,4 +312,19 @@ async function mainDeckDrawFrom(spot){
     }
     await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew a card.`, "Server")
+}
+
+async function playFromHand(uniqueGameId){
+    let f = {1: true, 2: true}
+    let spot = PlayerOBJ.gameParts.hand.findIndex(c => c.uniqueGameId==uniqueGameId)
+    let name = PlayerOBJ.gameParts.hand[spot].name
+    DWM.sendCardTo(PlayerOBJ.gameParts,"playArea","hand",spot,0, f)
+    let AR = {}; AR[`player${player}`] = {
+        gameParts: {
+            playArea: PlayerOBJ.gameParts.playArea,
+            hand: PlayerOBJ.gameParts.hand
+        }
+    }
+    await UpdateData(thisGame.id, AR)
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} played ${name}.`, "Server")
 }
