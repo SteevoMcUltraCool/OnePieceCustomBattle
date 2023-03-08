@@ -280,7 +280,7 @@ function unfocus(card){
 }
 window.addEventListener("mousemove", (event)=>{
     let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
-    let oldFocus = focusCard || oldFocus || m1
+    let oldFocus = focusCard || DON.mainmain
     focusCard = allSelected.filter(thing => thing.IsA == "Card")[0] || focusCard
     if (oldFocus != focusCard){
         unfocus(oldFocus)
