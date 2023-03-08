@@ -147,7 +147,7 @@ function updateChatLog(){
     let latestGotChat = localChatLog.length
     let newChat =  thisGame.chatLog.slice(latestGotChat)
     let check = DON.gameLog.scrollTop - DON.gameLog.scrollHeight
-    console.log(check)
+    console.log(latestGotChat,  newChat, thisGame.chatLog)
     newChat.forEach(chat =>{
         localChatLog.push(chat)
         DON.gameLog.insertAdjacentHTML("beforeend", `
