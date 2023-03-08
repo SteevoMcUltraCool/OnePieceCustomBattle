@@ -136,7 +136,7 @@ setInterval(async function(){
     if (thisGame){
         let newthisGame = await GetGameWithXId(gameID)
         console.log(thisGame.chatLog.length, newthisGame.chatLog.length)
-        if (thisGame.chatLog.length != newthisGame.chatLog.length){
+        if (thisGame.chatLog.length < newthisGame.chatLog.length){
             thisGame = newthisGame
             PlayerOBJ = thisGame["player"+player]
             console.log(thisGame.chatLog, PlayerOBJ)
