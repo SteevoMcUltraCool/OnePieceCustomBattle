@@ -159,7 +159,7 @@ function updateChatLog(){
            }
         }
     })
-    if (Math.abs(check) < 300){
+    if (Math.abs(check) < 650){
         DON.gameLog.scrollTop = DON.gameLog.scrollHeight;
     }
 }
