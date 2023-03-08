@@ -190,7 +190,7 @@ function createButtons(arrayOfNames){
     })
     return buttons
 }
-function loadBoard(fist){
+function loadBoard(first){
     updateChatLog()
     console.log(player, thisGame["player"+player])
    let bottomPlayerP = thisGame["player"+player].gameParts
