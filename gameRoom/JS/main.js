@@ -306,5 +306,5 @@ async function mainDeckDrawFrom(spot){
         }
     }
     await UpdateData(thisGame.id, AR)
-    AddChatToLog(thisGame.id,localChatLog,`${PlayerOBJ.name} drew a card.`, "Server")
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew a card.`, "Server")
 }
