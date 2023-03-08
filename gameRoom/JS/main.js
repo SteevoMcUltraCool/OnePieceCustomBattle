@@ -162,7 +162,7 @@ function updateChatLog(){
         DON.gameLog.scrollTop = DON.gameLog.scrollHeight;
     }
 }
-loadBoard()
+loadBoard(true)
 
 function localSendMessage(){
         let message = DON.messageInput.value
@@ -190,41 +190,47 @@ function createButtons(arrayOfNames){
     })
     return buttons
 }
-function loadBoard(){
+function loadBoard(fist){
     updateChatLog()
+    console.log(player, thisGame["player"+player])
    let bottomPlayerP = thisGame["player"+player].gameParts
    let topPlayer = thisGame["player"+Math.ceil((player+0.9)%2)]
    //donMain
+   if (first){
    DON.bottomPlayerArea.donMain.innerHTML = ""
-   let mCount = bottomPlayerP.mainDeck.length
-   let dCount = bottomPlayerP.donDeck[0]
    DON.bottomPlayerArea.donMain.innerHTML = `
     <div class="DON" id="d1">
     <div class="count" >
-        <p><span class="donIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${dCount}</p>
+        <p><span class="donIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="mCount"></span></p>
     </div>
     </div>
     <div class="main" id="m1">
     <div class="count">
-        <p><span class="mainIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${mCount}</p>
+        <p><span class="mainIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="dcount"></span></p>
     </div>
     </div>
-`
-    let main = document.getElementById("m1")
-    if (mCount >=1) main.style.backgroundImage = `url('${DWM.sleeve}')`
-    main.IsA = "Card"
-    main.Name = "Main Deck"
-    main.Type = "MD"
-    main.buttons = createButtons(["Draw", "Flip Top","More"])
-    main.appendChild(main.buttons)
-    main.buttons.Draw.execute = mainDeckDrawFrom
-    let don = document.getElementById("d1")
-    if (dCount >=1) don.style.backgroundImage = `url('${DWM.donSleeve}')`
-    don.IsA = "Card"
-    don.Name = "DON!! Deck"
-    don.buttons = createButtons(["Draw","Draw x2", "More"])
-    don.appendChild(don.buttons)
-    don.Type = "DDN"
+`    
+    DON.mainmain = document.getElementById("m1")
+    DON.mCount = document.getElementById("mCount")
+    DON.mainmain.IsA = "Card"
+    DON.mainmain.Name = "Main Deck"
+    DON.mainmain.Type = "MD"
+    DON.mainmain.buttons = createButtons(["Draw", "Flip Top","More"])
+    DON.mainmain.appendChild(main.buttons)
+    DON.mainmain.buttons.Draw.execute = mainDeckDrawFrom
+    DON.dondon = document.getElementById("d1")
+    DON.dondon.IsA = "Card"
+    DON.dondon.Name = "DON!! Deck"
+    DON.dondon.buttons = createButtons(["Draw","Draw x2", "More"])
+    DON.dondon.appendChild(don.buttons)
+    DON.dondon.Type = "DDN"
+    }
+    if (mCount >=1) DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`
+    let mCount = bottomPlayerP.mainDeck.length
+    let dCount = bottomPlayerP.donDeck[0]
+    if (dCount >=1) DON.dondon.style.backgroundImage = `url('${DWM.donSleeve}')`
+    DON.mCount.innerHTML = mCount
+    DON.dCount.innerHTML = dCount
     //lifeTrash
     DON.bottomPlayerArea.lifeTrash.innerHTML = ""
     let lCount = bottomPlayerP.life.length
@@ -273,10 +279,9 @@ function unfocus(card){
 }
 window.addEventListener("mousemove", (event)=>{
     let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
-    let oldFocus = focusCard 
+    let oldFocus = focusCard || oldFocus || m1
     focusCard = allSelected.filter(thing => thing.IsA == "Card")[0] || focusCard
     if (oldFocus != focusCard){
-        console.log(oldFocus)
         unfocus(oldFocus)
         focus(focusCard)
     }
@@ -288,7 +293,7 @@ window.addEventListener("click", (event)=>{
     else{}  
 })
 
-function mainDeckDrawFrom(spot){
+async function mainDeckDrawFrom(spot){
     let f = {}
     f[player] = true
     console.log(f)
@@ -299,6 +304,6 @@ function mainDeckDrawFrom(spot){
             hand: PlayerOBJ.gameParts.hand
         }
     }
-    UpdateData(thisGame.id, AR)
+    await UpdateData(thisGame.id, AR)
     AddChatToLog(thisGame.id,localChatLog,`${PlayerOBJ.name} drew a card.`, "Server")
 }
