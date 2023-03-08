@@ -262,8 +262,8 @@ function loadBoard(first){
         if (card.faceUp[player]) {divCard.style.backgroundImage = `url('${card.imgString}')`}
         else {divCard.style.backgroundImage= `url(${DWM.sleeve})`}
         divCard.IsA = "Card"
-        divCard.Type = "Type"
-        divCard.Name = card.name
+        divCard.Type = "Hand"
+        divCard.Name = ""
         divCard.buttons = createButtons(["Play","Trash","More"])
         divCard.appendChild(divCard.buttons)
         divCard.buttons.Play.execute = function(){
