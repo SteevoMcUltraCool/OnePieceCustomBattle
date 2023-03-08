@@ -21,7 +21,7 @@ dWM.expandArray = function(basicArray,shuffle,cards){
                 faceUp: {1:false, 2:false},
                 rested:false,
                 attachedDON: 0,
-                uniqueGameId = `C${x}I${part.id}`
+                uniqueGameId: `C${x}I${part.id}`
             })
             x+=1
         }while(x<=part.count)
