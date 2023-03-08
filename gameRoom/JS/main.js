@@ -135,6 +135,7 @@ function getCookie(cname) {
 setInterval(async function(){
     if (thisGame){
         let newthisGame = await GetGameWithXId(gameID)
+        console.log(thisGame.chatLog.length, newthisGame.chatLog.length)
         if (thisGame.chatLog.length != newthisGame.chatLog.length){
             thisGame = newthisGame
             PlayerOBJ = thisGame["player"+player]
@@ -191,8 +192,7 @@ function createButtons(arrayOfNames){
     return buttons
 }
 function loadBoard(first){
-    updateChatLog()
-    console.log(player, thisGame["player"+player])
+   updateChatLog()
    let bottomPlayerP = thisGame["player"+player].gameParts
    let topPlayer = thisGame["player"+Math.ceil((player+0.9)%2)]
    //donMain
