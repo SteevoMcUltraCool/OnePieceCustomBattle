@@ -206,7 +206,7 @@ function loadBoard(first){
     </div>
     <div class="main" id="m1">
     <div class="count">
-        <p><span class="mainIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="dcount"></span></p>
+        <p><span class="mainIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="dCount"></span></p>
     </div>
     </div>
 `    
@@ -219,6 +219,7 @@ function loadBoard(first){
     DON.mainmain.appendChild(DON.mainmain.buttons)
     DON.mainmain.buttons.Draw.execute = mainDeckDrawFrom
     DON.dondon = document.getElementById("d1")
+    DON.dCount = document.getElementById("dCount")
     DON.dondon.IsA = "Card"
     DON.dondon.Name = "DON!! Deck"
     DON.dondon.buttons = createButtons(["Draw","Draw x2", "More"])
