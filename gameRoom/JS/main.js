@@ -227,6 +227,7 @@ function loadBoard(first){
     DON.dondon.Type = "DDN"
     }
     let mCount = bottomPlayerP.mainDeck.length
+    console.log(bottomPlayerP,mCount)
     let dCount = bottomPlayerP.donDeck[0]
     if (mCount >=1) DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`
     if (dCount >=1) DON.dondon.style.backgroundImage = `url('${DWM.donSleeve}')`
