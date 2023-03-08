@@ -201,12 +201,12 @@ function loadBoard(first){
    DON.bottomPlayerArea.donMain.innerHTML = `
     <div class="DON" id="d1">
     <div class="count" >
-        <p><span class="donIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="mCount"></span></p>
+        <p><span class="donIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="dCount"></span></p>
     </div>
     </div>
     <div class="main" id="m1">
     <div class="count">
-        <p><span class="mainIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="dCount"></span></p>
+        <p><span class="mainIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="mCount"></span></p>
     </div>
     </div>
 `    
