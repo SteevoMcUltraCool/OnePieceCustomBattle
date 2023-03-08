@@ -34,6 +34,15 @@ dWM.shuffleDeck=function(deck){
     })
     return newDeck
 }
+dWM.sendCardTo = function(PLP,tgt, place, spot, newSpot, faceUp) {
+    let card = PLP[place][spot || 0]
+    card.faceUp = faceUp || card.faceUp
+    console.log(card.faceUp)
+    PLP[tgt].splice(newSpot||0,0,card)
+    PLP[place].splice(spot||0,1)
+    PLP[place].push(null)
+    return PLP
+}
 
 
 export let DWM = dWM

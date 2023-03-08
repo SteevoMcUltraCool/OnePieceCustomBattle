@@ -26,6 +26,8 @@ let DON = {
         characterArea: document.getElementById("bCharacterArea"),
         DONN: document.getElementById("bDONN")
     },
+    cardDisplay: document.getElementById("cardDisplay"),
+    cardNameDisplay: document.getElementById("cardDisplayHeader")
 }
 let gameID = Number(urlParams.get('gameID'))
 let player = Number(urlParams.get('player'))
@@ -136,7 +138,7 @@ setInterval(async function(){
         if (thisGame.chatLog.length != newthisGame.chatLog.length){
             thisGame = newthisGame
             PlayerOBJ = thisGame["player"+player]
-            console.log(thisGame.chatLog)
+            console.log(thisGame.chatLog, PlayerOBJ)
             loadBoard()
         }
     }
@@ -176,7 +178,18 @@ window.addEventListener("keypress", function(event){
     }
 })
 
-
+function createButtons(arrayOfNames){
+    let buttons = document.createElement("div")
+    buttons.className = "buttons"
+    arrayOfNames.forEach(name=>{
+        let newButton = document.createElement("div")
+        newButton.IsA = "Button"
+        newButton.innerHTML = name
+        buttons[name] = newButton
+        buttons.appendChild(newButton)
+    })
+    return buttons
+}
 function loadBoard(){
     updateChatLog()
    let bottomPlayerP = thisGame["player"+player].gameParts
@@ -199,9 +212,19 @@ function loadBoard(){
 `
     let main = document.getElementById("m1")
     if (mCount >=1) main.style.backgroundImage = `url('${DWM.sleeve}')`
+    main.IsA = "Card"
+    main.Name = "Main Deck"
+    main.Type = "MD"
+    main.buttons = createButtons(["Draw", "Flip Top","More"])
+    main.appendChild(main.buttons)
+    main.buttons.Draw.execute = mainDeckDrawFrom
     let don = document.getElementById("d1")
     if (dCount >=1) don.style.backgroundImage = `url('${DWM.donSleeve}')`
-
+    don.IsA = "Card"
+    don.Name = "DON!! Deck"
+    don.buttons = createButtons(["Draw","Draw x2", "More"])
+    don.appendChild(don.buttons)
+    don.Type = "DDN"
     //lifeTrash
     DON.bottomPlayerArea.lifeTrash.innerHTML = ""
     let lCount = bottomPlayerP.life.length
@@ -220,20 +243,62 @@ function loadBoard(){
  `
      let life = document.getElementById("l1")
      if (lCount >=1) life.style.backgroundImage = `url('${DWM.sleeve}')`
+     life.IsA = "Card"
      let trash = document.getElementById("t1")
      if (lCount >=1) trash.style.backgroundImage = `url('${bottomPlayerP.trash[0].imgString}')`
-
+     trash.IsA = "Card"
     //hand 
     DON.bottomPlayerArea.hand.innerHTML = ""
     let hCount = bottomPlayerP.hand.length
     bottomPlayerP.hand.forEach(card =>{
         let divCard = document.createElement("div")
-        divCard.style.backgroundImage = `url('${card.imgString}')`
+        if (card.faceUp[player]) {divCard.style.backgroundImage = `url('${card.imgString}')`}
+        else {divCard.style.backgroundImage= `url(${DWM.sleeve})`}
+        divCard.IsA = "Card"
+        DON.bottomPlayerArea.hand.appendChild(divCard)
     })
 }
 
-let getHoveredElement = function(){return (document.querySelectorAll(':hover'))[0]}
-let checkHoveredList = function(thing){return (document.querySelectorAll(':hover').includes(thing))}
-window.addEventListener("mousemove", (event)=>{
 
+let focusCard
+
+function focus(card){
+    card.buttons.style.opacity = "1"
+    DON.cardNameDisplay.innerHTML = card.Name
+    DON.cardDisplay.style.backgroundImage = card.style.backgroundImage
+}
+function unfocus(card){
+    card.buttons.style.opacity = "0"
+
+}
+window.addEventListener("mousemove", (event)=>{
+    let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
+    let oldFocus = focusCard 
+    focusCard = allSelected.filter(thing => thing.IsA == "Card")[0] || focusCard
+    if (oldFocus != focusCard){
+        console.log(oldFocus)
+        unfocus(oldFocus)
+        focus(focusCard)
+    }
 })
+window.addEventListener("click", (event)=>{
+    let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
+    let button = allSelected.filter(thing => thing.IsA == "Button")[0]
+    if (button) {button.execute()}
+    else{}  
+})
+
+function mainDeckDrawFrom(spot){
+    let f = {}
+    f[player] = true
+    console.log(f)
+    DWM.sendCardTo(PlayerOBJ.gameParts,"hand","mainDeck",spot,0, f)
+    let AR = {}; AR[`player${player}`] = {
+        gameParts: {
+            mainDeck: PlayerOBJ.gameParts.mainDeck,
+            hand: PlayerOBJ.gameParts.hand
+        }
+    }
+    UpdateData(thisGame.id, AR)
+    AddChatToLog(thisGame.id,localChatLog,`${PlayerOBJ.name} drew a card.`, "Server")
+}
