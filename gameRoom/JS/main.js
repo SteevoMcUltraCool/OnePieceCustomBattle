@@ -469,10 +469,9 @@ DON.donAreaControls.rest.onclick = async function(){
  console.log(count)
  let bottomPlayerP = thisGame["player"+player].gameParts
  if (count && count >=1 && count <=bottomPlayerP.donDeck[0]){
-   bottomPlayerP.donArea[0] -= count
-   bottomPlayerP.donArea[1] += count
- }
- let AR = {}; AR[`player${player}`] = {
+   bottomPlayerP.donArea[0] = bottomPlayerP.donArea[0]- count
+   bottomPlayerP.donArea[1] = bottomPlayerP.donArea[1] + count
+    let AR = {}; AR[`player${player}`] = {
  gameParts: {
    donArea: bottomPlayerP.donArea,
    }
@@ -480,4 +479,6 @@ DON.donAreaControls.rest.onclick = async function(){
  console.log(AR,bottomPlayerP.donArea)
  await UpdateData(thisGame.id, AR)
  await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} rested +${count} DON!!`,"Server")
+ }
+ 
 }
