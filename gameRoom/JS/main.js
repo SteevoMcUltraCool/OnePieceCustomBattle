@@ -392,13 +392,14 @@ function loadDON(card,divCard){
         lilDON.innerHTML = ` <div class="count" >
         <p><span class="donIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${card.attachedDON}</p>
         </div>`
+        lilDON.style.backgroundImage = `url("../../../images/DONface.png")`
         divCard.appendChild(lilDON)
     }
 }
 let focusCard
 
-function focus(card){
-    card.buttons.style.opacity = "1"
+function focus(card,op){
+    card.buttons.style.opacity = op||"1"
     DON.cardNameDisplay.innerHTML = card.Name
     DON.cardDisplay.style.backgroundImage = card.style.backgroundImage
 }
@@ -410,9 +411,11 @@ window.addEventListener("mousemove", (event)=>{
         let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
         let oldFocus = focusCard || DON.mainmain
         focusCard = allSelected.filter(thing => thing.IsA == "Card")[0] || focusCard
-        if (oldFocus != focusCard && !targeting.active){
+        if (oldFocus != focusCard ){
+            if (oldFocus){
             unfocus(oldFocus)
-            focus(focusCard)
+            }
+            focus(focusCard, targeting.active && "0" || "1")
         }
 })
 window.addEventListener("click", (event)=>{
@@ -423,8 +426,8 @@ window.addEventListener("click", (event)=>{
     }else{
         if (targeting.reason =="attachingDON"){
             let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
-            let divCard = allSelected.filter(thing => thing.IsA == "Card")[0] || focusCard
-            attachDonTo(divCard)
+            let divCard = allSelected.filter(thing => thing.IsA == "Card")[0]
+            if (divCard) attachDonTo(divCard)
         }
     }
 })
@@ -461,13 +464,17 @@ async function playFromHand(uniqueGameId){
 async function trashFromPH(place,uniqueGameId){
     let f = {1: true, 2: true}
     let spot = PlayerOBJ.gameParts[place].findIndex(c => c.uniqueGameId==uniqueGameId)
-    let name = PlayerOBJ.gameParts[place][spot].name
+    let card = PlayerOBJ.gameParts[place][spot]
+    let name = card.name
+    PlayerOBJ.gameParts.donArea[1] += card.attachedDON
+    card.attachedDON = 0
     DWM.sendCardTo(PlayerOBJ.gameParts,"trash",place,spot,0, f)
     let AR = {}; AR[`player${player}`] = {
         gameParts: {
             playArea: PlayerOBJ.gameParts.playArea,
             hand: PlayerOBJ.gameParts.hand,
-            trash : PlayerOBJ.gameParts.trash
+            trash : PlayerOBJ.gameParts.trash.AR,
+            donArea: PlayerOBJ.gameParts.donArea
         }
     }
     await UpdateData(thisGame.id, AR)
@@ -534,15 +541,20 @@ DON.donAreaControls.attach.onclick = async function(){
 }
  
 async function attachDonTo(divCard){
-    let card = PlayerOBJ.gameParts.playArea.find(card => card.uniqueGameId == divCard.uniqueGameId) ||PlayerOBJ.leaderArea.find(card => card.uniqueGameId == divCard.uniqueGameId)
+    let card = PlayerOBJ.gameParts.playArea.find(card => card.uniqueGameId == divCard.uniqueGameId) ||PlayerOBJ.gameParts.leaderArea.find(card => card.uniqueGameId == divCard.uniqueGameId)
     let count = Number(DON.donAreaControls.attachNum.value)
-    card.attachedDON += count
-    let AR = {}; AR[`player${player}`] = {
-        gameParts: {
-          characterArea: PlayerOBJ.gameParts.characterArea,
-          leaderArea: PlayerOBJ.gameParts.leaderArea
-          }
-        }
-        await UpdateData(thisGame.id, AR)
-        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} attached ${count} DON!! to ${card.name}`,"Server")
+    if (PlayerOBJ.gameParts.donArea[0]>= count) {
+        card.attachedDON += count
+        PlayerOBJ.gameParts.donArea[0] -= count
+        console.log(card)
+        let AR = {}; AR[`player${player}`] = {
+            gameParts: {
+            playArea: PlayerOBJ.gameParts.playArea,
+            leaderArea: PlayerOBJ.gameParts.leaderArea,
+            donArea: PlayerOBJ.gameParts.donArea
+            }
+            }
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} attached ${count} DON!! to ${card.name}`,"Server")
+    }
 }

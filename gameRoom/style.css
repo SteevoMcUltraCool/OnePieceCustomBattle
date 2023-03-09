@@ -49,15 +49,16 @@ body {
     height: 45%;
     aspect-ratio: 2.5/3.5;
     position: relative;
-    margin: auto 6px
+    margin: auto 6px;
+    transform-style: preserve-3d;
 }
 
 .CCard .DONCard,
 .LCard .DONCard {
     transform: translateZ(-10px);
     position: absolute;
-    top: 3em;
-    right: 4em;
+    top: 1.5em;
+    left: 0.5em;
     height: 100%;
     width: 100%;
 }
@@ -76,6 +77,8 @@ body {
     height: 60%;
     aspect-ratio: 2.5/3.5;
     margin: auto 6px;
+    transform-style: preserve-3d;
+
 }
 
 .rested {
@@ -364,7 +367,7 @@ body {
 }
 
 .bigBozoDon p {
-    test-align: center;
+    text-align: center;
     margin: 1.25%;
     font-size: 0.95em;
 }

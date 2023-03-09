@@ -2,15 +2,18 @@ let DON = {
  cardNameInput: document.getElementById("cardName"), 
  cardImageLinkInput: document.getElementById("cardImageLink"), 
  cardTextInput: document.getElementById("cardText"), 
+ cardColorInput: document.getElementById("cardColor"),
+ cardCreatorInput:document.getElementById("cardCreator"),
  submitCardBu: document.getElementById("submitCard"),
- results: document.getElementById("results")
+ 
+ results: document.getElementById("results"),
 }
 import { GetAllCards, UploadCard } from "./fauna.js"
   
 
 DON.submitCardBu.onclick = async function(){
     console.log(await GetAllCards())
-    let results = await UploadCard(DON.cardNameInput.value, DON.cardImageLinkInput.value, DON.cardNameInput.value, await GetAllCards())
+    let results = await UploadCard(DON.cardNameInput.value, DON.cardImageLinkInput.value, DON.cardNameInput.value, await GetAllCards(), DON.cardColorInput.value, DON.cardCreatorInput.value)
     if (results.good) {
         DON.cardNameInput.value = ""
         DON.cardImageLinkInput.value = ""

@@ -17,12 +17,14 @@ async function getAllCards(){
     return (await client.query( q.Get( q.Ref( q.Collection("Cards"),"357784667303182419")) )).data 
 
 }    
-async function uploadCard(name,img,text,cards){
+async function uploadCard(name,img,text,cards,color,creator){
     console.log("uploading")
     name = name || ""
     img = img || ""
     if (name.length <3) return {good:false, details:"Name must be at least three characters"}
     if (img.length <5) return {good:false, details: "Image link must be at least 5 characters"}
+    if (color.length <3) return {good:false, details: "Color must be at least three characters"}
+    if (creator.length <3) return {good:false, details: "Creator must be at least three characters"}
     if (text.length <1) text= null
     try {
         let oldData = cards
@@ -35,6 +37,8 @@ async function uploadCard(name,img,text,cards){
             name: name,
             img: img,
             text: text,
+            color: color,
+            creator: creator,
         }
         console.log(newPart)
         oldData[String(keys.length)] = newPart
