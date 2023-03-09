@@ -356,6 +356,13 @@ body {
     border: none;
     outline: none;
 }
+.bigBozoDon p {
+    test-align:center;
+    margin:5px;
+}
+.bigBozoDon input {
+   width: 3em   
+}
 
 .mainIMG {
     position: relative;
