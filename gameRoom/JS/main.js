@@ -339,7 +339,7 @@ function loadBoard(first){
     if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.upDon.style.backgroundImage= "none"}
    }catch(er){
         console.log("error")
-        setTimeout(function(){loadBoard(true},125)
+        setTimeout(function(){loadBoard(true)},125)
    }
   }
 async function rest(divCard,card,C,bottomPlayerP){
