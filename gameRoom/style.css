@@ -313,7 +313,7 @@ body {
     position: absolute;
     bottom: 0px;
     right: 0px;
-    background-color: #2222;
+    background-color: #222C;
     color: white;
 }
 
@@ -365,7 +365,6 @@ body {
     
 }
 .bigBozoDon {
- background-color:blue;
 }
 
 .mainIMG {
