@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>OPTCG Custom Battles</title>
     <link rel="icon" type="image/svg+xml" href="../images/logo.png" />
 </head>
+
 <body>
     <button id="back">Leave Game</button>
     <section id="playingField">
@@ -21,18 +23,26 @@
         <div id="botPlayerArea">
             <div id="bDONN">
                 <div class="donRealArea" id="bird">
-                    <div class="DONCard" id="upDon"><div class="count"  id="upDonCount">0</div></div>
-                    <div class="DONCard rested" id="sideDon"><div class="count" id="sideDonCount">0</div></div>
-                    <div style="border:none"><div class="count"><p id="donCount">0</p></div></div>
+                    <div class="DONCard" id="upDon">
+                        <div class="count" id="upDonCount">0</div>
+                    </div>
+                    <div class="DONCard rested" id="sideDon">
+                        <div class="count" id="sideDonCount">0</div>
+                    </div>
+                    <div style="border:none">
+                        <div class="count">
+                            <p id="donCount">0</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="bigBozoDon">
                     <p><button id="unrestAll">Unrest All</button></p>
-                    <p><input type="number" id="restNum"><button id="rest">Rest</button></p>
-                    <p><input type="number" id="unrestNum"><button id="unrest">Unrest</button></p>
-                    <p><input type="number" id="attachNum"><button id="attach">Attach</button></p>
-                    <p><input type="number" id="returnNum"><button id="attach">Return</button></p>
+                    <p><input type="number" id="restNum" value="1"><button id="rest">Rest</button></p>
+                    <p><input type="number" id="unrestNum" value="1"><button id="unrest">Unrest</button></p>
+                    <p><input type="number" id="attachNum" value="1"><button id="attach">Attach</button></p>
+                    <p><input type="number" id="returnNum" value="1"><button id="return">Return</button></p>
                 </div>
-           </div>
+            </div>
             <div id="bCharacterArea">
                 <div class="count">
                     <p><span class="handIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>0</p>
@@ -52,7 +62,7 @@
                 </div>
             </div>
             <div id="bHand">
-                   
+
             </div>
             <div id="bDonMain">
                 <div class="DON">
@@ -80,11 +90,14 @@
     <section id="gameLogMain">
         <section id="gameLog">
         </section>
-        <div id ="bozo"><h4>Send Message</h4><input id="message"><button id="sendButton">Send</button></div>
+        <div id="bozo">
+            <h4>Send Message</h4><input id="message"><button id="sendButton">Send</button>
+        </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/faunadb@latest/dist/faunadb.js"></script>
     <script src="../JS/minorPageBase.js" type="module"></script>
     <script src="./JS/main.js" type="module"></script>
-    
+
 </body>
+
 </html>

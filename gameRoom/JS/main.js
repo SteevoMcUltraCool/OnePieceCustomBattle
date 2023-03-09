@@ -3,7 +3,12 @@ import { DWM } from "./realDeckworkModule.js";
 import { GetAllCards, GetGameWithXId, GetGamesWithXPlayers, UploadCard, RequestToJoinGame, AddChatToLog, UpdateData} from "../../JS/fauna.js";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-let Cards = await GetAllCards()
+let Cards = await GetAllCards();
+let  targeting = {
+    active:false,
+    reason: false,
+    strength: 0,
+}
 let DON = {
     gameLog: document.getElementById("gameLog"),
     messageInput:document.getElementById("message"),
@@ -42,7 +47,7 @@ let DON = {
         attachNum:document.getElementById("attachNum"),
         attach: document.getElementById("attach"),
         returnNum:document.getElementById("returnNum"),
-        return:document.getElementById("return"), //fix html (this button should have id="return" but it has id="attach" rn)
+        return:document.getElementById("return"), 
     }
 }
 let gameID = Number(urlParams.get('gameID'))
@@ -314,6 +319,7 @@ function loadBoard(first){
         divCard.IsA = "Card"
         divCard.Type = "InPlay"
         divCard.Name = ""
+        divCard.uniqueGameId = card.uniqueGameId
         divCard.buttons = createButtons(["Rest","Trash","More"])
         divCard.appendChild(divCard.buttons)
         divCard.buttons.Rest.execute = async function(){
@@ -322,6 +328,7 @@ function loadBoard(first){
         divCard.buttons.Trash.execute = async function(){
             trashFromPH("playArea",card.uniqueGameId)
         }
+        loadDON(card,divCard)
         DON.bottomPlayerArea.characterArea.insertAdjacentElement("afterbegin",divCard)       
     })
     //leaderArea 
@@ -335,11 +342,13 @@ function loadBoard(first){
         divCard.IsA = "Card"
         divCard.Type = "InLeader"
         divCard.Name = ""
+        divCard.uniqueGameId = card.uniqueGameId
         divCard.buttons = createButtons(["Rest","Shake","More"])
         divCard.appendChild(divCard.buttons)
         divCard.buttons.Rest.execute = async function(){
                 rest(divCard,card,false,bottomPlayerP)
         }
+        loadDON(card,divCard)
         DON.bottomPlayerArea.leaderStage.appendChild(divCard)       
     })   
     //donArea 
@@ -376,6 +385,16 @@ async function rest(divCard,card,C,bottomPlayerP){
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} ${un}rested ${card.name}.`, "Server")   
 }
 
+function loadDON(card,divCard){
+    if (card.attachedDON >=1){
+        let lilDON = document.createElement("div")
+        lilDON.className ="DONCard"
+        lilDON.innerHTML = ` <div class="count" >
+        <p><span class="donIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${card.attachedDON}</p>
+        </div>`
+        divCard.appendChild(lilDON)
+    }
+}
 let focusCard
 
 function focus(card){
@@ -388,19 +407,26 @@ function unfocus(card){
 
 }
 window.addEventListener("mousemove", (event)=>{
-    let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
-    let oldFocus = focusCard || DON.mainmain
-    focusCard = allSelected.filter(thing => thing.IsA == "Card")[0] || focusCard
-    if (oldFocus != focusCard){
-        unfocus(oldFocus)
-        focus(focusCard)
-    }
+        let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
+        let oldFocus = focusCard || DON.mainmain
+        focusCard = allSelected.filter(thing => thing.IsA == "Card")[0] || focusCard
+        if (oldFocus != focusCard && !targeting.active){
+            unfocus(oldFocus)
+            focus(focusCard)
+        }
 })
 window.addEventListener("click", (event)=>{
-    let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
-    let button = allSelected.filter(thing => thing.IsA == "Button")[0]
-    if (button) {button.execute()}
-    else{}  
+    if (!targeting.active){
+        let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
+        let button = allSelected.filter(thing => thing.IsA == "Button")[0]
+        if (button) {button.execute()}
+    }else{
+        if (targeting.reason =="attachingDON"){
+            let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
+            let divCard = allSelected.filter(thing => thing.IsA == "Card")[0] || focusCard
+            attachDonTo(divCard)
+        }
+    }
 })
 
 async function mainDeckDrawFrom(spot){
@@ -477,7 +503,46 @@ DON.donAreaControls.rest.onclick = async function(){
    }
  }
  await UpdateData(thisGame.id, AR)
- await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} rested +${count} DON!!`,"Server")
+ await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} rested ${count} DON!!`,"Server")
  }
  
+}
+ DON.donAreaControls.unrest.onclick = async function(){
+    let count = Number(DON.donAreaControls.unrestNum.value)
+    let bottomPlayerP = thisGame["player"+player].gameParts
+    if (count && count >=1 && count <=bottomPlayerP.donArea[1]){
+      bottomPlayerP.donArea[1] = bottomPlayerP.donArea[1] - count
+      bottomPlayerP.donArea[0] = bottomPlayerP.donArea[0] + count
+       let AR = {}; AR[`player${player}`] = {
+    gameParts: {
+      donArea: bottomPlayerP.donArea,
+      }
+    }
+     await UpdateData(thisGame.id, AR)
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unrested ${count} DON!!`,"Server")
+    }
+}
+DON.donAreaControls.attach.onclick = async function(){
+    if (!targeting.active){
+        targeting.active = true
+        targeting.reason = "attachingDON"
+        DON.donAreaControls.attach.style.backgroundColor = "#E33"
+    }else if(targeting.reason=="attachingDON"){
+        targeting.active = false
+        DON.donAreaControls.attach.style.backgroundColor = "#DDD"
+    }
+}
+ 
+async function attachDonTo(divCard){
+    let card = PlayerOBJ.gameParts.playArea.find(card => card.uniqueGameId == divCard.uniqueGameId) ||PlayerOBJ.leaderArea.find(card => card.uniqueGameId == divCard.uniqueGameId)
+    let count = Number(DON.donAreaControls.attachNum.value)
+    card.attachedDON += count
+    let AR = {}; AR[`player${player}`] = {
+        gameParts: {
+          characterArea: PlayerOBJ.gameParts.characterArea,
+          leaderArea: PlayerOBJ.gameParts.leaderArea
+          }
+        }
+        await UpdateData(thisGame.id, AR)
+        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} attached ${count} DON!! to ${card.name}`,"Server")
 }
