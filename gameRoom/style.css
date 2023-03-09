@@ -361,7 +361,11 @@ body {
     margin:5px;
 }
 .bigBozoDon input {
-   width: 3em   
+   width: 3em;
+    
+}
+.bigBozoDon {
+ background-color:blue;
 }
 
 .mainIMG {
