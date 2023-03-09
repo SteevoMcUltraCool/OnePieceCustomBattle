@@ -90,7 +90,6 @@ async function initialize(name,deck){
     }
     await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id, thisGame.chatLog, AR[`player${player}`].name + " is ready to play!", "Server")
-    loadBoard(true)
 }
 
 if (!getCookie("player") || getCookie("game")!=thisGame.gameID){
@@ -100,8 +99,6 @@ if (!getCookie("player") || getCookie("game")!=thisGame.gameID){
         setCookie("game",thisGame.gameID,0.76)
         promptInitiatePlayer()
         AddChatToLog(thisGame.id, thisGame.chatLog, "A player has joined the game!", "Server")
-        loadBoard(true)
-
     }else{
         let attempt = await RequestToJoinGame(thisGame.id)
         if (attempt.good){
@@ -201,6 +198,7 @@ function createButtons(arrayOfNames){
     return buttons
 }
 function loadBoard(first){
+   try{
    updateChatLog()
    let bottomPlayerP = thisGame["player"+player].gameParts
    let topPlayer = thisGame["player"+Math.ceil((player+0.9)%2)]
@@ -339,7 +337,11 @@ function loadBoard(first){
     DON.upDonCount.innerHTML = bottomPlayerP.donArea[0] ||0
     DON.sideDonCount.innerHTML = bottomPlayerP.donArea[1] ||0
     if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.upDon.style.backgroundImage= "none"}
-}
+   }catch(er){
+        console.log("error)
+        setTimeout(function(){loadBoard(true},125)
+   }
+  }
 async function rest(divCard,card,C,bottomPlayerP){
     let cN = divCard.className, un=""
     if (cN.includes("rested")){
@@ -447,4 +449,3 @@ async function drawDonCard(dCount,bottomPlayerP,count) {
         await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew +${count} DON!!`,"Server")
     }
 }
-loadBoard(true)
