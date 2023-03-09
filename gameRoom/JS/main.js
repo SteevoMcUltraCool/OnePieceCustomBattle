@@ -33,6 +33,17 @@ let DON = {
     upDon: document.getElementById("upDon"),
     sideDonCount: document.getElementById("sideDonCount"),
     upDonCount: document.getElementById("upDonCount"),
+    donAreaControls: {
+        unrestAll: document.getElementById("unrestAll"),
+        restNum: document.getElementById("restNum"),
+        rest: document.getElementById("rest"),
+        unrestNum: document.getElementById("unrestNum"),
+        unrest: document.getElementById("unrest"),
+        attachNum:document.getElementById("attachNum"),
+        attach: document.getElementById("attach"),
+        returnNum:document.getElementById("returnNum"),
+        return:document.getElementById("return"), //fix html (this button should have id="return" but it has id="attach" rn)
+    }
 }
 let gameID = Number(urlParams.get('gameID'))
 let player = Number(urlParams.get('player'))
@@ -337,6 +348,8 @@ function loadBoard(first){
     DON.upDonCount.innerHTML = bottomPlayerP.donArea[0] ||0
     DON.sideDonCount.innerHTML = bottomPlayerP.donArea[1] ||0
     if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.upDon.style.backgroundImage= "none"}
+    if (bottomPlayerP.donArea[1]>=1){DON.sideDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.sideDon.style.backgroundImage= "none"}
+
    }catch(er){
         console.log("error")
         setTimeout(function(){loadBoard(true)},125)
@@ -450,4 +463,20 @@ async function drawDonCard(dCount,bottomPlayerP,count) {
         await UpdateData(thisGame.id, AR)
         await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew +${count} DON!!`,"Server")
     }
+}
+// DON Area
+DON.donAreaControls.rest.onClick = function(){
+ let count = Number(DON.donAreaControls.restNum.value)
+ let bottomPlayerP = thisGame["player"+player].gameParts
+ if (count && count >=1 && count <=bottomPlayerP.donDeck[0]){
+   bottomPlayerP.donArea[0] -= count
+   bottomPlayerP.donArea[1] += count
+ }
+ let AR = {}; AR[`player${player}`] = {
+ gameParts: {
+   donArea: bottomPlayerP.donArea,
+   }
+ }
+ await UpdateData(thisGame.id, AR)
+ await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} rested +${count} DON!!`,"Server")
 }
