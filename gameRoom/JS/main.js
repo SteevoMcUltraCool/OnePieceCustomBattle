@@ -27,7 +27,12 @@ let DON = {
         DONN: document.getElementById("bDONN")
     },
     cardDisplay: document.getElementById("cardDisplay"),
-    cardNameDisplay: document.getElementById("cardDisplayHeader")
+    cardNameDisplay: document.getElementById("cardDisplayHeader"),
+    donCount: document.getElementById("donCount"),
+    sideDon: document.getElementById("sideDon"),
+    upDon: document.getElementById("upDon"),
+    sideDonCount: document.getElementById("sideDonCount"),
+    upDonCount: document.getElementById("upDonCount"),
 }
 let gameID = Number(urlParams.get('gameID'))
 let player = Number(urlParams.get('player'))
@@ -72,7 +77,7 @@ async function initialize(name,deck){
     let AR = {}
     let deckk = dkB.stringToArray(deck)
     let charDeck = DWM.expandArray(deckk.deckArray,true,Cards)
-    let leadDeck = DWM.expandArray(deckk.leaderArray,false,Cards)
+    let leadDeck = DWM.expandArray(deckk.leaderArray,false,Cards,true)
     AR[`player${player}`] = {
         name: name.length>1&&name || "Anonymous",
         initiated: true,
@@ -80,6 +85,7 @@ async function initialize(name,deck){
             mainDeck: charDeck,
             leaderArea: leadDeck,
             donDeck: [10],
+            donArea: [0,0,0]
         }
     }
     await UpdateData(thisGame.id, AR)
@@ -196,6 +202,7 @@ function loadBoard(first){
    let bottomPlayerP = thisGame["player"+player].gameParts
    let topPlayer = thisGame["player"+Math.ceil((player+0.9)%2)]
    //donMain
+   let dCount = bottomPlayerP.donDeck[0]
    if (first){
    DON.bottomPlayerArea.donMain.innerHTML = ""
    DON.bottomPlayerArea.donMain.innerHTML = `
@@ -223,15 +230,20 @@ function loadBoard(first){
     DON.dondon.IsA = "Card"
     DON.dondon.Name = "DON!! Deck"
     DON.dondon.buttons = createButtons(["Draw","Draw x2", "More"])
+    DON.dondon.buttons.Draw.execute = async function(){
+        drawDonCard(dCount,bottomPlayerP,1)
+    }
+    DON.dondon.buttons["Draw x2"].execute = async function(){
+        drawDonCard(dCount,bottomPlayerP,2)
+    }
     DON.dondon.appendChild(DON.dondon.buttons)
     DON.dondon.Type = "DDN"
     }
     let mCount = bottomPlayerP.mainDeck.length
-    let dCount = bottomPlayerP.donDeck[0]
     if (mCount >=1) {DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`}
     else{DON.mainmain.style.backgroundImage = "none"}
     if (dCount >=1) {DON.dondon.style.backgroundImage = `url('${DWM.donSleeve}')`}
-    else{DON.mainmain.style.backgroundImage = "none"}
+    else{DON.dondon.style.backgroundImage = "none"}
     DON.mCount.innerHTML = mCount
     DON.dCount.innerHTML = dCount
     //lifeTrash
@@ -254,8 +266,10 @@ function loadBoard(first){
      if (lCount >=1) life.style.backgroundImage = `url('${DWM.sleeve}')`
      life.IsA = "Card"
      let trash = document.getElementById("t1")
-     if (lCount >=1) trash.style.backgroundImage = `url('${bottomPlayerP.trash[0].imgString}')`
+     if (tCount >=1) trash.style.backgroundImage = `url('${bottomPlayerP.trash[0].imgString}')`
      trash.IsA = "Card"
+     trash.Name = "Trash"
+     trash.Type ="Trash"
     //hand 
     DON.bottomPlayerArea.hand.innerHTML = ""
     let hCount = bottomPlayerP.hand.length
@@ -271,6 +285,9 @@ function loadBoard(first){
         divCard.buttons.Play.execute = function(){
                 playFromHand(card.uniqueGameId)
         }
+        divCard.buttons.Trash.execute = function(){
+            trashFromPH("hand",card.uniqueGameId)
+        }
         DON.bottomPlayerArea.hand.appendChild(divCard)
     })
     //charArea
@@ -280,6 +297,7 @@ function loadBoard(first){
     bottomPlayerP.playArea.forEach(card =>{
         let divCard = document.createElement("div")
         divCard.className = "CCard"
+        if (card.rested) {divCard.className = "CCard rested"}
         if (card.faceUp[player]) {divCard.style.backgroundImage = `url('${card.imgString}')`}
         else {divCard.style.backgroundImage= `url(${DWM.sleeve})`}
         divCard.IsA = "Card"
@@ -288,26 +306,58 @@ function loadBoard(first){
         divCard.buttons = createButtons(["Rest","Trash","More"])
         divCard.appendChild(divCard.buttons)
         divCard.buttons.Rest.execute = async function(){
-            let cN = divCard.className
-            let rested
-            if (cN.includes("rested")){
-                divCard.className = "CCard"
-                rested = true
-            }else {
-                divCard.className = "CCard rested"
-                rested = false
-            }
-            let indx = bottomPlayerP.playArea.findIndex(car => car.uniqueGameId == card.uniqueGameId)
-            let AR = {}; AR[`player${player}`] = {gameParts:{playArea:[]}}
-            AR[`player${player}`].gameParts.playArea[indx] = card
-            card.rested = true
-            await UpdateData(thisGame.id, AR)
-            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} rested ${card.name}.`, "Server")
+            rest(divCard,card,true,bottomPlayerP)
         }
-        DON.bottomPlayerArea.characterArea.appendChild(divCard)       
+        divCard.buttons.Trash.execute = async function(){
+            trashFromPH("playArea",card.uniqueGameId)
+        }
+        DON.bottomPlayerArea.characterArea.insertAdjacentElement("afterbegin",divCard)       
     })
+    //leaderArea 
+    DON.bottomPlayerArea.leaderStage.innerHTML = ""
+    bottomPlayerP.leaderArea.forEach(card =>{
+        let divCard = document.createElement("div")
+        divCard.className = "LCard"
+        if (card.rested){ divCard.className = "LCard rested"}
+        if (card.faceUp[player]) {divCard.style.backgroundImage = `url('${card.imgString}')`}
+        else {divCard.style.backgroundImage= `url(${DWM.sleeve})`}
+        divCard.IsA = "Card"
+        divCard.Type = "InLeader"
+        divCard.Name = ""
+        divCard.buttons = createButtons(["Rest","Shake","More"])
+        divCard.appendChild(divCard.buttons)
+        divCard.buttons.Rest.execute = async function(){
+                rest(divCard,card,false,bottomPlayerP)
+        }
+        DON.bottomPlayerArea.leaderStage.appendChild(divCard)       
+    })   
+    //donArea 
+    DON.donCount.innerHTML = 10 - dCount
+    DON.upDonCount.innerHTML = bottomPlayerP.donArea[0] ||0
+    DON.sideDonCount.innerHTML = bottomPlayerP.donArea[1] ||0
+    if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.upDon.style.backgroundImage= "none"}
 }
-
+async function rest(divCard,card,C,bottomPlayerP){
+    let cN = divCard.className, un=""
+    if (cN.includes("rested")){
+        card.rested = false
+        un = "un"
+    }else {
+        card.rested = true
+    }
+    let AR
+    if (C){
+        AR = {}; AR[`player${player}`] = {gameParts:{characterArea:[]}}
+        console.log(bottomPlayerP)
+        AR[`player${player}`].gameParts.playArea = bottomPlayerP.playArea
+    }else{
+        AR = {}; AR[`player${player}`] = {gameParts:{leaderArea:[]}}
+        AR[`player${player}`].gameParts.leaderArea = bottomPlayerP.leaderArea
+    }
+    console.log(AR)
+    await UpdateData(thisGame.id, AR)
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} ${un}rested ${card.name}.`, "Server")   
+}
 
 let focusCard
 
@@ -364,4 +414,33 @@ async function playFromHand(uniqueGameId){
     }
     await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} played ${name}.`, "Server")
+}
+async function trashFromPH(place,uniqueGameId){
+    let f = {1: true, 2: true}
+    let spot = PlayerOBJ.gameParts[place].findIndex(c => c.uniqueGameId==uniqueGameId)
+    let name = PlayerOBJ.gameParts[place][spot].name
+    DWM.sendCardTo(PlayerOBJ.gameParts,"trash",place,spot,0, f)
+    let AR = {}; AR[`player${player}`] = {
+        gameParts: {
+            playArea: PlayerOBJ.gameParts.playArea,
+            hand: PlayerOBJ.gameParts.hand,
+            trash : PlayerOBJ.gameParts.trash
+        }
+    }
+    await UpdateData(thisGame.id, AR)
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} trashed ${name} from ${place}.`, "Server")
+}
+async function drawDonCard(dCount,bottomPlayerP,count) {
+    if (dCount>=count){
+        bottomPlayerP.donDeck[0] -= count
+        bottomPlayerP.donArea[0] +=count
+        let AR = {}; AR[`player${player}`] = {
+            gameParts: {
+                donDeck: bottomPlayerP.donDeck,
+                donArea: bottomPlayerP.donArea,
+            }
+        }
+        await UpdateData(thisGame.id, AR)
+        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew +${count} DON!!`,"Server")
+    }
 }

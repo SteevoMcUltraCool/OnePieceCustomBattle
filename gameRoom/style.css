@@ -16,6 +16,14 @@ body {
     flex-wrap: wrap;
     justify-content: space-around;
 }
+#bLeaderStage,
+#tLeaderStage {
+    position: relative;
+    top: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
 
 #bDONArea,
 #tDONArea {
@@ -63,8 +71,9 @@ body {
 .LCard {
     position: absolute;
     background-size: cover;
-    height: 55%;
+    height: 60%;
     aspect-ratio: 2.5/3.5;
+    margin: auto 6px;
 }
 
 .rested {
@@ -204,14 +213,18 @@ body {
 #gameLog p {
     margin: 0px;
 }
-
+.DONCard {
+    background-size: cover;
+}
 #gamelog>div {
     padding: 2px;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     width: calc(100vw - 126vh);
 }
-
+.trash {
+    background-size: cover ;
+}
 #gameLogMain>div {
     padding: 2px;
     border-top: 1px solid black;
@@ -301,6 +314,7 @@ body {
     bottom: 0px;
     right: 0px;
     background-color: #2222;
+    color: white;
 }
 
 .heartIMG {

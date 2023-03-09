@@ -5,7 +5,7 @@ let dWM = {
 let allCards
 dWM.sleeve = "https://media.discordapp.net/attachments/1075611996038381660/1082705638351712326/sleeve.png"
 dWM.donSleeve ="https://media.discordapp.net/attachments/1075611996038381660/1082707407731433512/donsleeve.png"
-dWM.expandArray = function(basicArray,shuffle,cards){
+dWM.expandArray = function(basicArray,shuffle,cards,face){
     allCards =allCards || cards
     let deck = []
     basicArray.forEach(part=>{
@@ -16,7 +16,7 @@ dWM.expandArray = function(basicArray,shuffle,cards){
                 name: card.name,
                 id: part.id,
                 imgString: card.img,
-                faceUp: {1:false, 2:false},
+                faceUp: {1:face||false, 2:face||false},
                 rested:false,
                 attachedDON: 0,
                 uniqueGameId: `C${x}I${part.id}`
