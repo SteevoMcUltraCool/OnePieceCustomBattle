@@ -436,7 +436,8 @@ async function trashFromPH(place,uniqueGameId){
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} trashed ${name} from ${place}.`, "Server")
 }
 async function drawDonCard(dCount,bottomPlayerP,count) {
-    if (dCount>=count){
+    console.log(bottomPlayerP.donDeck[0],count)
+    if (bottomPlayerP.donDeck[0]>=count){
         bottomPlayerP.donDeck[0] -= count
         bottomPlayerP.donArea[0] +=count
         let AR = {}; AR[`player${player}`] = {
