@@ -153,7 +153,6 @@ function getCookie(cname) {
 setInterval(async function(){
     if (thisGame){
         let newthisGame = await GetGameWithXId(gameID)
-        console.log(thisGame.chatLog.length, newthisGame.chatLog.length)
         if (localChatLog.length != newthisGame.chatLog.length){
             thisGame = newthisGame
             PlayerOBJ = thisGame["player"+player]
@@ -465,7 +464,8 @@ async function drawDonCard(dCount,bottomPlayerP,count) {
     }
 }
 // DON Area
-DON.donAreaControls.rest.onClick = async function(){
+DON.donAreaControls.rest.onclick = async function(){
+ console.log("restin")
  let count = Number(DON.donAreaControls.restNum.value)
  let bottomPlayerP = thisGame["player"+player].gameParts
  if (count && count >=1 && count <=bottomPlayerP.donDeck[0]){
