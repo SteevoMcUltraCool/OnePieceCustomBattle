@@ -161,7 +161,7 @@ setInterval(async function(){
             loadBoard()
         }
     }
-},92)
+},104)
 function updateChatLog(){
     let latestGotChat = localChatLog.length
     let newChat =  thisGame.chatLog.slice(latestGotChat)
@@ -465,7 +465,7 @@ async function drawDonCard(dCount,bottomPlayerP,count) {
     }
 }
 // DON Area
-DON.donAreaControls.rest.onClick = function(){
+DON.donAreaControls.rest.onClick = async function(){
  let count = Number(DON.donAreaControls.restNum.value)
  let bottomPlayerP = thisGame["player"+player].gameParts
  if (count && count >=1 && count <=bottomPlayerP.donDeck[0]){
