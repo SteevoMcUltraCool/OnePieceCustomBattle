@@ -338,7 +338,7 @@ function loadBoard(first){
     DON.sideDonCount.innerHTML = bottomPlayerP.donArea[1] ||0
     if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.upDon.style.backgroundImage= "none"}
    }catch(er){
-        console.log("error)
+        console.log("error")
         setTimeout(function(){loadBoard(true},125)
    }
   }
