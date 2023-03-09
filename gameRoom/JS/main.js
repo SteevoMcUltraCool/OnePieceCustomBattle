@@ -90,6 +90,7 @@ async function initialize(name,deck){
     }
     await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id, thisGame.chatLog, AR[`player${player}`].name + " is ready to play!", "Server")
+    loadBoard(true)
 }
 
 if (!getCookie("player") || getCookie("game")!=thisGame.gameID){
@@ -99,6 +100,8 @@ if (!getCookie("player") || getCookie("game")!=thisGame.gameID){
         setCookie("game",thisGame.gameID,0.76)
         promptInitiatePlayer()
         AddChatToLog(thisGame.id, thisGame.chatLog, "A player has joined the game!", "Server")
+        loadBoard(true)
+
     }else{
         let attempt = await RequestToJoinGame(thisGame.id)
         if (attempt.good){
@@ -108,6 +111,7 @@ if (!getCookie("player") || getCookie("game")!=thisGame.gameID){
             AddChatToLog(thisGame.id, thisGame.chatLog, "A player has joined the game!", "Server")
         }else {
             window.location.replace("../../index.html?error="+"1")
+            
         }
     }
 }
@@ -169,7 +173,6 @@ function updateChatLog(){
         DON.gameLog.scrollTop = DON.gameLog.scrollHeight;
     }
 }
-loadBoard(true)
 
 function localSendMessage(){
         let message = DON.messageInput.value
@@ -444,3 +447,4 @@ async function drawDonCard(dCount,bottomPlayerP,count) {
         await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew +${count} DON!!`,"Server")
     }
 }
+loadBoard(true)
