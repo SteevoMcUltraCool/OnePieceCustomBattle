@@ -283,11 +283,17 @@ function loadBoard(first){
      let life = document.getElementById("l1")
      if (lCount >=1) life.style.backgroundImage = `url('${DWM.sleeve}')`
      life.IsA = "Card"
+     life.Name = "Life"
+     life.Type ="Life"
+     life.buttons = createButtons(["Peep 1","Draw","More"])
      let trash = document.getElementById("t1")
      if (tCount >=1) trash.style.backgroundImage = `url('${bottomPlayerP.trash[0].imgString}')`
      trash.IsA = "Card"
      trash.Name = "Trash"
      trash.Type ="Trash"
+     trash.buttons = createButtons(["Search","More"])
+     life.appendChild(life.buttons)
+     trash.append(trash.buttons)
     //hand 
     DON.bottomPlayerArea.hand.innerHTML = ""
     let hCount = bottomPlayerP.hand.length
@@ -480,7 +486,7 @@ async function trashFromPH(place,uniqueGameId){
         gameParts: {
             playArea: PlayerOBJ.gameParts.playArea,
             hand: PlayerOBJ.gameParts.hand,
-            trash : PlayerOBJ.gameParts.trash.AR,
+            trash : PlayerOBJ.gameParts.trash,
             donArea: PlayerOBJ.gameParts.donArea
         }
     }
@@ -550,7 +556,7 @@ DON.donAreaControls.return.onclick = async function(){
       }
     }
      await UpdateData(thisGame.id, AR)
-    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unrested ${count} DON!!`,"Server")
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} returned -${count} DON!!`,"Server")
     }
 }
 DON.donAreaControls.unrestAll.onclick = async function(){

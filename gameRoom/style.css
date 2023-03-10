@@ -49,7 +49,7 @@ body {
     height: 45%;
     aspect-ratio: 2.5/3.5;
     position: relative;
-    margin: auto 6px;
+    margin: auto 2%;
     transform-style: preserve-3d;
 }
 
