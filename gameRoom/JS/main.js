@@ -9,8 +9,10 @@ let  targeting = {
     reason: false,
     strength: 0,
 }
+let deb = false
 let DON = {
     gameLog: document.getElementById("gameLog"),
+    gameLogMain:document.getElementById("gameLogMain"),
     messageInput:document.getElementById("message"),
     sendButton:document.getElementById("sendButton"),
     topPlayerArea: {
@@ -56,6 +58,9 @@ let DON = {
     tupDon: document.getElementById("tupDon"),
     tsideDonCount: document.getElementById("tsideDonCount"),
     tupDonCount: document.getElementById("tupDonCount"),
+    rez: document.getElementById("rez"),
+    gameOptions: document.getElementById("gameOptions"),
+    gameButtons: document.getElementById("gameButtons")
 }
 let gameID = Number(urlParams.get('gameID'))
 let player = Number(urlParams.get('player'))
@@ -579,7 +584,9 @@ window.addEventListener("click", (event)=>{
     }
 })
 
-async function mainDeckDrawFrom(spot){
+async function mainDeckDrawFrom(spot){    
+    if(deb){return false}
+deb =true
     let f = {}
     f[player] = true
     console.log(f)
@@ -592,9 +599,12 @@ async function mainDeckDrawFrom(spot){
     }
     await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew a card.`, "Server")
+    deb=false
 }
 
 async function playFromHand(uniqueGameId){
+    if(deb){return false}
+    deb =true
     let f = {1: true, 2: true}
     let spot = PlayerOBJ.gameParts.hand.findIndex(c => c.uniqueGameId==uniqueGameId)
     let name = PlayerOBJ.gameParts.hand[spot].name
@@ -607,8 +617,11 @@ async function playFromHand(uniqueGameId){
     }
     await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} played ${name}.`, "Server")
+    deb=false
 }
 async function trashFromPH(place,uniqueGameId){
+    if(deb){return false}
+    deb =true
     let f = {1: true, 2: true}
     let spot = PlayerOBJ.gameParts[place].findIndex(c => c.uniqueGameId==uniqueGameId)
     let card = PlayerOBJ.gameParts[place][spot]
@@ -626,8 +639,11 @@ async function trashFromPH(place,uniqueGameId){
     }
     await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} trashed ${name} from ${place}.`, "Server")
+    deb = false
 }
 async function drawDonCard(dCount,bottomPlayerP,count) {
+    if(deb){return false}
+    deb =true
     bottomPlayerP = thisGame["player"+player].gameParts
     console.log(bottomPlayerP.donDeck[0],count)
     if (bottomPlayerP.donDeck[0]>=count){
@@ -642,9 +658,12 @@ async function drawDonCard(dCount,bottomPlayerP,count) {
         await UpdateData(thisGame.id, AR)
         await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew +${count} DON!!`,"Server")
     }
+    deb = false
 }
 // DON Area
 DON.donAreaControls.rest.onclick = async function(){
+    if(deb){return false}
+    deb =true
  let count = Number(DON.donAreaControls.restNum.value)
  console.log(count)
  let bottomPlayerP = thisGame["player"+player].gameParts
@@ -659,9 +678,11 @@ DON.donAreaControls.rest.onclick = async function(){
  await UpdateData(thisGame.id, AR)
  await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} rested ${count} DON!!`,"Server")
  }
- 
+ deb = false
 }
  DON.donAreaControls.unrest.onclick = async function(){
+    if(deb){return false}
+    deb =true
     let count = Number(DON.donAreaControls.unrestNum.value)
     let bottomPlayerP = thisGame["player"+player].gameParts
     if (count && count >=1 && count <=bottomPlayerP.donArea[1]){
@@ -675,9 +696,12 @@ DON.donAreaControls.rest.onclick = async function(){
      await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unrested ${count} DON!!`,"Server")
     }
+    deb =false
 }
 
 DON.donAreaControls.return.onclick = async function(){
+    if(deb){return false}
+    deb =true
     let count = Number(DON.donAreaControls.returnNum.value)
     let bottomPlayerP = thisGame["player"+player].gameParts
     if (count && count >=1 && count <=bottomPlayerP.donArea[1]){
@@ -692,8 +716,11 @@ DON.donAreaControls.return.onclick = async function(){
      await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} returned -${count} DON!!`,"Server")
     }
+    deb = false
 }
 DON.donAreaControls.unrestAll.onclick = async function(){
+    if(deb){return false}
+    deb =true
     let count = Number(DON.donAreaControls.returnNum.value)
     let bottomPlayerP = thisGame["player"+player].gameParts
     bottomPlayerP.donArea[0]= 10 - bottomPlayerP.donDeck[0]
@@ -710,6 +737,7 @@ DON.donAreaControls.unrestAll.onclick = async function(){
     }
     await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unrested ${count} DON!!`,"Server")
+    deb = false
 }
 
 DON.donAreaControls.attach.onclick = async function(){
@@ -733,6 +761,8 @@ DON.donAreaControls.unattach.onclick = async function(){
     }
 }
 async function attachDonTo(divCard){
+    if(deb){return false}
+    deb =true
     let card = PlayerOBJ.gameParts.playArea.find(card => card.uniqueGameId == divCard.uniqueGameId) ||PlayerOBJ.gameParts.leaderArea.find(card => card.uniqueGameId == divCard.uniqueGameId)
     let count = Number(DON.donAreaControls.attachNum.value)
     if (PlayerOBJ.gameParts.donArea[0]>= count) {
@@ -749,8 +779,11 @@ async function attachDonTo(divCard){
             await UpdateData(thisGame.id, AR)
             await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} attached ${count} DON!! to ${card.name}`,"Server")
     }
+    deb = false
 }
 async function unDonFrom(divCard){
+    if(deb){return false}
+    deb =true
     let card = PlayerOBJ.gameParts.playArea.find(card => card.uniqueGameId == divCard.uniqueGameId) ||PlayerOBJ.gameParts.leaderArea.find(card => card.uniqueGameId == divCard.uniqueGameId)
     let count = Number(DON.donAreaControls.unattachNum.value)
     console.log(card,count)
@@ -767,5 +800,25 @@ async function unDonFrom(divCard){
             await UpdateData(thisGame.id, AR)
             await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unattached ${count} DON!! from ${card.name}`,"Server")
     }
+    deb =false
 }
 
+let rez = false
+DON.rez.onclick = function(){
+    rez = !rez
+    if (rez){
+        DON.gameOptions.style.height = "calc(75vh - 24px)"
+        DON.gameLogMain.style.top = "75vh"
+        DON.gameLogMain.style.height = "calc(25vh - 30px)"
+        DON.gameLog.style.height = "calc(25vh - 30px)"
+        DON.gameButtons.style.minWidth = "10%"
+        DON.gameOptions.style.maxWidth = "90%"
+    }else{
+        DON.gameOptions.style.height = "calc(49vh - 24px)"
+        DON.gameLogMain.style.top = "50vh"
+        DON.gameLogMain.style.height = "48vh"
+        DON.gameLog.style.height = "48vh"
+        DON.gameButtons.style.minWidth = "30%"
+        DON.gameOptions.style.maxWidth = "70%"       
+    }
+}

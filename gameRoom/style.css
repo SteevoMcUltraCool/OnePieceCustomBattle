@@ -356,6 +356,18 @@ body {
     outline: none;
 }
 
+.resizeIMG {
+    position: relative;
+    width: 1.2em;
+    height: 1.2em;
+    background-image: url("../images/resize.png");
+    background-size: cover;
+    border: none;
+    outline: none;
+    background-color: none;
+    filter: invert(100%);
+}
+
 .donIMG {
     position: relative;
     width: 1.2em;
