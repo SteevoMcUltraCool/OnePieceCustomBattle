@@ -387,13 +387,13 @@ function loadBoard(first){
     DON.tmainmain.Name = "Opponent Deck"
     DON.tmainmain.Type = "OD"
     DON.tmainmain.buttons = createButtons(["More"])
-    DON.tmainmain.appendChild(DON.mainmain.buttons)
+    DON.tmainmain.appendChild(DON.tmainmain.buttons)
     DON.tdondon = document.getElementById("td1")
     DON.tdCount = document.getElementById("tdCount")
     DON.tdondon.IsA = "Card"
     DON.tdondon.Name = "Opponent DON"
     DON.tdondon.buttons = createButtons(["More"])
-    DON.tdondon.appendChild(DON.dondon.buttons)
+    DON.tdondon.appendChild(DON.tdondon.buttons)
     DON.tdondon.Type = "ODON"
     }
     let tmCount = topPlayerP.mainDeck.length
@@ -432,8 +432,8 @@ function loadBoard(first){
      ttrash.Name = "Trash"
      ttrash.Type ="Trash"
      ttrash.buttons = createButtons(["Search","More"])
-     tlife.appendChild(life.buttons)
-     ttrash.append(trash.buttons)
+     tlife.appendChild(tlife.buttons)
+     ttrash.append(ttrash.buttons)
     }
    }catch(er){
         console.log(er)
