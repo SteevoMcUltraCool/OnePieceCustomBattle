@@ -420,7 +420,7 @@ function loadBoard(first){
         <p><span class="heartIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${tlCount}</p>
     </div>
 </div>
-<div class="trash" id="t1">
+<div class="trash" id="tt1">
     <div class="count">
         <p><span class="trashIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${ttCount}</p>
     </div>
