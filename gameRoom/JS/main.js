@@ -435,6 +435,20 @@ function loadBoard(first){
      tlife.appendChild(tlife.buttons)
      ttrash.append(ttrash.buttons)
     }
+       //hand 
+    DON.topPlayerArea.hand.innerHTML = ""
+    let thCount = topPlayerP.hand.length
+    topPlayerP.hand.forEach(card =>{
+        let divCard = document.createElement("div")
+        if (card.faceUp[player]) {divCard.style.backgroundImage = `url('${card.imgString}')`}
+        else {divCard.style.backgroundImage= `url(${DWM.sleeve})`}
+        divCard.IsA = "Card"
+        divCard.Type = "Hand"
+        divCard.Name = ""
+        divCard.buttons = createButtons(["Target","More"])
+        divCard.appendChild(divCard.buttons)
+        DON.topPlayerArea.hand.appendChild(divCard)
+    })
    }catch(er){
         console.log(er)
         setTimeout(function(){loadBoard(true)},225)
