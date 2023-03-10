@@ -368,7 +368,43 @@ function loadBoard(first){
     //opponent board
     console.log(topPlayerP)
     if (topPlayerP) {
-        
+    if (first){
+   DON.topPlayerArea.donMain.innerHTML = ""
+   DON.topPlayerArea.donMain.innerHTML = `
+    <div class="DON" id="td1">
+    <div class="count" >
+        <p><span class="donIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="tdCount"></span></p>
+    </div>
+    </div>
+    <div class="main" id="tm1">
+    <div class="count">
+        <p><span class="mainIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="tmCount"></span></p>
+    </div>
+    </div>
+`    
+    DON.tmainmain = document.getElementById("tm1")
+    DON.tmCount = document.getElementById("tmCount")
+    DON.tmainmain.IsA = "Card"
+    DON.tmainmain.Name = "Opponent Deck"
+    DON.tmainmain.Type = "OD"
+    DON.tmainmain.buttons = createButtons(["More"])
+    DON.tmainmain.appendChild(DON.mainmain.buttons)
+    DON.tdondon = document.getElementById("td1")
+    DON.tdCount = document.getElementById("tdCount")
+    DON.tdondon.IsA = "Card"
+    DON.tdondon.Name = "Opponent Deck"
+    DON.tdondon.buttons = createButtons(["More"])
+    DON.dondon.appendChild(DON.dondon.buttons)
+    DON.dondon.Type = "ODON"
+    }
+    let tmCount = topPlayerP.mainDeck.length
+    let tdCount = topPlayerP.donDeck[0]
+    if (tmCount >=1) {DON.tmainmain.style.backgroundImage = `url('${DWM.sleeve}')`}
+    else{DON.tmainmain.style.backgroundImage = "none"}
+    if (tdCount >=1) {DON.dondon.style.backgroundImage = `url('${DWM.donSleeve}')`}
+    else{DON.dondon.style.backgroundImage = "none"}
+    DON.tmCount.innerHTML = tmCount
+    DON.tdCount.innerHTML = tdCount       
     }
    }catch(er){
         console.log("error")
