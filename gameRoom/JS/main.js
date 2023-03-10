@@ -224,8 +224,9 @@ function loadBoard(first){
    try{
    updateChatLog()
    let bottomPlayerP = thisGame["player"+player].gameParts
-   console.log(player,Math.ceil((player+0.9)%2))
-   let topPlayerP = thisGame["player"+Math.ceil((player+0.9)%2)].gameParts
+   let newPlayer = 2
+   if (player==2){newPlayer=1}
+   let topPlayerP = thisGame["player"+newPlayer].gameParts
    //donMain
    let dCount = bottomPlayerP.donDeck[0]
    if (first){
