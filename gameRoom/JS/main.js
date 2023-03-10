@@ -50,7 +50,12 @@ let DON = {
         return:document.getElementById("return"), 
         unattachNum: document.getElementById("unattachNum"),
         unattach: document.getElementById("unattach")
-    }
+    },
+    tdonCount: document.getElementById("tdonCount"),
+    tsideDon: document.getElementById("tsideDon"),
+    tupDon: document.getElementById("tupDon"),
+    tsideDonCount: document.getElementById("tsideDonCount"),
+    tupDonCount: document.getElementById("tupDonCount"),
 }
 let gameID = Number(urlParams.get('gameID'))
 let player = Number(urlParams.get('player'))
@@ -209,6 +214,7 @@ function createButtons(arrayOfNames){
         let newButton = document.createElement("div")
         newButton.IsA = "Button"
         newButton.innerHTML = name
+        newButton.style.zIndex = "10"
         buttons[name] = newButton
         buttons.appendChild(newButton)
     })
@@ -426,7 +432,7 @@ function loadBoard(first){
      tlife.Name = "Life"
      tlife.Type ="Life"
      tlife.buttons = createButtons(["More"])
-     let ttrash = document.getElementById("t1")
+     let ttrash = document.getElementById("tt1")
      if (ttCount >=1) ttrash.style.backgroundImage = `url('${topPlayerP.trash[0].imgString}')`
      ttrash.IsA = "Card"
      ttrash.Name = "Trash"
@@ -485,6 +491,13 @@ function loadBoard(first){
         loadDON(card,divCard)
         DON.topPlayerArea.leaderStage.appendChild(divCard)       
     })   
+     //donArea 
+    DON.tdonCount.innerHTML = 10 - topPlayerP.donDeck[0]
+    DON.tupDonCount.innerHTML = topPlayerP.donArea[0] ||0
+    DON.tsideDonCount.innerHTML = topPlayerP.donArea[1] ||0
+    if (topPlayerP.donArea[0]>=1){DON.tupDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.tupDon.style.backgroundImage= "none"}
+    if (topPlayerP.donArea[1]>=1){DON.tsideDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.tsideDon.style.backgroundImage= "none"}
+
    }catch(er){
         console.log(er)
         setTimeout(function(){loadBoard(true)},225)
