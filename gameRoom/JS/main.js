@@ -443,11 +443,30 @@ function loadBoard(first){
         if (card.faceUp[player]) {divCard.style.backgroundImage = `url('${card.imgString}')`}
         else {divCard.style.backgroundImage= `url(${DWM.sleeve})`}
         divCard.IsA = "Card"
-        divCard.Type = "Hand"
+        divCard.Type = "Opponent Hand"
         divCard.Name = ""
         divCard.buttons = createButtons(["Target","More"])
         divCard.appendChild(divCard.buttons)
         DON.topPlayerArea.hand.appendChild(divCard)
+    })
+       //charArea
+    DON.topPlayerArea.characterArea.innerHTML = `<div class="count">
+    <p><span class="handIMG" style="top:0px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${thCount}</p>
+</div>`
+    topPlayerP.playArea.forEach(card =>{
+        let divCard = document.createElement("div")
+        divCard.className = "CCard"
+        if (card.rested) {divCard.className = "CCard rested"}
+        if (card.faceUp[player]) {divCard.style.backgroundImage = `url('${card.imgString}')`}
+        else {divCard.style.backgroundImage= `url(${DWM.sleeve})`}
+        divCard.IsA = "Card"
+        divCard.Type = "Opponent Play"
+        divCard.Name = ""
+        divCard.uniqueGameId = card.uniqueGameId
+        divCard.buttons = createButtons(["Target","More"])
+        divCard.appendChild(divCard.buttons)
+        loadDON(card,divCard)
+        DON.topPlayerArea.characterArea.insertAdjacentElement("afterbegin",divCard)       
     })
    }catch(er){
         console.log(er)
