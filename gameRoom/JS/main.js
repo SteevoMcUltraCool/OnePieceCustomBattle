@@ -400,7 +400,7 @@ function loadBoard(first){
     let tdCount = topPlayerP.donDeck[0]
     if (tmCount >=1) {DON.tmainmain.style.backgroundImage = `url('${DWM.sleeve}')`}
     else{DON.tmainmain.style.backgroundImage = "none"}
-    if (tdCount >=1) {DON.dondon.style.backgroundImage = `url('${DWM.donSleeve}')`}
+    if (tdCount >=1) {DON.tdondon.style.backgroundImage = `url('${DWM.donSleeve}')`}
     else{DON.dondon.style.backgroundImage = "none"}
     DON.tmCount.innerHTML = tmCount
     DON.tdCount.innerHTML = tdCount 
@@ -450,8 +450,8 @@ function loadBoard(first){
         DON.topPlayerArea.hand.appendChild(divCard)
     })
        //charArea
-    DON.topPlayerArea.characterArea.innerHTML = `<div class="count">
-    <p><span class="handIMG" style="top:0px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${thCount}</p>
+    DON.topPlayerArea.characterArea.innerHTML = `<div class="count" style="top:0px">
+    <p><span class="handIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${thCount}</p>
 </div>`
     topPlayerP.playArea.forEach(card =>{
         let divCard = document.createElement("div")
@@ -468,6 +468,23 @@ function loadBoard(first){
         loadDON(card,divCard)
         DON.topPlayerArea.characterArea.insertAdjacentElement("afterbegin",divCard)       
     })
+    //leaderArea
+    DON.topPlayerArea.leaderStage.innerHTML = ""
+    topPlayerP.leaderArea.forEach(card =>{
+        let divCard = document.createElement("div")
+        divCard.className = "LCard"
+        if (card.rested){ divCard.className = "LCard rested"}
+        if (card.faceUp[player]) {divCard.style.backgroundImage = `url('${card.imgString}')`}
+        else {divCard.style.backgroundImage= `url(${DWM.sleeve})`}
+        divCard.IsA = "Card"
+        divCard.Type = "OP Leader"
+        divCard.Name = ""
+        divCard.uniqueGameId = card.uniqueGameId
+        divCard.buttons = createButtons(["Target","More"])
+        divCard.appendChild(divCard.buttons)
+        loadDON(card,divCard)
+        DON.topPlayerArea.leaderStage.appendChild(divCard)       
+    })   
    }catch(er){
         console.log(er)
         setTimeout(function(){loadBoard(true)},225)
