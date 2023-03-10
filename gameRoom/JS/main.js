@@ -450,7 +450,7 @@ function loadBoard(first){
         DON.topPlayerArea.hand.appendChild(divCard)
     })
        //charArea
-    DON.topPlayerArea.characterArea.innerHTML = `<div class="count" style="top:0px">
+    DON.topPlayerArea.characterArea.innerHTML = `<div class="count" style="top:0px; bottom:unset;">
     <p><span class="handIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${thCount}</p>
 </div>`
     topPlayerP.playArea.forEach(card =>{
