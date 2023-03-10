@@ -366,7 +366,6 @@ function loadBoard(first){
     if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.upDon.style.backgroundImage= "none"}
     if (bottomPlayerP.donArea[1]>=1){DON.sideDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.sideDon.style.backgroundImage= "none"}
     //opponent board
-    console.log(topPlayerP)
     if (topPlayerP) {
     if (first){
    DON.topPlayerArea.donMain.innerHTML = ""
@@ -392,10 +391,10 @@ function loadBoard(first){
     DON.tdondon = document.getElementById("td1")
     DON.tdCount = document.getElementById("tdCount")
     DON.tdondon.IsA = "Card"
-    DON.tdondon.Name = "Opponent Deck"
+    DON.tdondon.Name = "Opponent DON"
     DON.tdondon.buttons = createButtons(["More"])
-    DON.dondon.appendChild(DON.dondon.buttons)
-    DON.dondon.Type = "ODON"
+    DON.tdondon.appendChild(DON.dondon.buttons)
+    DON.tdondon.Type = "ODON"
     }
     let tmCount = topPlayerP.mainDeck.length
     let tdCount = topPlayerP.donDeck[0]
@@ -404,11 +403,41 @@ function loadBoard(first){
     if (tdCount >=1) {DON.dondon.style.backgroundImage = `url('${DWM.donSleeve}')`}
     else{DON.dondon.style.backgroundImage = "none"}
     DON.tmCount.innerHTML = tmCount
-    DON.tdCount.innerHTML = tdCount       
+    DON.tdCount.innerHTML = tdCount 
+         //lifeTrash
+    DON.topPlayerArea.lifeTrash.innerHTML = ""
+    let tlCount = topPlayerP.life.length
+    let ttCount = topPlayerP.trash.length
+    DON.topPlayerArea.lifeTrash.innerHTML = `
+    <div class="life" id="tl1">
+    <div class="count">
+        <p><span class="heartIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${tlCount}</p>
+    </div>
+</div>
+<div class="trash" id="t1">
+    <div class="count">
+        <p><span class="trashIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${ttCount}</p>
+    </div>
+</div>
+ `
+     let tlife = document.getElementById("tl1")
+     if (tlCount >=1) tlife.style.backgroundImage = `url('${DWM.sleeve}')`
+     tlife.IsA = "Card"
+     tlife.Name = "Life"
+     tlife.Type ="Life"
+     tlife.buttons = createButtons(["More"])
+     let ttrash = document.getElementById("t1")
+     if (ttCount >=1) ttrash.style.backgroundImage = `url('${topPlayerP.trash[0].imgString}')`
+     ttrash.IsA = "Card"
+     ttrash.Name = "Trash"
+     ttrash.Type ="Trash"
+     ttrash.buttons = createButtons(["Search","More"])
+     tlife.appendChild(life.buttons)
+     ttrash.append(trash.buttons)
     }
    }catch(er){
-        console.log("error")
-        setTimeout(function(){loadBoard(true)},125)
+        console.log(er)
+        setTimeout(function(){loadBoard(true)},225)
    }
   }
 async function rest(divCard,card,C,bottomPlayerP){
