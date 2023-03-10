@@ -409,7 +409,7 @@ function loadBoard(first){
     if (tmCount >=1) {DON.tmainmain.style.backgroundImage = `url('${DWM.sleeve}')`}
     else{DON.tmainmain.style.backgroundImage = "none"}
     if (tdCount >=1) {DON.tdondon.style.backgroundImage = `url('${DWM.donSleeve}')`}
-    else{DON.dondon.style.backgroundImage = "none"}
+    else{DON.tdondon.style.backgroundImage = "none"}
     DON.tmCount.innerHTML = tmCount
     DON.tdCount.innerHTML = tdCount 
          //lifeTrash
