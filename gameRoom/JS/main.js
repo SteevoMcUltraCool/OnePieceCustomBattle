@@ -218,7 +218,7 @@ function loadBoard(first){
    try{
    updateChatLog()
    let bottomPlayerP = thisGame["player"+player].gameParts
-   let topPlayer = thisGame["player"+Math.ceil((player+0.9)%2)]
+   let topPlayerP = thisGame["player"+Math.ceil((player+0.9)%2)].gameParts
    //donMain
    let dCount = bottomPlayerP.donDeck[0]
    if (first){
@@ -365,7 +365,11 @@ function loadBoard(first){
     DON.sideDonCount.innerHTML = bottomPlayerP.donArea[1] ||0
     if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.upDon.style.backgroundImage= "none"}
     if (bottomPlayerP.donArea[1]>=1){DON.sideDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.sideDon.style.backgroundImage= "none"}
-
+    //opponent board
+    console.log(topPlayerP)
+    if (topPlayerP) {
+        
+    }
    }catch(er){
         console.log("error")
         setTimeout(function(){loadBoard(true)},125)
