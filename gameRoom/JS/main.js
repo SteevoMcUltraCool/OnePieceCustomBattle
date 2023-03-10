@@ -48,6 +48,8 @@ let DON = {
         attach: document.getElementById("attach"),
         returnNum:document.getElementById("returnNum"),
         return:document.getElementById("return"), 
+        unattachNum: document.getElementById("unattachNum"),
+        unattach: document.getElementById("unattach")
     }
 }
 let gameID = Number(urlParams.get('gameID'))
@@ -428,6 +430,11 @@ window.addEventListener("click", (event)=>{
             let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
             let divCard = allSelected.filter(thing => thing.IsA == "Card")[0]
             if (divCard) attachDonTo(divCard)
+        }else if (targeting.reason =="unDON"){
+            console.log("recieved")
+            let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
+            let divCard = allSelected.filter(thing => thing.IsA == "Card")[0]
+            if (divCard) unDonFrom(divCard)
         }
     }
 })
@@ -529,6 +536,42 @@ DON.donAreaControls.rest.onclick = async function(){
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unrested ${count} DON!!`,"Server")
     }
 }
+
+DON.donAreaControls.return.onclick = async function(){
+    let count = Number(DON.donAreaControls.returnNum.value)
+    let bottomPlayerP = thisGame["player"+player].gameParts
+    if (count && count >=1 && count <=bottomPlayerP.donArea[1]){
+      bottomPlayerP.donArea[1] = bottomPlayerP.donArea[1] - count
+      bottomPlayerP.donDeck[0] = bottomPlayerP.donDeck[0] + count
+       let AR = {}; AR[`player${player}`] = {
+    gameParts: {
+      donArea: bottomPlayerP.donArea,
+      donDeck: bottomPlayerP.donDeck
+      }
+    }
+     await UpdateData(thisGame.id, AR)
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unrested ${count} DON!!`,"Server")
+    }
+}
+DON.donAreaControls.unrestAll.onclick = async function(){
+    let count = Number(DON.donAreaControls.returnNum.value)
+    let bottomPlayerP = thisGame["player"+player].gameParts
+    bottomPlayerP.donArea[0]= 10 - bottomPlayerP.donDeck[0]
+    bottomPlayerP.donArea[1]=0
+    bottomPlayerP.playArea.forEach(card=> card.attachedDON = 0)
+    bottomPlayerP.leaderArea.forEach(card=> card.attachedDON = 0)
+    let AR = {}; AR[`player${player}`] = {
+    gameParts: {
+      donArea: bottomPlayerP.donArea,
+      donDeck: bottomPlayerP.donDeck,
+      playArea: bottomPlayerP.playArea,
+      leaderArea: bottomPlayerP.leaderArea
+      }
+    }
+    await UpdateData(thisGame.id, AR)
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unrested ${count} DON!!`,"Server")
+}
+
 DON.donAreaControls.attach.onclick = async function(){
     if (!targeting.active){
         targeting.active = true
@@ -539,7 +582,16 @@ DON.donAreaControls.attach.onclick = async function(){
         DON.donAreaControls.attach.style.backgroundColor = "#DDD"
     }
 }
- 
+DON.donAreaControls.unattach.onclick = async function(){
+    if (!targeting.active){
+        targeting.active = true
+        targeting.reason = "unDON"
+        DON.donAreaControls.unattach.style.backgroundColor = "#E33"
+    }else if(targeting.reason=="unDON"){
+        targeting.active = false
+        DON.donAreaControls.unattach.style.backgroundColor = "#DDD"
+    }
+}
 async function attachDonTo(divCard){
     let card = PlayerOBJ.gameParts.playArea.find(card => card.uniqueGameId == divCard.uniqueGameId) ||PlayerOBJ.gameParts.leaderArea.find(card => card.uniqueGameId == divCard.uniqueGameId)
     let count = Number(DON.donAreaControls.attachNum.value)
@@ -558,3 +610,22 @@ async function attachDonTo(divCard){
             await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} attached ${count} DON!! to ${card.name}`,"Server")
     }
 }
+async function unDonFrom(divCard){
+    let card = PlayerOBJ.gameParts.playArea.find(card => card.uniqueGameId == divCard.uniqueGameId) ||PlayerOBJ.gameParts.leaderArea.find(card => card.uniqueGameId == divCard.uniqueGameId)
+    let count = Number(DON.donAreaControls.unattachNum.value)
+    console.log(card,count)
+    if (card.attachedDON>= count) {
+        card.attachedDON -= count
+        PlayerOBJ.gameParts.donArea[0] += count
+        let AR = {}; AR[`player${player}`] = {
+            gameParts: {
+            playArea: PlayerOBJ.gameParts.playArea,
+            leaderArea: PlayerOBJ.gameParts.leaderArea,
+            donArea: PlayerOBJ.gameParts.donArea
+            }
+            }
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unattached ${count} DON!! from ${card.name}`,"Server")
+    }
+}
+

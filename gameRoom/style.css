@@ -377,7 +377,10 @@ body {
     font-size: 0.95em;
 }
 
-.bigBozoDon {}
+.bigBozoDon {
+    max-height: 50%;
+    overflow: auto;
+}
 
 .mainIMG {
     position: relative;
