@@ -39,7 +39,6 @@ dWM.sendCardTo = function(PLP,tgt, place, spot, newSpot, faceUp) {
     console.log(card.faceUp)
     PLP[tgt].splice(newSpot||0,0,card)
     PLP[place].splice(spot||0,1)
-    PLP[place].push(null)
     return PLP
 }
 

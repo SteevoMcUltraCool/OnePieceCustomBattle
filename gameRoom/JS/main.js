@@ -60,7 +60,11 @@ let DON = {
     tupDonCount: document.getElementById("tupDonCount"),
     rez: document.getElementById("rez"),
     gameOptions: document.getElementById("gameOptions"),
-    gameButtons: document.getElementById("gameButtons")
+    gameButtons: document.getElementById("gameButtons"),
+    UAC: document.getElementById("UAC"),
+    MH: document.getElementById("MH"),
+    RD: document.getElementById("RD"),
+    ET: document.getElementById("ET")
 }
 let gameID = Number(urlParams.get('gameID'))
 let player = Number(urlParams.get('player'))
@@ -231,7 +235,8 @@ function loadBoard(first){
    let bottomPlayerP = thisGame["player"+player].gameParts
    let newPlayer = 2
    if (player==2){newPlayer=1}
-   let topPlayerP = thisGame["player"+newPlayer].gameParts
+   let topPlayerP = thisGame["player"+newPlayer]
+   if (topPlayerP) topPlayerP = topPlayerP.gameParts
    //donMain
    let dCount = bottomPlayerP.donDeck[0]
    if (first){
@@ -447,7 +452,6 @@ function loadBoard(first){
      ttrash.buttons = createButtons(["Search","More"])
      tlife.appendChild(tlife.buttons)
      ttrash.append(ttrash.buttons)
-    }
        //hand 
     DON.topPlayerArea.hand.innerHTML = ""
     let thCount = topPlayerP.hand.length
@@ -504,7 +508,7 @@ function loadBoard(first){
     DON.tsideDonCount.innerHTML = topPlayerP.donArea[1] ||0
     if (topPlayerP.donArea[0]>=1){DON.tupDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.tupDon.style.backgroundImage= "none"}
     if (topPlayerP.donArea[1]>=1){DON.tsideDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.tsideDon.style.backgroundImage= "none"}
-
+}
    }catch(er){
         console.log(er)
         setTimeout(function(){loadBoard(true)},225)
@@ -736,7 +740,7 @@ DON.donAreaControls.unrestAll.onclick = async function(){
       }
     }
     await UpdateData(thisGame.id, AR)
-    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unrested ${count} DON!!`,"Server")
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} set all DON!! cards as active`,"Server")
     deb = false
 }
 
@@ -812,7 +816,8 @@ DON.rez.onclick = function(){
         DON.gameLogMain.style.height = "calc(25vh - 30px)"
         DON.gameLog.style.height = "calc(25vh - 30px)"
         DON.gameButtons.style.minWidth = "10%"
-        DON.gameOptions.style.maxWidth = "90%"
+        DON.cardDisplay.style.maxWidth = "90%"
+        DON.gameOptions.style.width = "calc(100vw - 126vh) "
     }else{
         DON.gameOptions.style.height = "calc(49vh - 24px)"
         DON.gameLogMain.style.top = "50vh"
@@ -822,3 +827,67 @@ DON.rez.onclick = function(){
         DON.gameOptions.style.maxWidth = "70%"       
     }
 }
+
+
+async function unrestAllGuys(){
+    console.log(deb)
+    if (deb) return false
+    deb = true
+    let GP = PlayerOBJ.gameParts
+    let GPC = PlayerOBJ.gameParts.playArea
+    let GPL = PlayerOBJ.gameParts.leaderArea
+    console.log(GPC)
+    GPC.forEach(card=>{card.rested=false})
+    GPL.forEach(card=>{card.rested=false})
+    let AR
+    AR = {}; AR[`player${player}`] = {gameParts:{characterArea:[], leaderArea:[]}}
+    AR[`player${player}`].gameParts.playArea = GP.playArea
+    AR[`player${player}`].gameParts.leaderArea = GP.leaderArea
+    await UpdateData(thisGame.id, AR)
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} unrested their board.`, "Server")   
+    deb = false
+}
+async function mulligan(){
+    if (deb) return false
+    deb = true
+    let GP = PlayerOBJ.gameParts
+    let GPH = PlayerOBJ.gameParts.hand
+    let GPD = PlayerOBJ.gameParts.mainDeck
+    let x = GPH.length
+    if (x>=1){
+        do {
+            console.log(GP, GPH)
+            DWM.sendCardTo(GP,"mainDeck","hand",0,0, {1:false, 2:false})
+        }while (GPH.length>=1)
+        PlayerOBJ.gameParts.mainDeck = DWM.shuffleDeck(PlayerOBJ.gameParts.mainDeck); 
+        PlayerOBJ.gameParts.mainDeck = DWM.shuffleDeck(PlayerOBJ.gameParts.mainDeck);
+        GPD = PlayerOBJ.gameParts.mainDeck
+        do {
+            let f = {}
+            f[player] = true
+            DWM.sendCardTo(GP,"hand","mainDeck",0,0, f)
+        }while (GPH.length<x)
+        let AR
+        AR = {}; AR[`player${player}`] = {gameParts:{}}
+        AR[`player${player}`].gameParts.hand = GPH
+        AR[`player${player}`].gameParts.mainDeck = GPD
+        await UpdateData(thisGame.id, AR)
+        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} mulliganed ${x} cards in hand!`, "Server")   
+    }
+
+    deb = false
+}
+async function diceRoll(){
+    if (deb) return false
+    deb = true
+    let d1 = Math.floor(Math.random()*6) + 1
+    let d2 = Math.floor(Math.random()*6) + 1
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} rolled a ${d1+d2}.`, "Server")   
+    deb = false
+}
+DON.UAC.addEventListener("click",unrestAllGuys)
+DON.MH.addEventListener("click",mulligan)
+DON.RD.addEventListener("click",diceRoll)
+DON.ET.addEventListener("click",async function(){
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} ended their turn`, "Server")   
+})
