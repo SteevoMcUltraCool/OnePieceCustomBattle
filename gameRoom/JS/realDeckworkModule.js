@@ -29,6 +29,7 @@ dWM.expandArray = function(basicArray,shuffle,cards,face){
 dWM.shuffleDeck=function(deck){
     let newDeck = []
     deck.forEach(card =>{
+        card.faceUp = {}
         newDeck.splice(Math.floor(Math.random()*(newDeck.length+1)),0,card)
     })
     return newDeck
@@ -41,6 +42,36 @@ dWM.sendCardTo = function(PLP,tgt, place, spot, newSpot, faceUp) {
     PLP[place].splice(spot||0,1)
     return PLP
 }
-
+dWM.openSearch = function(deck,p){
+    let searchBar = document.createElement("div")
+    searchBar.className = "search"
+    searchBar.divCards = []
+    let faceUp=true
+    deck.forEach(card=>{
+        let good = card.faceUp[p]
+        console.log(p, good)
+        if (good){
+            faceUp = true
+            let newCard = document.createElement("div")
+            newCard.uniqueGameId = card.uniqueGameId
+            newCard.className = "pcard"
+            newCard.style.backgroundImage = `url('${card.imgString}')`
+            searchBar.divCards.push(newCard)
+            searchBar.appendChild(newCard)
+        }else{
+            if(faceUp){
+                console.log("struggling...")
+                let newCard = document.createElement("div")
+                newCard.uniqueGameId = card.uniqueGameId
+                newCard.style.backgroundImage = `url('${dWM.sleeve}')`
+                newCard.className = "pcard"
+                searchBar.divCards.push(newCard)
+                faceUp = false
+                searchBar.appendChild(newCard)
+            }
+        }
+    })
+    return searchBar
+}
 
 export let DWM = dWM

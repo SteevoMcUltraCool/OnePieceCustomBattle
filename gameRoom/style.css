@@ -473,3 +473,20 @@ opacity: 1;
     position: relative;
     top: 0px;
 }
+.search {
+    position: absolute;
+    width: 70vw;
+    left: 15vw;
+    height:20vh;
+    top:40vh;
+    background-color: #0009;
+    display: flex;
+    justify-content: center;
+    overflow-x: scroll;
+    color: white;
+}
+.search > .pcard {
+    height: 95%;
+    aspect-ratio: 2.5/3.5;
+    background-size: cover;
+}

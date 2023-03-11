@@ -970,7 +970,7 @@ function setSuperFocus(divCard,card){
     if (divCard.Type == "MD"){
         DON.cardOptions.innerHTML = `
             <p>Reveal To: <input type="checkbox" id="auto" checked>Auto &nbsp;&nbsp;<input type="checkbox" id="you">You &nbsp;&nbsp;<input type="checkbox" id="opponent">Opponent &nbsp;&nbsp;</p>
-            <h3>Count: <input type="number" id="CNN" value="1" class="long" >&nbsp;&nbsp; Top: <input type="checkbox" id="top" checked> </h3>
+            <h3>Count: <input type="number" id="CNN" value="1" class="long" >&nbsp;&nbsp;</h3>
         `
         DON.cardOptions.buttons = createButtons(["Draw to hand", "Draw to life","Reorder", "Draw to play area", "Draw to trash", "Reveal", "Finished"])
         let interpertCheckedData = function(){
@@ -992,6 +992,10 @@ function setSuperFocus(divCard,card){
             let count = Number(document.getElementById("CNN").value) || 1
             mainDeckDrawFrom(0,count,interpertCheckedData(),"life")
         }
+        DON.cardOptions.buttons["Reorder"].execute = async function(){
+            let count = Number(document.getElementById("CNN").value) || 1
+            reorderMain(count)
+        }
         DON.cardOptions.buttons.Finished.execute = unsetSuperFocus
         DON.cardOptions.appendChild(DON.cardOptions.buttons)
     }
@@ -1006,3 +1010,13 @@ window.addEventListener('contextmenu', (event) => {
     DON.donAreaControls.unattach.style.backgroundColor = "#DDD"
 
   })
+
+  async function reorderMain(count){
+    let x = 0
+    do {
+        PlayerOBJ.gameParts.mainDeck[x].faceUp[player] = true
+        x+=1
+    }while (x<count)
+    let newSearch = DWM.openSearch(PlayerOBJ.gameParts.mainDeck, player)
+    document.body.insertAdjacentElement("afterbegin",newSearch)
+  }
