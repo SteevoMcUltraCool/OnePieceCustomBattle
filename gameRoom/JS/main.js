@@ -9,6 +9,10 @@ let  targeting = {
     reason: false,
     strength: 0,
 }
+let superFocus ={
+
+}
+
 let deb = false
 let DON = {
     gameLog: document.getElementById("gameLog"),
@@ -64,7 +68,8 @@ let DON = {
     UAC: document.getElementById("UAC"),
     MH: document.getElementById("MH"),
     RD: document.getElementById("RD"),
-    ET: document.getElementById("ET")
+    ET: document.getElementById("ET"),
+    cardOptions: document.getElementById("cardOptions")
 }
 let gameID = Number(urlParams.get('gameID'))
 let player = Number(urlParams.get('player'))
@@ -261,6 +266,19 @@ function loadBoard(first){
     DON.mainmain.buttons = createButtons(["Draw", "Flip Top","More"])
     DON.mainmain.appendChild(DON.mainmain.buttons)
     DON.mainmain.buttons.Draw.execute = mainDeckDrawFrom
+    DON.mainmain.buttons.More.execute = function(){
+        setSuperFocus(DON.mainmain,bottomPlayerP.mainDeck)
+    }
+    DON.mainmain.buttons["Flip Top"].execute = async function(){
+        PlayerOBJ.gameParts.mainDeck[0].faceUp = {1:!PlayerOBJ.gameParts.mainDeck[0].faceUp[1], 2:!PlayerOBJ.gameParts.mainDeck[0].faceUp[1]}
+        let AR = {}; AR[`player${player}`] = {
+            gameParts: {
+                mainDeck: PlayerOBJ.gameParts.mainDeck,
+            }
+        }
+        await UpdateData(thisGame.id, AR)
+        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} flipped the top card of their main deck.`, "Server")
+    }
     DON.dondon = document.getElementById("d1")
     DON.dCount = document.getElementById("dCount")
     DON.dondon.IsA = "Card"
@@ -276,7 +294,12 @@ function loadBoard(first){
     DON.dondon.Type = "DDN"
     }
     let mCount = bottomPlayerP.mainDeck.length
-    if (mCount >=1) {DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`}
+    if (mCount >=1) {
+        DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`
+        if (bottomPlayerP.mainDeck[0].faceUp[`${player}`]){
+            DON.mainmain.style.backgroundImage = `url('${bottomPlayerP.mainDeck[0].imgString}')`
+        }
+    }
     else{DON.mainmain.style.backgroundImage = "none"}
     if (dCount >=1) {DON.dondon.style.backgroundImage = `url('${DWM.donSleeve}')`}
     else{DON.dondon.style.backgroundImage = "none"}
@@ -299,7 +322,12 @@ function loadBoard(first){
 </div>
  `
      let life = document.getElementById("l1")
-     if (lCount >=1) life.style.backgroundImage = `url('${DWM.sleeve}')`
+     if (lCount >=1) {
+        life.style.backgroundImage = `url('${DWM.sleeve}')`
+        if (bottomPlayerP.life[0].faceUp[`${player}`]){
+            DON.mainmain.style.backgroundImage = `url('${bottomPlayerP.life[0].imgString}')`
+        }
+    }
      life.IsA = "Card"
      life.Name = "Life"
      life.Type ="Life"
@@ -311,6 +339,7 @@ function loadBoard(first){
      trash.Type ="Trash"
      trash.buttons = createButtons(["Search","More"])
      life.appendChild(life.buttons)
+     life.buttons.Draw.execute = drawFromLife
      trash.append(trash.buttons)
     //hand 
     DON.bottomPlayerArea.hand.innerHTML = ""
@@ -556,17 +585,25 @@ function focus(card,op){
 }
 function unfocus(card){
     card.buttons.style.opacity = "0"
-
 }
 window.addEventListener("mousemove", (event)=>{
         let allSelected = document.elementsFromPoint(event.pageX, event.pageY) 
         let oldFocus = focusCard || DON.mainmain
         focusCard = allSelected.filter(thing => thing.IsA == "Card")[0] || focusCard
-        if (oldFocus != focusCard ){
-            if (oldFocus){
-            unfocus(oldFocus)
+        if (!superFocus.divCard){
+            if (oldFocus != focusCard ){
+                if (oldFocus){
+                unfocus(oldFocus)
+                }
+                focus(focusCard, targeting.active && "0" || "1")
             }
-            focus(focusCard, targeting.active && "0" || "1")
+        }else {
+            if (oldFocus != focusCard ){
+                if (oldFocus){
+                unfocus(oldFocus)
+                }
+                focusCard.buttons.style.opacity = "1"
+            }          
         }
 })
 window.addEventListener("click", (event)=>{
@@ -587,22 +624,48 @@ window.addEventListener("click", (event)=>{
         }
     }
 })
-
-async function mainDeckDrawFrom(spot){    
+async function drawFromLife(spot,count,face,destination){    
     if(deb){return false}
+    count = count|| 1
+    deb =true
+        let f = face || {}
+        if (!face) f[player] = true 
+        console.log(f)
+        let x = 0
+        do {
+            DWM.sendCardTo(PlayerOBJ.gameParts,destination||"hand","life",spot,0, f)
+            x +=1
+        }while(x<count)
+        let AR = {}; AR[`player${player}`] = {
+            gameParts: {
+                life: PlayerOBJ.gameParts.life,
+            }
+        }
+        AR[`player${player}`]["gameParts"][destination||"hand"] = PlayerOBJ.gameParts[destination||"hand"]
+        await UpdateData(thisGame.id, AR)
+        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew ${count} card from life.`, "Server")
+        deb=false
+    }
+async function mainDeckDrawFrom(spot,count,face,destination){    
+if(deb){return false}
+count = count|| 1
 deb =true
-    let f = {}
-    f[player] = true
+    let f = face || {}
+    if (!face) f[player] = true 
     console.log(f)
-    DWM.sendCardTo(PlayerOBJ.gameParts,"hand","mainDeck",spot,0, f)
+    let x = 0
+    do {
+        DWM.sendCardTo(PlayerOBJ.gameParts,destination||"hand","mainDeck",spot,0, f)
+        x +=1
+    }while(x<count)
     let AR = {}; AR[`player${player}`] = {
         gameParts: {
             mainDeck: PlayerOBJ.gameParts.mainDeck,
-            hand: PlayerOBJ.gameParts.hand
         }
     }
+    AR[`player${player}`]["gameParts"][destination||"hand"] = PlayerOBJ.gameParts[destination||"hand"]
     await UpdateData(thisGame.id, AR)
-    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew a card.`, "Server")
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} drew ${count} card to ${destination||"hand"}.`, "Server")
     deb=false
 }
 
@@ -891,3 +954,55 @@ DON.RD.addEventListener("click",diceRoll)
 DON.ET.addEventListener("click",async function(){
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} ended their turn`, "Server")   
 })
+function unsetSuperFocus(){
+    superFocus.divCard.style.boxShadow = "none"
+    DON.cardOptions.innerHTML = ``
+    superFocus = {}
+    if (focusCard){
+        focus(focusCard)
+    }
+}
+function setSuperFocus(divCard,card){
+    if (superFocus.divCard){
+    unsetSuperFocus()
+    }
+    divCard.style.boxShadow = "0px 0px 5px red"
+    if (divCard.Type == "MD"){
+        DON.cardOptions.innerHTML = `
+            <p>Reveal To: <input type="checkbox" id="auto" checked>Auto &nbsp;&nbsp;<input type="checkbox" id="you">You &nbsp;&nbsp;<input type="checkbox" id="opponent">Opponent &nbsp;&nbsp;</p>
+            <h3>Count: <input type="number" id="CNN" value="1" class="long" >&nbsp;&nbsp; Top: <input type="checkbox" id="top" checked> </h3>
+        `
+        DON.cardOptions.buttons = createButtons(["Draw to hand", "Draw to life","Reorder", "Draw to play area", "Draw to trash", "Reveal", "Finished"])
+        let interpertCheckedData = function(){
+            let auto = document.getElementById("auto").checked
+            if (auto) return false
+            let f = {}
+            let you = document.getElementById("you").checked
+            if (you) f[player] = true
+            let op = document.getElementById("opponent").checked
+            let opp = player==1 && 2 || 1
+            if (op) f[opp] = true
+            return f
+        }
+        DON.cardOptions.buttons["Draw to hand"].execute = async function(){
+            let count = Number(document.getElementById("CNN").value) || 1
+            mainDeckDrawFrom(0,count,interpertCheckedData())
+        }
+        DON.cardOptions.buttons["Draw to life"].execute = async function(){
+            let count = Number(document.getElementById("CNN").value) || 1
+            mainDeckDrawFrom(0,count,interpertCheckedData(),"life")
+        }
+        DON.cardOptions.buttons.Finished.execute = unsetSuperFocus
+        DON.cardOptions.appendChild(DON.cardOptions.buttons)
+    }
+    superFocus = {card:card, divCard:divCard}
+}
+
+window.addEventListener('contextmenu', (event) => {
+    event.preventDefault()
+    unsetSuperFocus()
+    if (targeting.active) {targeting.active = false}
+    DON.donAreaControls.attach.style.backgroundColor = "#DDD"
+    DON.donAreaControls.unattach.style.backgroundColor = "#DDD"
+
+  })

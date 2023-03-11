@@ -435,3 +435,41 @@ body {
     margin-bottom: 2px;
     margin-top: 2px;
 }
+
+#cardOptions .buttons {
+    position: relative;
+    width: 100%;
+    top: 0px;
+    transition: all 0.32s;
+    left: -4px;
+    margin: 0px;
+    padding: 0px;
+    opacity: 1;
+    display: inline;
+
+}
+#cardOptions .buttons>div {
+    border: 1px solid black;
+    padding: 2px;
+    font-size: 0.9em;
+    color: black;
+    background-color: #EEE;
+    text-align: center;
+    width: 100%;
+margin: 2px 0px;    
+opacity: 1;
+    border-radius: 0px;
+}
+
+#cardOptions input {
+    width: 1em;
+    aspect-ratio: 1;
+}
+#cardOptions .long {
+    width: 1.5em;
+    font-size: 1.2em;
+}
+#cardOptions{
+    position: relative;
+    top: 0px;
+}
