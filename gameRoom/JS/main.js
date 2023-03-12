@@ -658,12 +658,16 @@ if(deb){return false}
 count = count|| 1
 deb =true
     let f = face || {}
+    if (!destination){
+        destination = "hand"
+    }
+    console.log("destination")
     if (destination=="hand"){
-        if (!face) f[player] = true 
+        f[player] = true
     }
     let x = 0
     do {
-        DWM.sendCardTo(PlayerOBJ.gameParts,destination||"hand","mainDeck",spot,0, f)
+        DWM.sendCardTo(PlayerOBJ.gameParts,destination,"mainDeck",spot,0, f)
         x +=1
     }while(x<count)
     let AR = {}; AR[`player${player}`] = {
