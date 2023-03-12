@@ -658,8 +658,9 @@ if(deb){return false}
 count = count|| 1
 deb =true
     let f = face || {}
-    if (!face) f[player] = true 
-    console.log(f)
+    if (destination=="hand"){
+        if (!face) f[player] = true 
+    }
     let x = 0
     do {
         DWM.sendCardTo(PlayerOBJ.gameParts,destination||"hand","mainDeck",spot,0, f)
