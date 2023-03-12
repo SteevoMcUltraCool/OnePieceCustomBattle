@@ -450,6 +450,9 @@ function loadBoard(first){
     let tmCount = topPlayerP.mainDeck.length
     let tdCount = topPlayerP.donDeck[0]
     if (tmCount >=1) {DON.tmainmain.style.backgroundImage = `url('${DWM.sleeve}')`}
+    if (topPlayerP.mainDeck[0].faceUp[`${player}`]){
+        DON.tmainmain.style.backgroundImage = `url('${topPlayerP.mainDeck[0].imgString}')`
+    }
     else{DON.tmainmain.style.backgroundImage = "none"}
     if (tdCount >=1) {DON.tdondon.style.backgroundImage = `url('${DWM.donSleeve}')`}
     else{DON.tdondon.style.backgroundImage = "none"}
