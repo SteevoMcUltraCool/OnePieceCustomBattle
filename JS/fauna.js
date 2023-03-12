@@ -145,5 +145,8 @@ async function createGame(name) {
   ))
   return newGame
 }
+async function getChatLogLength(id){
+  return Number(await client.query(q.Call("getChatLogLength",id)))
+}
 export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId, CreateGame = createGame,
-RequestToJoinGame=requestToJoinGame, AddChatToLog = addChatToLog, UpdateData = updateData
+RequestToJoinGame=requestToJoinGame, AddChatToLog = addChatToLog, UpdateData = updateData, GetChatLogLength = getChatLogLength

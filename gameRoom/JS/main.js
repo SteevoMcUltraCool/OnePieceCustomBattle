@@ -1,6 +1,6 @@
 import {dkB} from "../../JS/deckBuildingModule.js";
 import { DWM } from "./realDeckworkModule.js";
-import { GetAllCards, GetGameWithXId, GetGamesWithXPlayers, UploadCard, RequestToJoinGame, AddChatToLog, UpdateData} from "../../JS/fauna.js";
+import { GetAllCards, GetGameWithXId, GetGamesWithXPlayers, UploadCard, RequestToJoinGame, AddChatToLog, UpdateData,GetChatLogLength} from "../../JS/fauna.js";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 let Cards = await GetAllCards();
@@ -12,7 +12,7 @@ let  targeting = {
 let superFocus ={
 
 }
-
+let reordering
 let deb = false
 let DON = {
     gameLog: document.getElementById("gameLog"),
@@ -178,15 +178,15 @@ function getCookie(cname) {
 
 setInterval(async function(){
     if (thisGame){
-        let newthisGame = await GetGameWithXId(gameID)
-        if (localChatLog.length != newthisGame.chatLog.length){
-            thisGame = newthisGame
+        let newThisGame = await GetGameWithXId(gameID)
+        if (localChatLog.length != newThisGame.chatLog.length){
+            thisGame = newThisGame
             PlayerOBJ = thisGame["player"+player]
             console.log(thisGame.chatLog, PlayerOBJ)
             loadBoard()
         }
     }
-},104)
+},102)
 function updateChatLog(){
     let latestGotChat = localChatLog.length
     let newChat =  thisGame.chatLog.slice(latestGotChat)
@@ -338,6 +338,7 @@ function loadBoard(first){
      trash.Name = "Trash"
      trash.Type ="Trash"
      trash.buttons = createButtons(["Search","More"])
+     trash.buttons.Search.execute = searchTrash
      life.appendChild(life.buttons)
      life.buttons.Draw.execute = drawFromLife
      trash.append(trash.buttons)
@@ -377,6 +378,9 @@ function loadBoard(first){
         divCard.uniqueGameId = card.uniqueGameId
         divCard.buttons = createButtons(["Rest","Trash","More"])
         divCard.appendChild(divCard.buttons)
+        divCard.buttons.More.execute = async function(){
+                setSuperFocus(divCard,card)
+        }
         divCard.buttons.Rest.execute = async function(){
             rest(divCard,card,true,bottomPlayerP)
         }
@@ -544,6 +548,8 @@ function loadBoard(first){
    }
   }
 async function rest(divCard,card,C,bottomPlayerP){
+    if(deb){return false}
+    deb = true
     let cN = divCard.className, un=""
     if (cN.includes("rested")){
         card.rested = false
@@ -562,7 +568,8 @@ async function rest(divCard,card,C,bottomPlayerP){
     }
     console.log(AR)
     await UpdateData(thisGame.id, AR)
-    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} ${un}rested ${card.name}.`, "Server")   
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} ${un}rested ${card.name}.`, "Server") 
+    deb = false  
 }
 
 function loadDON(card,divCard){
@@ -887,7 +894,7 @@ DON.rez.onclick = function(){
         DON.gameLogMain.style.height = "48vh"
         DON.gameLog.style.height = "48vh"
         DON.gameButtons.style.minWidth = "30%"
-        DON.gameOptions.style.maxWidth = "70%"       
+        DON.cardDisplay.style.maxWidth = "70%"       
     }
 }
 
@@ -955,6 +962,7 @@ DON.ET.addEventListener("click",async function(){
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} ended their turn`, "Server")   
 })
 function unsetSuperFocus(){
+    if (!superFocus.divCard){return false}
     superFocus.divCard.style.boxShadow = "none"
     DON.cardOptions.innerHTML = ``
     superFocus = {}
@@ -972,7 +980,7 @@ function setSuperFocus(divCard,card){
             <p>Reveal To: <input type="checkbox" id="auto" checked>Auto &nbsp;&nbsp;<input type="checkbox" id="you">You &nbsp;&nbsp;<input type="checkbox" id="opponent">Opponent &nbsp;&nbsp;</p>
             <h3>Count: <input type="number" id="CNN" value="1" class="long" >&nbsp;&nbsp;</h3>
         `
-        DON.cardOptions.buttons = createButtons(["Draw to hand", "Draw to life","Reorder", "Draw to play area", "Draw to trash", "Reveal", "Finished"])
+        DON.cardOptions.buttons = createButtons(["Draw to hand", "Draw to life","Reorder", "Shuffle","Draw to play area", "Draw to trash", "Finished"])
         let interpertCheckedData = function(){
             let auto = document.getElementById("auto").checked
             if (auto) return false
@@ -996,8 +1004,44 @@ function setSuperFocus(divCard,card){
             let count = Number(document.getElementById("CNN").value) || 1
             reorderMain(count)
         }
+        DON.cardOptions.buttons["Shuffle"].execute = async function(){
+            if (deb){return false}
+            deb = true
+            PlayerOBJ.gameParts.mainDeck.forEach(card=> card.faceUp = {})
+            PlayerOBJ.gameParts.mainDeck = DWM.shuffleDeck(PlayerOBJ.gameParts.mainDeck)
+            PlayerOBJ.gameParts.mainDeck = DWM.shuffleDeck(PlayerOBJ.gameParts.mainDeck)
+            PlayerOBJ.gameParts.mainDeck = DWM.shuffleDeck(PlayerOBJ.gameParts.mainDeck)
+            PlayerOBJ.gameParts.mainDeck = DWM.shuffleDeck(PlayerOBJ.gameParts.mainDeck)
+            PlayerOBJ.gameParts.mainDeck = DWM.shuffleDeck(PlayerOBJ.gameParts.mainDeck)
+            let AR = {}; AR[`player${player}`] = {
+                gameParts: {
+                    mainDeck: PlayerOBJ.gameParts.mainDeck,
+                }
+            }
+                        await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} shuffled their main deck.`, "Server")    
+            deb = false
+        }
         DON.cardOptions.buttons.Finished.execute = unsetSuperFocus
         DON.cardOptions.appendChild(DON.cardOptions.buttons)
+    }else if (divCard.Type == "InPlay"){
+       /* DON.cardOptions.innerHTML = `
+        <p>Reveal To: <input type="checkbox" id="auto" checked>Auto &nbsp;&nbsp;<input type="checkbox" id="you">You &nbsp;&nbsp;<input type="checkbox" id="opponent">Opponent &nbsp;&nbsp;</p>
+        <h3>Top?: <input type="checkbox" id="CNN" value="1" class="long" >&nbsp;&nbsp;</h3>
+    `
+    DON.cardOptions.buttons = createButtons(["Send to Main Deck"])
+    let interpertCheckedData = function(){
+        let auto = document.getElementById("auto").checked
+        if (auto) return false
+        let f = {}
+        let you = document.getElementById("you").checked
+        if (you) f[player] = true
+        let op = document.getElementById("opponent").checked
+        let opp = player==1 && 2 || 1
+        if (op) f[opp] = true
+        return f
+    }
+    */
     }
     superFocus = {card:card, divCard:divCard}
 }
@@ -1012,11 +1056,119 @@ window.addEventListener('contextmenu', (event) => {
   })
 
   async function reorderMain(count){
+    if (deb){return false}
+    count = Math.min(PlayerOBJ.gameParts.mainDeck.length,count)
+    deb = true
     let x = 0
     do {
         PlayerOBJ.gameParts.mainDeck[x].faceUp[player] = true
         x+=1
     }while (x<count)
     let newSearch = DWM.openSearch(PlayerOBJ.gameParts.mainDeck, player)
+    let top = 5
+    let bottom = 0
+    newSearch.divCards.forEach(divCard=>{
+        divCard.buttons = createButtons(["Top","Bottom"])
+        divCard.appendChild(divCard.buttons)
+        divCard.IsA = "Card"
+        divCard.Type = "shh"
+        divCard.status = "Top"
+        divCard.buttons.Top.execute = function() {
+            let spot = PlayerOBJ.gameParts.mainDeck.findIndex(c => c.uniqueGameId==divCard.uniqueGameId)
+        let card = PlayerOBJ.gameParts.mainDeck[spot]
+            console.log(divCard.uniqueGameId)
+            if(divCard.status == "Bottom"){
+                divCard.status = "Top"
+                top +=1
+                bottom -=1
+            }
+            newSearch.insertAdjacentElement("afterbegin",divCard)
+            DWM.shiftCardTo(PlayerOBJ.gameParts,"mainDeck",spot,0)
+            console.log(PlayerOBJ.gameParts.mainDeck)
+        }
+        divCard.buttons.Bottom.execute = function() {
+            let spot = PlayerOBJ.gameParts.mainDeck.findIndex(c => c.uniqueGameId==divCard.uniqueGameId)
+        let card = PlayerOBJ.gameParts.mainDeck[spot]
+            if(divCard.status == "Top"){
+                divCard.status = "Bottom"
+                top -=1
+                bottom +=1
+            }else if (divCard.status==""){
+                divCard.status = "Bottom"
+                bottom +=1               
+            }
+            newSearch.insertAdjacentElement("beforeend",divCard)
+            DWM.shiftCardTo(PlayerOBJ.gameParts,"mainDeck",spot,PlayerOBJ.gameParts.mainDeck.length)
+            console.log(PlayerOBJ.gameParts.mainDeck)
+
+        }
+    })
+    let closeBu = document.createElement("button")
+    closeBu.innerHTML = "Save and Close"
+    closeBu.onclick = async function(){
+        let x = 0
+        PlayerOBJ.gameParts.mainDeck.forEach(card=>{
+            if (x>=count)card.faceUp = {}
+            x+=1
+        }
+        )
+        let AR = {}; AR[`player${player}`] = {
+            gameParts: {
+                mainDeck: PlayerOBJ.gameParts.mainDeck,
+            }
+        }
+        
+        newSearch.remove()
+        await UpdateData(thisGame.id, AR)
+        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} reordered the top ${count} cards. He sent ${bottom} to the bottom.`, "Server")
+        deb=false
+    }
+    newSearch.appendChild(closeBu)
+    document.body.insertAdjacentElement("afterbegin",newSearch)
+  }
+  async function searchTrash(){
+    if (deb){return false}
+    deb = true
+    let newSearch = DWM.openSearch(PlayerOBJ.gameParts.trash, player)
+    let num = 0, names = []
+    newSearch.divCards.forEach(divCard=>{
+        divCard.buttons = createButtons(["Hand (up)", "Top Deck"])
+        divCard.appendChild(divCard.buttons)
+        divCard.IsA = "Card"
+        divCard.Type = "shh"
+        divCard.status = "Top"
+        divCard.buttons["Hand (up)"].execute = function() {
+            let spot = PlayerOBJ.gameParts.trash.findIndex(c => c.uniqueGameId==divCard.uniqueGameId)
+            DON.bottomPlayerArea.hand.insertAdjacentElement("afterbegin",divCard)
+            DWM.sendCardTo(PlayerOBJ.gameParts,"hand","trash",spot,0,{1:true,2:true})
+            num +=1
+        }
+        divCard.buttons["Top Deck"].execute = function() {
+            let spot = PlayerOBJ.gameParts.trash.findIndex(c => c.uniqueGameId==divCard.uniqueGameId)
+            let card = PlayerOBJ.gameParts.trash[spot]
+            divCard.remove()
+            DWM.sendCardTo(PlayerOBJ.gameParts,"mainDeck","trash",spot,0,{1:true,2:true})
+            names.push(card.name)
+        }
+    })
+
+    let closeBu = document.createElement("button")
+    closeBu.innerHTML = "Save and Close"
+    closeBu.onclick = async function(){
+        let x = 0
+        let AR = {}; AR[`player${player}`] = {
+            gameParts: {
+                trash: PlayerOBJ.gameParts.trash,
+                hand: PlayerOBJ.gameParts.hand,
+                mainDeck: PlayerOBJ.gameParts.mainDeck
+            }
+        }
+        
+        newSearch.remove()
+        await UpdateData(thisGame.id, AR)
+        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} moved ${num} cards from their trash to their hand (revealed), and ${names.toString()} to main deck top.`, "Server")
+        deb=false
+    }
+    newSearch.appendChild(closeBu)
     document.body.insertAdjacentElement("afterbegin",newSearch)
   }

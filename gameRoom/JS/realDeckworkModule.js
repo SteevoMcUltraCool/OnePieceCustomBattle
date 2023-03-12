@@ -42,6 +42,14 @@ dWM.sendCardTo = function(PLP,tgt, place, spot, newSpot, faceUp) {
     PLP[place].splice(spot||0,1)
     return PLP
 }
+dWM.shiftCardTo = function(PLP, place, spot, newSpot, faceUp) {
+    let card = PLP[place][spot]
+    console.log(card.name)
+    card.faceUp = faceUp || card.faceUp
+    PLP[place].splice(spot,1)
+    PLP[place].splice(newSpot,0,card)
+    return PLP   
+}
 dWM.openSearch = function(deck,p){
     let searchBar = document.createElement("div")
     searchBar.className = "search"
