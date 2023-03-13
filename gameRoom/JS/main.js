@@ -1032,23 +1032,55 @@ function setSuperFocus(divCard,card){
         DON.cardOptions.buttons.Finished.execute = unsetSuperFocus
         DON.cardOptions.appendChild(DON.cardOptions.buttons)
     }else if (divCard.Type == "InPlay"){
-       /* DON.cardOptions.innerHTML = `
+        DON.cardOptions.innerHTML = `
         <p>Reveal To: <input type="checkbox" id="auto" checked>Auto &nbsp;&nbsp;<input type="checkbox" id="you">You &nbsp;&nbsp;<input type="checkbox" id="opponent">Opponent &nbsp;&nbsp;</p>
-        <h3>Top?: <input type="checkbox" id="CNN" value="1" class="long" >&nbsp;&nbsp;</h3>
+        <h3>Top?: <input type="checkbox" id="CNN" checked>&nbsp;&nbsp;</h3>
     `
-    DON.cardOptions.buttons = createButtons(["Send to Main Deck"])
-    let interpertCheckedData = function(){
-        let auto = document.getElementById("auto").checked
-        if (auto) return false
-        let f = {}
-        let you = document.getElementById("you").checked
-        if (you) f[player] = true
-        let op = document.getElementById("opponent").checked
-        let opp = player==1 && 2 || 1
-        if (op) f[opp] = true
-        return f
-    }
-    */
+        DON.cardOptions.buttons = createButtons(["Send to Main Deck","Send to Hand"])
+        DON.cardOptions.appendChild(DON.cardOptions.buttons)
+        let interpertCheckedData = function(){
+            let auto = document.getElementById("auto").checked
+            if (auto) return false
+            let f = {}
+            let you = document.getElementById("you").checked
+            if (you) f[player] = true
+            let op = document.getElementById("opponent").checked
+            let opp = player==1 && 2 || 1
+            if (op) f[opp] = true
+            return f
+        }
+        let spot = PlayerOBJ.gameParts.playArea.findIndex(c => c.uniqueGameId==divCard.uniqueGameId)
+        let card = PlayerOBJ.gameParts.playArea[spot]
+        DON.cardOptions.buttons["Send to Main Deck"].execute = async function(){
+            if (deb){return false}
+            deb = true
+            let top = document.getElementById("CNN").checked
+            let newSpot =  PlayerOBJ.gameParts.mainDeck.length
+            if(top){newSpot=0}
+            DWM.sendCardTo(PlayerOBJ.gameParts,"mainDeck","playArea",spot,newSpot,interpertCheckedData())
+            PlayerOBJ.gameParts.donArea[1] +=card.attachedDON 
+            card.attachedDON = 0
+            let AR = {}; AR[`player${player}`] = {gameParts: {mainDeck: PlayerOBJ.gameParts.mainDeck,playArea: PlayerOBJ.gameParts.playArea,donArea: PlayerOBJ.gameParts.donArea}}
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} sent ${card.name} from Play Area to the ${(top &&"top")||"bottom"} of their main deck.`, "Server")
+            unsetSuperFocus()
+            deb = false
+        }
+        DON.cardOptions.buttons["Send to Hand"].execute = async function(){
+            if (deb){return false}
+            deb = true
+            let top = document.getElementById("CNN").checked
+            let newSpot =  PlayerOBJ.gameParts.hand.length
+            if(top){newSpot=0}
+            DWM.sendCardTo(PlayerOBJ.gameParts,"hand","playArea",spot,newSpot,interpertCheckedData())
+            PlayerOBJ.gameParts.donArea[1] +=card.attachedDON 
+            card.attachedDON = 0
+            let AR = {}; AR[`player${player}`] = {gameParts: {hand: PlayerOBJ.gameParts.hand,playArea: PlayerOBJ.gameParts.playArea,donArea: PlayerOBJ.gameParts.donArea}}
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} sent ${card.name} from Play Area to their hand.`, "Server")
+            unsetSuperFocus()
+            deb = false
+        }
     }
     superFocus = {card:card, divCard:divCard}
 }
