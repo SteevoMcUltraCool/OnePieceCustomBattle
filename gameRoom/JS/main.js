@@ -325,7 +325,7 @@ function loadBoard(first){
      if (lCount >=1) {
         life.style.backgroundImage = `url('${DWM.sleeve}')`
         if (bottomPlayerP.life[0].faceUp[`${player}`]){
-            DON.mainmain.style.backgroundImage = `url('${bottomPlayerP.life[0].imgString}')`
+            life.style.backgroundImage = `url('${bottomPlayerP.life[0].imgString}')`
         }
     }
      life.IsA = "Card"
@@ -1092,7 +1092,20 @@ function setSuperFocus(divCard,card){
             card.attachedDON = 0
             let AR = {}; AR[`player${player}`] = {gameParts: {life: PlayerOBJ.gameParts.life,playArea: PlayerOBJ.gameParts.playArea,donArea: PlayerOBJ.gameParts.donArea}}
             await UpdateData(thisGame.id, AR)
-            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} sent ${card.name} from Play Area to their life.`, "Server")
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} sent ${card.name} from Play Area to their life. ( ${(top &&"top")||"bottom"})`, "Server")
+            unsetSuperFocus()
+            deb = false
+        }
+        DON.cardOptions.buttons["Flip Card"].execute = async function (){
+            if (deb){return false}
+            deb = true    
+            let f = interpertCheckedData()
+            if (!f) {
+               if (card.faceUp[player]) {card.faceUp = {}}else{card.faceUp={1:true,2:true}}
+            }  
+             let AR = {}; AR[`player${player}`] = {gameParts: {playArea: PlayerOBJ.gameParts.playArea}}         
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} flipped ${card.name}.`, "Server")
             unsetSuperFocus()
             deb = false
         }
