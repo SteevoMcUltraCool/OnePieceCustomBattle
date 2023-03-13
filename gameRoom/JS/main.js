@@ -1036,7 +1036,7 @@ function setSuperFocus(divCard,card){
         <p>Reveal To: <input type="checkbox" id="auto" checked>Auto &nbsp;&nbsp;<input type="checkbox" id="you">You &nbsp;&nbsp;<input type="checkbox" id="opponent">Opponent &nbsp;&nbsp;</p>
         <h3>Top?: <input type="checkbox" id="CNN" checked>&nbsp;&nbsp;</h3>
     `
-        DON.cardOptions.buttons = createButtons(["Send to Main Deck","Send to Hand"])
+        DON.cardOptions.buttons = createButtons(["Send to Main Deck","Send to Hand","Send to Life","Flip Card"])
         DON.cardOptions.appendChild(DON.cardOptions.buttons)
         let interpertCheckedData = function(){
             let auto = document.getElementById("auto").checked
@@ -1078,6 +1078,21 @@ function setSuperFocus(divCard,card){
             let AR = {}; AR[`player${player}`] = {gameParts: {hand: PlayerOBJ.gameParts.hand,playArea: PlayerOBJ.gameParts.playArea,donArea: PlayerOBJ.gameParts.donArea}}
             await UpdateData(thisGame.id, AR)
             await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} sent ${card.name} from Play Area to their hand.`, "Server")
+            unsetSuperFocus()
+            deb = false
+        }
+        DON.cardOptions.buttons["Send to Life"].execute = async function(){
+            if (deb){return false}
+            deb = true
+            let top = document.getElementById("CNN").checked
+            let newSpot =  PlayerOBJ.gameParts.life.length
+            if(top){newSpot=0}
+            DWM.sendCardTo(PlayerOBJ.gameParts,"life","playArea",spot,newSpot,interpertCheckedData())
+            PlayerOBJ.gameParts.donArea[1] +=card.attachedDON 
+            card.attachedDON = 0
+            let AR = {}; AR[`player${player}`] = {gameParts: {life: PlayerOBJ.gameParts.life,playArea: PlayerOBJ.gameParts.playArea,donArea: PlayerOBJ.gameParts.donArea}}
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} sent ${card.name} from Play Area to their life.`, "Server")
             unsetSuperFocus()
             deb = false
         }
