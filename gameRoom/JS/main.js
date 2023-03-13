@@ -153,7 +153,7 @@ player = getCookie("player")
 let PlayerOBJ = thisGame["player"+player]
 console.log(thisGame,PlayerOBJ)
 console.log("player="+getCookie("player"), "game="+getCookie("game"))
-
+let opPlayer = (player==1 &&2) || 1
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -485,6 +485,7 @@ function loadBoard(first){
      ttrash.Name = "Trash"
      ttrash.Type ="Trash"
      ttrash.buttons = createButtons(["Search","More"])
+     ttrash.buttons.Search.execute =  searchOpponentTrash
      tlife.appendChild(tlife.buttons)
      ttrash.append(ttrash.buttons)
        //hand 
@@ -1230,11 +1231,33 @@ window.addEventListener('contextmenu', (event) => {
                 mainDeck: PlayerOBJ.gameParts.mainDeck
             }
         }
-        
+   
         newSearch.remove()
         await UpdateData(thisGame.id, AR)
         await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} moved ${num} cards from their trash to their hand (revealed), and ${names.toString()} to main deck top.`, "Server")
         deb=false
+    }
+    newSearch.appendChild(closeBu)
+    document.body.insertAdjacentElement("afterbegin",newSearch)
+  }
+
+  async function searchOpponentTrash(){
+    if (deb){return false}
+    deb = true
+    let OPPOBJ = thisGame[`player${opPlayer}`]
+    let newSearch = DWM.openSearch(OPPOBJ.gameParts.trash, player)
+    let closeBu = document.createElement("button")
+    closeBu.innerHTML = "Close"
+    newSearch.divCards.forEach(divCard=>{
+        divCard.buttons = createButtons([])
+        divCard.appendChild(divCard.buttons)
+        divCard.IsA = "Card"
+        divCard.Type = "shh"
+    }) 
+    closeBu.style.backgroundColor = "#E65"
+    closeBu.onclick = async function(){        
+        newSearch.remove()
+        deb = false
     }
     newSearch.appendChild(closeBu)
     document.body.insertAdjacentElement("afterbegin",newSearch)
