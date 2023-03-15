@@ -186,7 +186,7 @@ setInterval(async function(){
             loadBoard()
         }
     }
-},102)
+},118)
 function updateChatLog(){
     let latestGotChat = localChatLog.length
     let newChat =  thisGame.chatLog.slice(latestGotChat)
