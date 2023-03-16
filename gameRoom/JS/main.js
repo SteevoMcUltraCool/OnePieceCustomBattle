@@ -332,6 +332,13 @@ function loadBoard(first){
      life.Name = "Life"
      life.Type ="Life"
      life.buttons = createButtons(["Peep 1","Draw","More"])
+     life.buttons["Peep 1"].execute = async function(){
+        PlayerOBJ.gameParts.life[0].faceUp[1] = true
+        let AR = {}; AR[`player${player}`] = {gameParts: {life: PlayerOBJ.gameParts.life}}
+        await UpdateData(thisGame.id, AR)
+        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} peeped the top card of his life.`, "Server")
+  
+     }
      let trash = document.getElementById("t1")
      if (tCount >=1) trash.style.backgroundImage = `url('${bottomPlayerP.trash[0].imgString}')`
      trash.IsA = "Card"
@@ -352,6 +359,7 @@ function loadBoard(first){
         divCard.IsA = "Card"
         divCard.Type = "Hand"
         divCard.Name = ""
+        divCard.uniqueGameId = card.uniqueGameId
         divCard.buttons = createButtons(["Play","Trash","More"])
         divCard.appendChild(divCard.buttons)
         divCard.buttons.Play.execute = function(){
@@ -359,6 +367,9 @@ function loadBoard(first){
         }
         divCard.buttons.Trash.execute = function(){
             trashFromPH("hand",card.uniqueGameId)
+        }
+        divCard.buttons.More.execute = function(){
+            setSuperFocus(divCard,card)
         }
         DON.bottomPlayerArea.hand.appendChild(divCard)
     })
@@ -1110,6 +1121,84 @@ function setSuperFocus(divCard,card){
             unsetSuperFocus()
             deb = false
         }
+    }else if(divCard.Type == "Hand") {
+        DON.cardOptions.innerHTML = `
+        <p>Reveal To: <input type="checkbox" id="auto" checked>Auto &nbsp;&nbsp;<input type="checkbox" id="you">You &nbsp;&nbsp;<input type="checkbox" id="opponent">Opponent &nbsp;&nbsp;</p>
+        <h3>Top?: <input type="checkbox" id="CNN" checked>&nbsp;&nbsp;</h3>
+    `
+        DON.cardOptions.buttons = createButtons(["Send to Main Deck","Send to Life","Send to Play","Flip Card"])    
+        DON.cardOptions.appendChild(DON.cardOptions.buttons)
+        let interpertCheckedData = function(){
+            let auto = document.getElementById("auto").checked
+            if (auto) return false
+            let f = {}
+            let you = document.getElementById("you").checked
+            if (you) f[player] = true
+            let op = document.getElementById("opponent").checked
+            let opp = player==1 && 2 || 1
+            if (op) f[opp] = true
+            return f
+        }
+        let spot = PlayerOBJ.gameParts.hand.findIndex(c => c.uniqueGameId==divCard.uniqueGameId)
+        let card = PlayerOBJ.gameParts.hand[spot]
+        DON.cardOptions.buttons["Send to Main Deck"].execute = async function(){
+            if (deb){return false}
+            deb = true
+            let top = document.getElementById("CNN").checked
+            let newSpot =  PlayerOBJ.gameParts.mainDeck.length
+            if(top){newSpot=0}
+            DWM.sendCardTo(PlayerOBJ.gameParts,"mainDeck","hand",spot,newSpot,interpertCheckedData())
+            PlayerOBJ.gameParts.donArea[1] +=card.attachedDON 
+            card.attachedDON = 0
+            let AR = {}; AR[`player${player}`] = {gameParts: {mainDeck: PlayerOBJ.gameParts.mainDeck,hand: PlayerOBJ.gameParts.hand,donArea: PlayerOBJ.gameParts.donArea}}
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} sent ${card.name} from their hand to the ${(top &&"top")||"bottom"} of their main deck.`, "Server")
+            unsetSuperFocus()
+            deb = false
+        }
+        DON.cardOptions.buttons["Send to Life"].execute = async function(){
+            if (deb){return false}
+            deb = true
+            let top = document.getElementById("CNN").checked
+            let newSpot =  PlayerOBJ.gameParts.life.length
+            if(top){newSpot=0}
+            DWM.sendCardTo(PlayerOBJ.gameParts,"life","hand",spot,newSpot,interpertCheckedData())
+            PlayerOBJ.gameParts.donArea[1] +=card.attachedDON 
+            card.attachedDON = 0
+            let AR = {}; AR[`player${player}`] = {gameParts: {hand: PlayerOBJ.gameParts.hand,life: PlayerOBJ.gameParts.life,donArea: PlayerOBJ.gameParts.donArea}}
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} sent ${card.name} from their hand to their life.`, "Server")
+            unsetSuperFocus()
+            deb = false
+        }
+        DON.cardOptions.buttons["Send to Play"].execute = async function(){
+            if (deb){return false}
+            deb = true
+            let top = document.getElementById("CNN").checked
+            let newSpot =  PlayerOBJ.gameParts.playArea.length
+            if(top){newSpot=0}
+            DWM.sendCardTo(PlayerOBJ.gameParts,"playArea","hand",spot,newSpot,interpertCheckedData()|| {1:true,2:true})
+            PlayerOBJ.gameParts.donArea[1] +=card.attachedDON 
+            card.attachedDON = 0
+            let AR = {}; AR[`player${player}`] = {gameParts: {hand: PlayerOBJ.gameParts.hand,playArea: PlayerOBJ.gameParts.playArea,donArea: PlayerOBJ.gameParts.donArea}}
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} sent ${card.name} from their hand to their play Area.`, "Server")
+            unsetSuperFocus()
+            deb = false
+        }
+        DON.cardOptions.buttons["Flip Card"].execute = async function (){
+            if (deb){return false}
+            deb = true    
+            let f = interpertCheckedData()
+            if (!f) {
+               if (card.faceUp[player]) {card.faceUp = {}}else{card.faceUp={1:true,2:true}}
+            }  
+             let AR = {}; AR[`player${player}`] = {gameParts: {hand: PlayerOBJ.gameParts.hand}}         
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} flipped ${card.name} (in hand).`, "Server")
+            unsetSuperFocus()
+            deb = false
+        }   
     }
     superFocus = {card:card, divCard:divCard}
 }
@@ -1234,7 +1323,7 @@ window.addEventListener('contextmenu', (event) => {
    
         newSearch.remove()
         await UpdateData(thisGame.id, AR)
-        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} moved ${num} cards from their trash to their hand (revealed), and ${names.toString()} to main deck top.`, "Server")
+        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} moved ${num} cards from their trash to their hand (revealed), and [${names.toString()}] to main deck top.`, "Server")
         deb=false
     }
     newSearch.appendChild(closeBu)
