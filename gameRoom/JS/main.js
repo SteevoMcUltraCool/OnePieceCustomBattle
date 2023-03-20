@@ -118,6 +118,10 @@ async function initialize(name,deck){
     AR[`player${player}`] = {
         name: name.length>1&&name || "Anonymous",
         initiated: true,
+        target: {
+            owner: false,
+            uniqueGameId: false,
+        },
         gameParts: {
             mainDeck: charDeck,
             leaderArea: leadDeck,
