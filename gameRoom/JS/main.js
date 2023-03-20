@@ -121,6 +121,7 @@ async function initialize(name,deck){
         target: {
             owner: false,
             uniqueGameId: false,
+            color: "#000"
         },
         gameParts: {
             mainDeck: charDeck,
@@ -237,6 +238,32 @@ function createButtons(arrayOfNames){
         buttons.appendChild(newButton)
     })
     return buttons
+}
+function interpertTargetDataThisPlayer(divCard,p,np,num2){
+    if (p.target && p.target.owner == player){
+        if (p.target.uniqueGameId == divCard.uniqueGameId) {
+            divCard.style.border = `2vh solid  ${p.target.color}`
+        }
+    }
+    if (np && np.target && np.target.owner == player){
+        if (np.target.uniqueGameId == divCard.uniqueGameId) {
+            divCard.style.border.style = `1vh solid  ${np.target.color}`
+        }
+    }
+
+}
+function interpertTargetDataOtherPlayer(divCard,p,np,num2){
+    if (p.target && p.target.owner == num2){
+        if (p.target.uniqueGameId == divCard.uniqueGameId) {
+            divCard.style.border = `1vh solid  ${p.target.color}`
+        }
+    }
+    if (np && np.target && np.target.owner == num2){
+        if (np.target.uniqueGameId == divCard.uniqueGameId) {
+            divCard.style.border = `1vh solid  ${np.target.color}`
+        }
+    }
+
 }
 function loadBoard(first){
    try{
@@ -364,6 +391,7 @@ function loadBoard(first){
         divCard.Type = "Hand"
         divCard.Name = ""
         divCard.uniqueGameId = card.uniqueGameId
+        interpertTargetDataThisPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
         divCard.buttons = createButtons(["Play","Trash","More"])
         divCard.appendChild(divCard.buttons)
         divCard.buttons.Play.execute = function(){
@@ -391,6 +419,7 @@ function loadBoard(first){
         divCard.Type = "InPlay"
         divCard.Name = ""
         divCard.uniqueGameId = card.uniqueGameId
+        interpertTargetDataThisPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
         divCard.buttons = createButtons(["Rest","Trash","More"])
         divCard.appendChild(divCard.buttons)
         divCard.buttons.More.execute = async function(){
@@ -417,6 +446,7 @@ function loadBoard(first){
         divCard.Type = "InLeader"
         divCard.Name = ""
         divCard.uniqueGameId = card.uniqueGameId
+        interpertTargetDataThisPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
         divCard.buttons = createButtons(["Rest","Shake","More"])
         divCard.appendChild(divCard.buttons)
         divCard.buttons.Rest.execute = async function(){
@@ -513,7 +543,24 @@ function loadBoard(first){
         divCard.IsA = "Card"
         divCard.Type = "Opponent Hand"
         divCard.Name = ""
+        divCard.uniqueGameId = card.uniqueGameId
+        interpertTargetDataOtherPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
         divCard.buttons = createButtons(["Target","More"])
+        divCard.buttons.Target.execute = async function(){
+            if (deb) return false
+            deb = true
+            PlayerOBJ.target = {
+                owner: newPlayer,
+                uniqueGameId: card.uniqueGameId,
+                color: "#E11"
+            }
+            let AR = {}; AR[`player${player}`] = {
+                target: PlayerOBJ.target
+            }
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} targeted a card.`)
+            deb = false
+        }
         divCard.appendChild(divCard.buttons)
         DON.topPlayerArea.hand.appendChild(divCard)
     })
@@ -531,7 +578,24 @@ function loadBoard(first){
         divCard.Type = "Opponent Play"
         divCard.Name = ""
         divCard.uniqueGameId = card.uniqueGameId
+        interpertTargetDataOtherPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
+
         divCard.buttons = createButtons(["Target","More"])
+        divCard.buttons.Target.execute = async function(){
+            if (deb) return false
+            deb = true
+            PlayerOBJ.target = {
+                owner: newPlayer,
+                uniqueGameId: card.uniqueGameId,
+                color: "#E11"
+            }
+            let AR = {}; AR[`player${player}`] = {
+                target: PlayerOBJ.target
+            }
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} targeted a card.`)
+            deb = false
+        }
         divCard.appendChild(divCard.buttons)
         loadDON(card,divCard)
         DON.topPlayerArea.characterArea.insertAdjacentElement("afterbegin",divCard)       
@@ -548,7 +612,23 @@ function loadBoard(first){
         divCard.Type = "OP Leader"
         divCard.Name = ""
         divCard.uniqueGameId = card.uniqueGameId
+        interpertTargetDataOtherPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
         divCard.buttons = createButtons(["Target","More"])
+        divCard.buttons.Target.execute = async function(){
+            if (deb) return false
+            deb = true
+            PlayerOBJ.target = {
+                owner: newPlayer,
+                uniqueGameId: card.uniqueGameId,
+                color: "#E11"
+            }
+            let AR = {}; AR[`player${player}`] = {
+                target: PlayerOBJ.target
+            }
+            await UpdateData(thisGame.id, AR)
+            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} targeted a card.`)
+            deb = false
+        }
         divCard.appendChild(divCard.buttons)
         loadDON(card,divCard)
         DON.topPlayerArea.leaderStage.appendChild(divCard)       
