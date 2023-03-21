@@ -87,6 +87,15 @@ if (gameID){
     window.location.replace("../../index.html?error="+"400")
 }
 
+function getPeep(divCard,card){
+    if (card.faceUp[1] != card.faceUp[2]){
+        let peep = document.createElement("div")
+        peep.className = "peepin"
+        peep.innerHTML = `<span class="eyeIMG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`
+        divCard.appendChild(peep)
+        return peep
+    }
+}
 function promptInitiatePlayer(){
     console.log("prompting initiation")
     let popOutBox = document.createElement("div")
@@ -242,7 +251,7 @@ function createButtons(arrayOfNames){
 function interpertTargetDataThisPlayer(divCard,p,np,num2){
     if (p.target && p.target.owner == player){
         if (p.target.uniqueGameId == divCard.uniqueGameId) {
-            divCard.style.border = `2vh solid  ${p.target.color}`
+            divCard.style.border = `1vh solid  ${p.target.color}`
         }
     }
     if (np && np.target && np.target.owner == player){
@@ -336,6 +345,8 @@ function loadBoard(first){
     else{DON.dondon.style.backgroundImage = "none"}
     DON.mCount.innerHTML = mCount
     DON.dCount.innerHTML = dCount
+    if (peep){peep.remove()}
+    var peep = getPeep(DON.mainmain, bottomPlayerP.mainDeck[0])
     //lifeTrash
     DON.bottomPlayerArea.lifeTrash.innerHTML = ""
     let lCount = bottomPlayerP.life.length
@@ -359,6 +370,7 @@ function loadBoard(first){
             life.style.backgroundImage = `url('${bottomPlayerP.life[0].imgString}')`
         }
     }
+    getPeep(life, bottomPlayerP.life[0])
      life.IsA = "Card"
      life.Name = "Life"
      life.Type ="Life"
@@ -404,6 +416,7 @@ function loadBoard(first){
             setSuperFocus(divCard,card)
         }
         DON.bottomPlayerArea.hand.appendChild(divCard)
+        getPeep(divCard,card)
     })
     //charArea
     DON.bottomPlayerArea.characterArea.innerHTML = `<div class="count">
@@ -432,6 +445,7 @@ function loadBoard(first){
             trashFromPH("playArea",card.uniqueGameId)
         }
         loadDON(card,divCard)
+        getPeep(divCard,card)
         DON.bottomPlayerArea.characterArea.insertAdjacentElement("afterbegin",divCard)       
     })
     //leaderArea 
@@ -453,6 +467,7 @@ function loadBoard(first){
                 rest(divCard,card,false,bottomPlayerP)
         }
         loadDON(card,divCard)
+        getPeep(divCard,card)
         DON.bottomPlayerArea.leaderStage.appendChild(divCard)       
     })   
     //donArea 
@@ -546,22 +561,8 @@ function loadBoard(first){
         divCard.uniqueGameId = card.uniqueGameId
         interpertTargetDataOtherPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
         divCard.buttons = createButtons(["Target","More"])
-        divCard.buttons.Target.execute = async function(){
-            if (deb) return false
-            deb = true
-            PlayerOBJ.target = {
-                owner: newPlayer,
-                uniqueGameId: card.uniqueGameId,
-                color: "#E11"
-            }
-            let AR = {}; AR[`player${player}`] = {
-                target: PlayerOBJ.target
-            }
-            await UpdateData(thisGame.id, AR)
-            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} targeted a card.`)
-            deb = false
-        }
-        divCard.appendChild(divCard.buttons)
+        divCard.buttons.Target.execute =   divCard.buttons.Target.execute = f_target(card,newPlayer)
+        d.appendChild(divCard.buttons)
         DON.topPlayerArea.hand.appendChild(divCard)
     })
        //charArea
@@ -581,21 +582,7 @@ function loadBoard(first){
         interpertTargetDataOtherPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
 
         divCard.buttons = createButtons(["Target","More"])
-        divCard.buttons.Target.execute = async function(){
-            if (deb) return false
-            deb = true
-            PlayerOBJ.target = {
-                owner: newPlayer,
-                uniqueGameId: card.uniqueGameId,
-                color: "#E11"
-            }
-            let AR = {}; AR[`player${player}`] = {
-                target: PlayerOBJ.target
-            }
-            await UpdateData(thisGame.id, AR)
-            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} targeted a card.`)
-            deb = false
-        }
+        divCard.buttons.Target.execute = f_target(card,newPlayer)
         divCard.appendChild(divCard.buttons)
         loadDON(card,divCard)
         DON.topPlayerArea.characterArea.insertAdjacentElement("afterbegin",divCard)       
@@ -614,21 +601,7 @@ function loadBoard(first){
         divCard.uniqueGameId = card.uniqueGameId
         interpertTargetDataOtherPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
         divCard.buttons = createButtons(["Target","More"])
-        divCard.buttons.Target.execute = async function(){
-            if (deb) return false
-            deb = true
-            PlayerOBJ.target = {
-                owner: newPlayer,
-                uniqueGameId: card.uniqueGameId,
-                color: "#E11"
-            }
-            let AR = {}; AR[`player${player}`] = {
-                target: PlayerOBJ.target
-            }
-            await UpdateData(thisGame.id, AR)
-            await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} targeted a card.`)
-            deb = false
-        }
+        divCard.buttons.Target.execute = f_target(card,newPlayer)
         divCard.appendChild(divCard.buttons)
         loadDON(card,divCard)
         DON.topPlayerArea.leaderStage.appendChild(divCard)       
@@ -645,6 +618,21 @@ function loadBoard(first){
         setTimeout(function(){loadBoard(true)},225)
    }
   }
+  async function f_target(card,newPlayer,color){
+    if (deb) return false
+    deb = true
+    PlayerOBJ.target = {
+        owner: newPlayer,
+        uniqueGameId: card.uniqueGameId,
+        color: color || "#E11"
+    }
+    let AR = {}; AR[`player${player}`] = {
+        target: PlayerOBJ.target
+    }
+    await UpdateData(thisGame.id, AR)
+    await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} targeted a card.`)
+    deb = false
+}
 async function rest(divCard,card,C,bottomPlayerP){
     if(deb){return false}
     deb = true
@@ -1132,7 +1120,7 @@ function setSuperFocus(divCard,card){
         <p>Reveal To: <input type="checkbox" id="auto" checked>Auto &nbsp;&nbsp;<input type="checkbox" id="you">You &nbsp;&nbsp;<input type="checkbox" id="opponent">Opponent &nbsp;&nbsp;</p>
         <h3>Top?: <input type="checkbox" id="CNN" checked>&nbsp;&nbsp;</h3>
     `
-        DON.cardOptions.buttons = createButtons(["Send to Main Deck","Send to Hand","Send to Life","Flip Card"])
+        DON.cardOptions.buttons = createButtons(["Send to Main Deck","Send to Hand","Send to Life","Flip Card", "Highlight Blue"])
         DON.cardOptions.appendChild(DON.cardOptions.buttons)
         let interpertCheckedData = function(){
             let auto = document.getElementById("auto").checked
@@ -1205,12 +1193,18 @@ function setSuperFocus(divCard,card){
             unsetSuperFocus()
             deb = false
         }
+        DON.cardOptions.buttons["Highlight Blue"].execute = function(){
+            if (PlayerOBJ.target.owner == player && PlayerOBJ.target.uniqueGameId == card.uniqueGameId){
+                f_target(false, false, false)
+            } else {            f_target(card,player,"#3CF")        }
+
+        }
     }else if(divCard.Type == "Hand") {
         DON.cardOptions.innerHTML = `
         <p>Reveal To: <input type="checkbox" id="auto" checked>Auto &nbsp;&nbsp;<input type="checkbox" id="you">You &nbsp;&nbsp;<input type="checkbox" id="opponent">Opponent &nbsp;&nbsp;</p>
         <h3>Top?: <input type="checkbox" id="CNN" checked>&nbsp;&nbsp;</h3>
     `
-        DON.cardOptions.buttons = createButtons(["Send to Main Deck","Send to Life","Send to Play","Flip Card"])    
+        DON.cardOptions.buttons = createButtons(["Send to Main Deck","Send to Life","Send to Play","Flip Card", "Highlight Blue"])    
         DON.cardOptions.appendChild(DON.cardOptions.buttons)
         let interpertCheckedData = function(){
             let auto = document.getElementById("auto").checked
@@ -1282,7 +1276,13 @@ function setSuperFocus(divCard,card){
             await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} flipped ${card.name} (in hand).`, "Server")
             unsetSuperFocus()
             deb = false
-        }   
+        }  
+        DON.cardOptions.buttons["Highlight Blue"].execute = function(){
+            if (PlayerOBJ.target.owner == player && PlayerOBJ.target.uniqueGameId == card.uniqueGameId){
+                f_target(false, false, false)
+            } else {            f_target(card,player,"#3CF")        }
+
+        } 
     }
     superFocus = {card:card, divCard:divCard}
 }
