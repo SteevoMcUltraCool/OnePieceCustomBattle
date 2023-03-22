@@ -67,7 +67,7 @@ dWM.openSearch = function(deck,p){
             searchBar.divCards.push(newCard)
             searchBar.appendChild(newCard)
         }else{
-            if(faceUp){
+            //if(faceUp){
                 console.log("struggling...")
                 let newCard = document.createElement("div")
                 newCard.uniqueGameId = card.uniqueGameId
@@ -76,7 +76,7 @@ dWM.openSearch = function(deck,p){
                 searchBar.divCards.push(newCard)
                 faceUp = false
                 searchBar.appendChild(newCard)
-            }
+           // }
         }
     })
     return searchBar

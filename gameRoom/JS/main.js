@@ -12,6 +12,7 @@ let  targeting = {
 let superFocus ={
 
 }
+let speep
 let reordering
 let deb = false
 let DON = {
@@ -88,6 +89,7 @@ if (gameID){
 }
 
 function getPeep(divCard,card){
+    if(!card || !divCard){return false}
     if (card.faceUp[1] != card.faceUp[2]){
         let peep = document.createElement("div")
         peep.className = "peepin"
@@ -310,7 +312,7 @@ function loadBoard(first){
         setSuperFocus(DON.mainmain,bottomPlayerP.mainDeck)
     }
     DON.mainmain.buttons["Flip Top"].execute = async function(){
-        PlayerOBJ.gameParts.mainDeck[0].faceUp = {1:!PlayerOBJ.gameParts.mainDeck[0].faceUp[1], 2:!PlayerOBJ.gameParts.mainDeck[0].faceUp[1]}
+        PlayerOBJ.gameParts.mainDeck[0].faceUp = {1:!PlayerOBJ.gameParts.mainDeck[0].faceUp[player], 2:!PlayerOBJ.gameParts.mainDeck[0].faceUp[player]}
         let AR = {}; AR[`player${player}`] = {
             gameParts: {
                 mainDeck: PlayerOBJ.gameParts.mainDeck,
@@ -345,8 +347,8 @@ function loadBoard(first){
     else{DON.dondon.style.backgroundImage = "none"}
     DON.mCount.innerHTML = mCount
     DON.dCount.innerHTML = dCount
-    if (peep){peep.remove()}
-    var peep = getPeep(DON.mainmain, bottomPlayerP.mainDeck[0])
+    if (speep){speep.remove()}
+    speep = getPeep(DON.mainmain, bottomPlayerP.mainDeck[0])
     //lifeTrash
     DON.bottomPlayerArea.lifeTrash.innerHTML = ""
     let lCount = bottomPlayerP.life.length
@@ -376,7 +378,7 @@ function loadBoard(first){
      life.Type ="Life"
      life.buttons = createButtons(["Peep 1","Draw","More"])
      life.buttons["Peep 1"].execute = async function(){
-        PlayerOBJ.gameParts.life[0].faceUp[1] = true
+        PlayerOBJ.gameParts.life[0].faceUp[player] = true
         let AR = {}; AR[`player${player}`] = {gameParts: {life: PlayerOBJ.gameParts.life}}
         await UpdateData(thisGame.id, AR)
         await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} peeped the top card of his life.`, "Server")
@@ -461,8 +463,9 @@ function loadBoard(first){
         divCard.Name = ""
         divCard.uniqueGameId = card.uniqueGameId
         interpertTargetDataThisPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
-        divCard.buttons = createButtons(["Rest","Shake","More"])
+        divCard.buttons = createButtons(["Rest","Highlight","More"])
         divCard.appendChild(divCard.buttons)
+        divCard.buttons.Highlight.execute =  function(){ f_target(card,player, "#FC0")}
         divCard.buttons.Rest.execute = async function(){
                 rest(divCard,card,false,bottomPlayerP)
         }
@@ -561,8 +564,8 @@ function loadBoard(first){
         divCard.uniqueGameId = card.uniqueGameId
         interpertTargetDataOtherPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
         divCard.buttons = createButtons(["Target","More"])
-        divCard.buttons.Target.execute =   divCard.buttons.Target.execute = f_target(card,newPlayer)
-        d.appendChild(divCard.buttons)
+        divCard.buttons.Target.execute =  function(){ f_target(card,newPlayer)}
+        divCard.appendChild(divCard.buttons)
         DON.topPlayerArea.hand.appendChild(divCard)
     })
        //charArea
@@ -582,7 +585,7 @@ function loadBoard(first){
         interpertTargetDataOtherPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
 
         divCard.buttons = createButtons(["Target","More"])
-        divCard.buttons.Target.execute = f_target(card,newPlayer)
+        divCard.buttons.Target.execute = function(){f_target(card,newPlayer)}
         divCard.appendChild(divCard.buttons)
         loadDON(card,divCard)
         DON.topPlayerArea.characterArea.insertAdjacentElement("afterbegin",divCard)       
@@ -601,7 +604,7 @@ function loadBoard(first){
         divCard.uniqueGameId = card.uniqueGameId
         interpertTargetDataOtherPlayer(divCard,PlayerOBJ,thisGame[`player${newPlayer}`],newPlayer)
         divCard.buttons = createButtons(["Target","More"])
-        divCard.buttons.Target.execute = f_target(card,newPlayer)
+        divCard.buttons.Target.execute = function(){f_target(card,newPlayer)}
         divCard.appendChild(divCard.buttons)
         loadDON(card,divCard)
         DON.topPlayerArea.leaderStage.appendChild(divCard)       
@@ -621,6 +624,13 @@ function loadBoard(first){
   async function f_target(card,newPlayer,color){
     if (deb) return false
     deb = true
+    if (PlayerOBJ.target.owner == newPlayer && PlayerOBJ.target.uniqueGameId == card.uniqueGameId){
+        if (PlayerOBJ.target.owner){
+            f_target(false,false,false)
+        }
+        deb=false
+        return false
+    }
     PlayerOBJ.target = {
         owner: newPlayer,
         uniqueGameId: card.uniqueGameId,
@@ -1184,6 +1194,7 @@ function setSuperFocus(divCard,card){
             if (deb){return false}
             deb = true    
             let f = interpertCheckedData()
+            card.faceUp = f
             if (!f) {
                if (card.faceUp[player]) {card.faceUp = {}}else{card.faceUp={1:true,2:true}}
             }  
@@ -1268,6 +1279,7 @@ function setSuperFocus(divCard,card){
             if (deb){return false}
             deb = true    
             let f = interpertCheckedData()
+            card.faceUp = f
             if (!f) {
                if (card.faceUp[player]) {card.faceUp = {}}else{card.faceUp={1:true,2:true}}
             }  
@@ -1278,9 +1290,7 @@ function setSuperFocus(divCard,card){
             deb = false
         }  
         DON.cardOptions.buttons["Highlight Blue"].execute = function(){
-            if (PlayerOBJ.target.owner == player && PlayerOBJ.target.uniqueGameId == card.uniqueGameId){
-                f_target(false, false, false)
-            } else {            f_target(card,player,"#3CF")        }
+    f_target(card,player,"#3CF")       
 
         } 
     }
@@ -1306,8 +1316,7 @@ window.addEventListener('contextmenu', (event) => {
         x+=1
     }while (x<count)
     let newSearch = DWM.openSearch(PlayerOBJ.gameParts.mainDeck, player)
-    let top = 5
-    let bottom = 0
+    let moves = []
     newSearch.divCards.forEach(divCard=>{
         divCard.buttons = createButtons(["Top","Bottom"])
         divCard.appendChild(divCard.buttons)
@@ -1317,12 +1326,7 @@ window.addEventListener('contextmenu', (event) => {
         divCard.buttons.Top.execute = function() {
             let spot = PlayerOBJ.gameParts.mainDeck.findIndex(c => c.uniqueGameId==divCard.uniqueGameId)
         let card = PlayerOBJ.gameParts.mainDeck[spot]
-            console.log(divCard.uniqueGameId)
-            if(divCard.status == "Bottom"){
-                divCard.status = "Top"
-                top +=1
-                bottom -=1
-            }
+            moves.push(`  #${spot + 1} to top`)
             newSearch.insertAdjacentElement("afterbegin",divCard)
             DWM.shiftCardTo(PlayerOBJ.gameParts,"mainDeck",spot,0)
             console.log(PlayerOBJ.gameParts.mainDeck)
@@ -1330,14 +1334,7 @@ window.addEventListener('contextmenu', (event) => {
         divCard.buttons.Bottom.execute = function() {
             let spot = PlayerOBJ.gameParts.mainDeck.findIndex(c => c.uniqueGameId==divCard.uniqueGameId)
         let card = PlayerOBJ.gameParts.mainDeck[spot]
-            if(divCard.status == "Top"){
-                divCard.status = "Bottom"
-                top -=1
-                bottom +=1
-            }else if (divCard.status==""){
-                divCard.status = "Bottom"
-                bottom +=1               
-            }
+        moves.push(`  #${spot + 1} to bottom`)
             newSearch.insertAdjacentElement("beforeend",divCard)
             DWM.shiftCardTo(PlayerOBJ.gameParts,"mainDeck",spot,PlayerOBJ.gameParts.mainDeck.length)
             console.log(PlayerOBJ.gameParts.mainDeck)
@@ -1361,7 +1358,7 @@ window.addEventListener('contextmenu', (event) => {
         
         newSearch.remove()
         await UpdateData(thisGame.id, AR)
-        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} reordered the top ${count} cards. He sent ${bottom} to the bottom.`, "Server")
+        await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} peeked the top ${count} cards. He moved: ${moves.toString()}`, "Server")
         deb=false
     }
     newSearch.appendChild(closeBu)
@@ -1435,3 +1432,9 @@ window.addEventListener('contextmenu', (event) => {
     newSearch.appendChild(closeBu)
     document.body.insertAdjacentElement("afterbegin",newSearch)
   }
+document.getElementById("STT").onclick = async function(){
+    await unrestAllGuys()
+    await DON.donAreaControls.unrestAll.onclick()
+    await drawDonCard(dCount,PlayerOBJ.gameParts,2)
+    await mainDeckDrawFrom(0,1)
+}
