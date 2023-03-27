@@ -12,6 +12,11 @@ let  targeting = {
 let superFocus ={
 
 }
+let oldSuperFocus = {
+    uniqueGameId: "",
+    owner: "",
+    location: "",
+}
 let speep
 let reordering
 let deb = false
@@ -144,7 +149,13 @@ async function initialize(name,deck){
     await UpdateData(thisGame.id, AR)
     await AddChatToLog(thisGame.id, thisGame.chatLog, AR[`player${player}`].name + " is ready to play!", "Server")
 }
-
+function catchOSF(owner,area,divCard,card){
+    if (owner==oldSuperFocus.owner && area == oldSuperFocus.area && divCard.uniqueGameId == oldSuperFocus.uniqueGameId){
+        setSuperFocus(divCard,card)
+        return true
+    }
+    return false
+}
 if (!getCookie("player") || getCookie("game")!=thisGame.gameID){
     console.log("hmm...")
     if (player=="1"){
@@ -417,6 +428,7 @@ function loadBoard(first){
         divCard.buttons.More.execute = function(){
             setSuperFocus(divCard,card)
         }
+        catchOSF(player,"hand",divCard,card)
         DON.bottomPlayerArea.hand.appendChild(divCard)
         getPeep(divCard,card)
     })
@@ -448,6 +460,7 @@ function loadBoard(first){
         }
         loadDON(card,divCard)
         getPeep(divCard,card)
+        catchOSF(player,"playArea",divCard,card)
         DON.bottomPlayerArea.characterArea.insertAdjacentElement("afterbegin",divCard)       
     })
     //leaderArea 
@@ -471,6 +484,7 @@ function loadBoard(first){
         }
         loadDON(card,divCard)
         getPeep(divCard,card)
+        catchOSF(player,"InLeader",divCard,card)
         DON.bottomPlayerArea.leaderStage.appendChild(divCard)       
     })   
     //donArea 
@@ -480,8 +494,7 @@ function loadBoard(first){
     if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.upDon.style.backgroundImage= "none"}
     if (bottomPlayerP.donArea[1]>=1){DON.sideDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.sideDon.style.backgroundImage= "none"}
     //opponent board
-    if (topPlayerP) {
-    if (first){
+    if (topPlayerP && topPlayerP.initiated) {
    DON.topPlayerArea.donMain.innerHTML = ""
    DON.topPlayerArea.donMain.innerHTML = `
     <div class="DON" id="td1">
@@ -509,7 +522,6 @@ function loadBoard(first){
     DON.tdondon.buttons = createButtons(["More"])
     DON.tdondon.appendChild(DON.tdondon.buttons)
     DON.tdondon.Type = "ODON"
-    }
     let tmCount = topPlayerP.mainDeck.length
     let tdCount = topPlayerP.donDeck[0]
     if (tmCount >=1) {DON.tmainmain.style.backgroundImage = `url('${DWM.sleeve}')`}else{DON.t}
@@ -1062,7 +1074,14 @@ DON.RD.addEventListener("click",diceRoll)
 DON.ET.addEventListener("click",async function(){
     await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} ended their turn`, "Server")   
 })
-function unsetSuperFocus(){
+function unsetSuperFocus(setOld, owner, area, id){
+    if (setOld){
+        oldSuperFocus = {
+            owner:owner,
+            area:area,
+            id:id
+        }
+    }
     if (!superFocus.divCard){return false}
     superFocus.divCard.style.boxShadow = "none"
     DON.cardOptions.innerHTML = ``
@@ -1242,6 +1261,7 @@ function setSuperFocus(divCard,card){
             let AR = {}; AR[`player${player}`] = {gameParts: {mainDeck: PlayerOBJ.gameParts.mainDeck,hand: PlayerOBJ.gameParts.hand,donArea: PlayerOBJ.gameParts.donArea}}
             await UpdateData(thisGame.id, AR)
             await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} sent ${card.name} from their hand to the ${(top &&"top")||"bottom"} of their main deck.`, "Server")
+  
             unsetSuperFocus()
             deb = false
         }
