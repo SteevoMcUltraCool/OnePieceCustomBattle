@@ -4,6 +4,7 @@ import { GetAllCards, GetGameWithXId, GetGamesWithXPlayers, UploadCard, RequestT
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 let Cards = await GetAllCards();
+
 let  targeting = {
     active:false,
     reason: false,
