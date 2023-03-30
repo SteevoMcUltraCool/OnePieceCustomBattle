@@ -103,7 +103,7 @@ async function requestToJoinGame(refID){
 async function createGame(name) {
   console.log(await client.query(q.Select("lastGameId",
           q.Select("data",
-          q.Get(q.Ref(q.Collection("Games"),"359741405272211542"))
+          q.Get(q.Ref(q.Collection("Games"),"360648746450550865"))
           ))))
   let newGame = await client.query(q.Do(
     q.Create(
@@ -112,7 +112,7 @@ async function createGame(name) {
         players: 1,
         gameID: await q.Add(await q.Select("lastGameId",
           q.Select("data",
-          q.Get(q.Ref(q.Collection("Games"),"359741405272211542"))
+          q.Get(q.Ref(q.Collection("Games"),"360648746450550865"))
           )),1
         ),
         gameName: name || "OPTCC Game",
@@ -136,10 +136,10 @@ async function createGame(name) {
         }
       } }
     ),
-    q.Update(q.Ref(q.Collection("Games"),"359741405272211542"),{data: 
+    q.Update(q.Ref(q.Collection("Games"),"360648746450550865"),{data: 
                                                                 {lastGameId: await q.Add(await q.Select("lastGameId",
           q.Select("data",
-          q.Get(q.Ref(q.Collection("Games"),"359741405272211542"))
+          q.Get(q.Ref(q.Collection("Games"),"360648746450550865"))
           )),1
         )}})
   ))
