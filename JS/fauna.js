@@ -1,6 +1,6 @@
 
 const faunadb = window.faunadb
-console.log(window.faunadb)
+console.log(window)
 const q = faunadb.query
 const secret = "fnAE91_9J0AAUytuSXc_AT-79VLF3usA3D3jPMS-"
 var mg, domain, port, scheme
