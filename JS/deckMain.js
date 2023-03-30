@@ -10,7 +10,11 @@ const DON = {
     exportDeckBu: document.getElementById("exportDeck"),
     cardsInLeaderLabel:document.getElementById("cardsInLeaderArea"),
     cardsInDeckLabel: document.getElementById("cardsInDeckArea"),
-    exportDECKresultsLabel: document.getElementById("exportDECKresults")
+    exportDECKresultsLabel: document.getElementById("exportDECKresults"),
+    inspect: document.getElementById("inspect"),
+    card: document.getElementById("card"),
+    stats: document.getElementById("stats"),
+    close: document.getElementById("close")
 }
 import { GetAllCards, UploadCard } from "./fauna.js"
 import { dkB } from "./deckBuildingModule.js"
@@ -80,6 +84,17 @@ async function load(search){
                 deckLoad()
             }
         }
+        inspectBu.onclick = function() {
+            DON.inspect.style.opacity = 1
+            DON.close.style.opacity = 1
+            DON.inspect.style.pointerEvents = "all"
+            DON.stats.innerHTML = ``
+            DON.card.style.backgroundImage = `url("${cards[key].img}")`
+            let sprat = Object.keys(cards[key])
+            sprat.forEach(_key =>{
+                DON.stats.insertAdjacentHTML("beforeend",`<p>${_key}: ${cards[key][_key]}</p>`)
+            })
+        }
         hidden.appendChild(addDeckBu)
         hidden.appendChild(inspectBu)
         hidden.appendChild(leaderBu)
@@ -87,7 +102,14 @@ async function load(search){
         DON.cardArea.insertAdjacentElement("afterbegin",newCardDiv)
     });
 }
+DON.close.style.opacity = 0
 
+DON.close.onclick = function(){
+    DON.inspect.style.opacity = 0
+    DON.close.style.opacity = 0
+    DON.inspect.style.pointerEvents = "none"
+
+}
 load()
 function deckLoad(str){
     cardsInDeck = 0
