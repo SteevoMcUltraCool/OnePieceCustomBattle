@@ -33,7 +33,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    max-height: calc(99vh - 90px);
+    max-height: calc(99.3vh - 90px);
     overflow: auto;
 }
 
@@ -91,9 +91,8 @@ h1 {
     flex-wrap: wrap;
     flex-direction: row;
     background-color: #CCB;
-    overflow-y: auto;
-    overflow-x: visible;
-    max-height: calc(99vh - 90px);
+    overflow = auto visible
+    max-height: calc(99.3vh - 90px);
 }
 
 #leaderArea {
