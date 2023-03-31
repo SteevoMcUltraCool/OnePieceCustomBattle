@@ -411,9 +411,9 @@ h4 {
 }
 #otherfatThing {
     position: absolute;
-    right: 0px;
-    bottom: 0px;
-    height: 50vh;
+    right: 1vw;
+    bottom: 2vh;
+    height: 55vh;
     aspect-ratio: 1/1.39;
     transition: all 0.3s;
 }
