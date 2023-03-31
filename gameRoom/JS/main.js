@@ -91,7 +91,7 @@ if (gameID){
         window.location.replace("../../index.html?error="+"1")
     }
 }else{
-    window.location.replace("../../index.html?error="+"400")
+    window.location.replace("../../index.html?error="+"404")
 }
 
 function getPeep(divCard,card){
@@ -182,6 +182,7 @@ let PlayerOBJ = thisGame["player"+player]
 console.log(thisGame,PlayerOBJ)
 console.log("player="+getCookie("player"), "game="+getCookie("game"))
 let opPlayer = (player==1 &&2) || 1
+if (!PlayerOBJ.initiated){            promptInitiatePlayer() }
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));

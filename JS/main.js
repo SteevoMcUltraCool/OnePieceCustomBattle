@@ -19,7 +19,7 @@ switch (Number(error)) {
     case 1: 
         console.log("Your most recent game was closed")
         break
-    case 400:
+    case 404:
         console.log("Could not find a recent game you were in.")
         break
 }

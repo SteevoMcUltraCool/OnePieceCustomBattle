@@ -37,13 +37,17 @@ function displayCardsCount(){
         DON.cardsInDeckLabel.style.backgroundColor="red"
     }else {DON.cardsInDeckLabel.style.backgroundColor = "transparent"}
 }
-async function load(search){
+async function load(search,cSearc,crSearc){
     if (!search){
         cards = await GetAllCards()
     }
     DON.cardArea.innerHTML = ""
     Object.keys(cards).filter(key=> {
         return cards[key].name.toLowerCase().includes((search||"").toLowerCase())
+    }).filter(key=> {
+        return !cards[key].color || cards[key].color.toLowerCase().includes((cSearc||"").toLowerCase())
+    }).filter(key=> {
+        return !cards[key].creator ||cards[key].creator.toLowerCase().includes((crSearc||"").toLowerCase())
     }).forEach(key => {
         let newCardDiv = document.createElement("div")
         newCardDiv.style.backgroundImage = `url('${cards[key].img}')`
@@ -263,4 +267,6 @@ DON.exportDeckBu.onclick= async function(){
     }
 }
 DON.reloadBu.onclick = function(){load()}
-DON.searchText.oninput = function(){load(searchText.value)}
+DON.searchText.oninput = function(){load(DON.searchText.value,document.getElementById("colorText").value,document.getElementById("creatorText").value)}
+document.getElementById("colorText").oninput =DON.searchText.oninput
+document.getElementById("creatorText").oninput=DON.searchText.oninput

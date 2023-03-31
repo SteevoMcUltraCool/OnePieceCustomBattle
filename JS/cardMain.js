@@ -5,7 +5,7 @@ let DON = {
  cardColorInput: document.getElementById("cardColor"),
  cardCreatorInput:document.getElementById("cardCreator"),
  submitCardBu: document.getElementById("submitCard"),
- 
+ ccccccc: document.getElementById("ccccccc"),
  results: document.getElementById("results"),
 }
 import { GetAllCards, UploadCard } from "./fauna.js"
@@ -25,4 +25,12 @@ DON.submitCardBu.onclick = async function(){
         console.log(results)
         DON.results.style.backgroundColor = "rgb(250,100,50)"      
     }
+
 }
+DON.cardImageLinkInput.oninput = function(){
+    DON.ccccccc.style.backgroundImage = `url('${DON.cardImageLinkInput.value}')`
+}
+window.addEventListener("contextmenu",function(event){
+    event.preventDefault()
+    DON.ccccccc.style.opacity = (DON.ccccccc.style.opacity == 0 && 1 )||0
+})
