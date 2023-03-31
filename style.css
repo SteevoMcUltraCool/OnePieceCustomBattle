@@ -409,6 +409,14 @@ h4 {
     aspect-ratio: 1/1.3;
     transition: all 0.3s;
 }
+#otherfatThing {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    height: 50vh;
+    aspect-ratio: 1/1.39;
+    transition: all 0.3s;
+}
 
 #fatLuffy2 {
     position: absolute;
