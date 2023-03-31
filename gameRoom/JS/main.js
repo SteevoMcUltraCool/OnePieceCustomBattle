@@ -498,6 +498,7 @@ function loadBoard(first){
     if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.upDon.style.backgroundImage= "none"}
     if (bottomPlayerP.donArea[1]>=1){DON.sideDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.sideDon.style.backgroundImage= "none"}
     //opponent board
+      console.log(topPlayerP)
     if (topPlayerP && topPlayerP.initiated) {
    DON.topPlayerArea.donMain.innerHTML = ""
    DON.topPlayerArea.donMain.innerHTML = `
