@@ -320,6 +320,8 @@ function loadBoard(first){
     DON.mainmain.buttons = createButtons(["Draw", "Flip Top","More"])
     DON.mainmain.appendChild(DON.mainmain.buttons)
     DON.mainmain.buttons.Draw.execute = mainDeckDrawFrom
+    console.log(DON.mainmain)
+    console.log("cool")
     DON.mainmain.buttons.More.execute = function(){
         setSuperFocus(DON.mainmain,bottomPlayerP.mainDeck)
     }
@@ -349,8 +351,6 @@ function loadBoard(first){
     DON.dondon.Type = "DDN"
     }
     let mCount = bottomPlayerP.mainDeck.length
-       DON.mainmain = document.getElementById("m1")
-           console.log(DON.mainmain)
     if (mCount >=1) {
         DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`
         if (bottomPlayerP.mainDeck[0].faceUp[`${player}`]){
