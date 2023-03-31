@@ -23,3 +23,29 @@ switch (Number(error)) {
         console.log("Could not find a recent game you were in.")
         break
 }
+let anim
+document.getElementById("fatLuffy").onclick =function(){
+    let sound = document.getElementById("boing")
+    anim = true
+    let x = 0
+    let main = setInterval(function(){
+        x += (2 + Math.random())
+
+        document.getElementById("fatLuffy").style.transform = `scale(${1.05 + Math.sin(x)/4})`
+    },200)
+    setTimeout(function(){
+        clearInterval(main)
+        anim = false
+        document.getElementById("fatLuffy").style.transform = "scale(1)"
+    },1000)
+    sound.play()
+}
+
+document.getElementById("fatLuffy").onmouseenter =function(){
+    document.getElementById("fatLuffy").style.transform = "scale(1.05)"
+}
+document.getElementById("fatLuffy").onmouseleave =function(){
+    if (!anim){
+        document.getElementById("fatLuffy").style.transform = "scale(1)"
+    }
+}
