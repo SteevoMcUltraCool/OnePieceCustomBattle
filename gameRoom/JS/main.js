@@ -333,6 +333,7 @@ function loadBoard(first){
         await UpdateData(thisGame.id, AR)
         await AddChatToLog(thisGame.id,thisGame.chatLog,`${PlayerOBJ.name} flipped the top card of their main deck.`, "Server")
     }
+       console.log(DON.mainmain)
     DON.dondon = document.getElementById("d1")
     DON.dCount = document.getElementById("dCount")
     DON.dondon.IsA = "Card"
@@ -348,6 +349,8 @@ function loadBoard(first){
     DON.dondon.Type = "DDN"
     }
     let mCount = bottomPlayerP.mainDeck.length
+       DON.mainmain = document.getElementById("m1")
+           console.log(DON.mainmain)
     if (mCount >=1) {
         DON.mainmain.style.backgroundImage = `url('${DWM.sleeve}')`
         if (bottomPlayerP.mainDeck[0].faceUp[`${player}`]){
