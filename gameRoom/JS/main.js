@@ -499,7 +499,7 @@ function loadBoard(first){
     if (bottomPlayerP.donArea[1]>=1){DON.sideDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.sideDon.style.backgroundImage= "none"}
     //opponent board
       console.log(topPlayerP)
-    if (topPlayerP && topPlayerP.initiated) {
+    if (topPlayerP && thisGame["player"+newPlayer].initiated) {
    DON.topPlayerArea.donMain.innerHTML = ""
    DON.topPlayerArea.donMain.innerHTML = `
     <div class="DON" id="td1">
