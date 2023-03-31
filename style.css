@@ -101,7 +101,6 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    background-color: black;
     padding: 10px;
     padding-top: 0px;
     max-width: 100%;
@@ -109,9 +108,9 @@ h1 {
 
 #deckArea>div,
 #leaderArea>div {
-    width: 300px;
-    min-width: 30%;
-    max-width: 100%;
+    width: 150px;
+    min-width: 20%;
+    max-width: 50%;
     aspect-ratio: 2.5/3.5;
     margin-top: 20px;
     margin-left: 10px;
@@ -123,8 +122,15 @@ h1 {
     transition: all 0.3s;
     position: relative;
     top: 0px;
+    height: min-content;
 }
-
+#leaderArea>div {
+    box-sizing: content-box;
+    width: 150px;
+    max-width: 100%;
+    border:8px solid yellow;
+    top: -8px;
+}
 
 .count {
     position: absolute;
@@ -132,11 +138,11 @@ h1 {
     top: 0px;
     transform: translate(50%, -25%);
     border-radius: 50%;
-    padding: 0px 18px;
+    padding: 0px 10px;
     aspect-ratio: 1;
     background-color: white;
     color: black;
-    font-size: 50px;
+    font-size: 30px;
     font-weight: 900;
     text-align: center;
     border: 2px solid black;
@@ -148,11 +154,11 @@ h1 {
     top: 25%;
     transform: translate(50%, -25%);
     border-radius: 50%;
-    padding: 0px 9px;
+    padding: 0px 5px;
     aspect-ratio: 1;
     background-color: white;
     color: black;
-    font-size: 34px;
+    font-size: 20px;
     font-weight: 900;
     text-align: center;
     border: 2px solid black;
@@ -164,11 +170,11 @@ h1 {
     top: 50%;
     transform: translate(50%, -25%);
     border-radius: 50%;
-    padding: 0px 9px;
+    padding: 0px 5px;
     aspect-ratio: 1;
     background-color: white;
     color: black;
-    font-size: 34px;
+    font-size: 20px;
     font-weight: 900;
     text-align: center;
     border: 2px solid black;
@@ -193,11 +199,11 @@ h1 {
     top: 75%;
     transform: translate(50%, -25%);
     border-radius: 50%;
-    padding: 0px 9px;
+    padding: 0px 5px;
     aspect-ratio: 1;
     background-color: red;
     color: white;
-    font-size: 34px;
+    font-size: 20px;
     font-weight: 900;
     text-align: center;
     border: 2px solid white;
