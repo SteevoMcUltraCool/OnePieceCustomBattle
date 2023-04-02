@@ -178,6 +178,19 @@ function deckLoad(str){
                 displayCardsCount()
             }             
         }
+        newCard.addEventListener("contextmenu",function(event){
+            event.preventDefault()
+            DON.inspect.style.opacity = 1
+            DON.close.style.opacity = 1
+            DON.inspect.style.pointerEvents = "all"
+            DON.stats.innerHTML = ``
+            DON.card.style.backgroundImage = `url('${cards[id].img}')`
+            let sprat = Object.keys(cards[id])
+            sprat.forEach(_key =>{
+                DON.stats.insertAdjacentHTML("beforeend",`<p>${_key}: ${cards[id][_key]}</p>`)
+            })
+            DON.stats.insertAdjacentHTML("afterbegin", `<h2>In deck as leader</h2>`)
+        })
         newCard.appendChild(minus)
         newCard.appendChild(counter)
         DON.leaderArea.insertAdjacentElement("beforeend",newCard)
@@ -241,6 +254,19 @@ function deckLoad(str){
                 displayCardsCount()
             }             
         }
+        newCard.addEventListener("contextmenu",function(event){
+            event.preventDefault()
+            DON.inspect.style.opacity = 1
+            DON.close.style.opacity = 1
+            DON.inspect.style.pointerEvents = "all"
+            DON.stats.innerHTML = ``
+            DON.card.style.backgroundImage = `url('${cards[id].img}')`
+            let sprat = Object.keys(cards[id])
+            sprat.forEach(_key =>{
+                DON.stats.insertAdjacentHTML("beforeend",`<p>${_key}: ${cards[id][_key]}</p>`)
+            })
+            DON.stats.insertAdjacentHTML("afterbegin", `<h2>In deck x${count}</h2>`)
+        })
         newCard.appendChild(remove)
         newCard.appendChild(minus)
         newCard.appendChild(counter)
