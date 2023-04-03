@@ -148,5 +148,30 @@ async function createGame(name) {
 async function getChatLogLength(id){
   return Number(await client.query(q.Call("getChatLogLength",id)))
 }
+async function userSignUp(user,pass){
+  let dn = Date.now()
+  let id = `${dn}N${Math.floor(Math.random()*10000000)}`
+  let hash = `${Math.floor(Math.random()*10000000)}${Math.floor(Math.random()*10000000)}${dn}${Math.floor(Math.random()*10000000)}${Math.floor(Math.random()*10000000)}`
+  let newUser = await client.query(q.Do(
+    q.Create(
+      q.Collection("UserLogin"),
+      { data: {
+          username: user ,
+          password: pass ,
+          id: id ,
+          premiumUntil: q.Subtract(dn,10),
+          decks: [],
+          personalizedHash: hash,
+          status: "Online",
+        }
+      } 
+    ),
+    )
+  )
+  return newUser
+}
+async function userLogIn(user,pass){
+
+}
 export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId, CreateGame = createGame,
 RequestToJoinGame=requestToJoinGame, AddChatToLog = addChatToLog, UpdateData = updateData, GetChatLogLength = getChatLogLength
