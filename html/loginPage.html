@@ -1,0 +1,39 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPTCCG Login</title>
+    <link rel="icon" type="image/svg+xml" href="./images/logo.png" />
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <button id="back">Back</button>
+    <section id="mainLS">
+        <div id="login">
+            <h2>Log In</h2>
+            <br>
+            <p>Username: <input id="loginUser"></p>
+            <p>Password: <input type="password" id="loginPass"> <button class="pwShowToggle" value="loginPass">👁️</button></p>
+            <p>or</p>
+            <p>Personalized Hash: <input id="loginHash"></p>
+            <br>
+            <button id="loginBu">Login</button>
+        </div>
+        <div id="signup">
+            <h2>Sign Up</h2>
+            <br>
+            <p>Username: <input id="signupUser"></p>
+            <p>Password: <input type="password" id="signupPass"> <button class="pwShowToggle" value="signupPass">👁️</button></p>            
+            <br>
+            <button id="signupBu">Sign Up</button>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/faunadb@latest/dist/faunadb.js"></script>
+    <script src="../JS/minorPageBase.js" type="module"></script>
+    <script src="../JS/loginMain.js" type="module"></script>
+</body>
+
+</html>

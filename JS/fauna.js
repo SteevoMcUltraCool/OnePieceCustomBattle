@@ -152,6 +152,14 @@ async function userSignUp(user,pass){
   let dn = Date.now()
   let id = `${dn}N${Math.floor(Math.random()*10000000)}`
   let hash = `${Math.floor(Math.random()*10000000)}${Math.floor(Math.random()*10000000)}${dn}${Math.floor(Math.random()*10000000)}${Math.floor(Math.random()*10000000)}`
+  let newStuff = (await client.query(
+    q.Paginate(
+      q.Match(q.Index("getName"), user)
+    )
+)).data
+  if (newStuff[0]){
+    return false
+  }
   let newUser = await client.query(q.Do(
     q.Create(
       q.Collection("UserLogin"),
@@ -168,10 +176,40 @@ async function userSignUp(user,pass){
     ),
     )
   )
-  return newUser
+  return newUser.data
 }
-async function userLogIn(user,pass){
-
+async function userLogInbyUP(user,pass){
+  let newStuff = (await client.query( q.Map(
+    q.Paginate(
+      q.Match(q.Index("loginByUserPass"), user,pass)
+    ),
+    q.Lambda(
+      "user",
+      q.Get(q.Var("user"))
+    )
+  )
+)).data
+newStuff = newStuff.map(user => {
+    return user.data
+})
+return newStuff[0]
+}
+async function userLogInbyPH(hash){
+  let newStuff = (await client.query( q.Map(
+    q.Paginate(
+      q.Match(q.Index("loginByPersonalizedHash"), hash)
+    ),
+    q.Lambda(
+      "user",
+      q.Get(q.Var("user"))
+    )
+  )
+)).data
+newStuff = newStuff.map(user => {
+    return user.data
+})
+return newStuff[0]
 }
 export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId, CreateGame = createGame,
-RequestToJoinGame=requestToJoinGame, AddChatToLog = addChatToLog, UpdateData = updateData, GetChatLogLength = getChatLogLength
+RequestToJoinGame=requestToJoinGame, AddChatToLog = addChatToLog, UpdateData = updateData, GetChatLogLength = getChatLogLength,
+UserSignUp = userSignUp, UserLogInbyPH = userLogInbyPH, UserLoginByUP = userLogInbyUP
