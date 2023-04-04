@@ -3,7 +3,9 @@ let DON = {
     revealHashBu: document.getElementById("revealHashBu"),
     hashGoesHere: document.getElementById("hashGoesHere"),
     username: document.getElementById("username"),
-    decks: document.getElementById("decks")
+    decks: document.getElementById("decks"),
+    playmats: document.getElementById("playmats")
+
 }
 
 DON.logoutButton.onclick = function(){
@@ -44,7 +46,7 @@ function displayPlaymats(){
             <div class="showIMGmat" style="background-image:url('mat.imgString')"></div> //fix
         </div>`)
     })
-    DON.decks.innerHTML = DON.decks.innerHTML + "<button class='fixedBottom' id='addPlaymat'>+</button>"
+    DON.playmats.innerHTML = DON.playmats.innerHTML + "<button class='fixedBottom' id='addPlaymat'>+</button>"
 }
 displayDecks()
 displayPlaymats()
