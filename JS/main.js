@@ -29,7 +29,7 @@ document.getElementById("fatLuffy").onclick =function(){
     anim = true
     let x = 0
     let main = setInterval(function(){
-        x += (2 + Math.random())
+        x -= (2 + Math.random())
 
         document.getElementById("fatLuffy").style.transform = `scale(${1.05 + Math.sin(x)/4})`
     },200)
