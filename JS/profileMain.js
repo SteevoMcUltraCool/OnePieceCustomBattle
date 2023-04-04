@@ -4,7 +4,7 @@ let DON = {
     hashGoesHere: document.getElementById("hashGoesHere"),
     username: document.getElementById("username"),
     decks: document.getElementById("decks"),
-    playmats: document.getElementById("playmats")
+    playmats: document.getElementById("customPlaymats")
 
 }
 
