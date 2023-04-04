@@ -37,7 +37,7 @@ function displayDecks(){
     DON.decks.innerHTML = DON.decks.innerHTML + "<button class='fixedBottom' id='addDeck'>+</button>"
 }
 function displayPlaymats(){
-    let playmats = user.playmats
+    let playmats = user.customPlaymats
     DON.playmats.innerHTML = "<div class='fixedTop'>Playmats:</div>"
     playmats.forEach(mat => {
         DON.decks.insertAdjacentHTML("beforeEnd",`<div class="normalDeck"> //needs styling
