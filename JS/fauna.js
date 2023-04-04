@@ -169,6 +169,7 @@ async function userSignUp(user,pass){
           id: id ,
           premiumUntil: q.Subtract(dn,10),
           decks: [],
+          customPlaymats: [],
           personalizedHash: hash,
           status: "Online",
         }
