@@ -292,7 +292,6 @@ function loadBoard(first){
    try{
    updateChatLog()
    let bottomPlayerP = thisGame["player"+player].gameParts
-   if (PlayerOBJ && !PlayerOBJ.initiated){ promptInitiatePlayer() }
    let newPlayer = 2
    if (player==2){newPlayer=1}
    let topPlayerP = thisGame["player"+newPlayer]
