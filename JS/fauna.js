@@ -1,7 +1,17 @@
 
 const faunadb = window.faunadb
 const q = faunadb.query
-const secret = "fnAE91_9J0AAUytuSXc_AT-79VLF3usA3D3jPMS-"
+
+const handler = async (event, context) => {
+
+  const value =  process.env.APIKEY;
+
+  return value
+};
+
+
+const secret = "fnAFAvRqzxAATab0FXPaaSAsxPF8V8zp0UoZi1jR"
+
 var mg, domain, port, scheme
 let endpoint = 'https://db.fauna.com/'
     scheme = 'https'
