@@ -190,6 +190,7 @@ async function userLogInbyUP(user,pass){
   )
 )).data
 newStuff = newStuff.map(user => {
+  user.refID = user.ref.id
     return user.data
 })
 return newStuff[0]
@@ -206,10 +207,14 @@ async function userLogInbyPH(hash){
   )
 )).data
 newStuff = newStuff.map(user => {
+  user.data.refID = user.ref.id
     return user.data
 })
 return newStuff[0]
 }
+async function updateUserData(refID,changes){
+  await client.query(q.Update(q.Ref(q.Collection("UserLogin"),refID), {data:changes}))
+}
 export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId, CreateGame = createGame,
 RequestToJoinGame=requestToJoinGame, AddChatToLog = addChatToLog, UpdateData = updateData, GetChatLogLength = getChatLogLength,
-UserSignUp = userSignUp, UserLogInbyPH = userLogInbyPH, UserLoginByUP = userLogInbyUP
+UserSignUp = userSignUp, UserLogInbyPH = userLogInbyPH, UserLoginByUP = userLogInbyUP, UpdateUserData = updateUserData

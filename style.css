@@ -483,3 +483,8 @@ h4 {
     font-style: italic;
     font-size: 1.1em;
 }
+.smol {
+    font-size: 80px;
+    margin: 20px 0px;
+    text-align: left;
+}
