@@ -182,7 +182,6 @@ let PlayerOBJ = thisGame["player"+player]
 console.log(thisGame,PlayerOBJ)
 console.log("player="+getCookie("player"), "game="+getCookie("game"))
 let opPlayer = (player==1 &&2) || 1
-if (!PlayerOBJ.initiated){            promptInitiatePlayer() }
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -293,6 +292,7 @@ function loadBoard(first){
    try{
    updateChatLog()
    let bottomPlayerP = thisGame["player"+player].gameParts
+   if (!PlayerOBJ.initiated){ promptInitiatePlayer() }
    let newPlayer = 2
    if (player==2){newPlayer=1}
    let topPlayerP = thisGame["player"+newPlayer]
