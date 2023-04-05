@@ -10,7 +10,7 @@ const handler = async (event, context) => {
 };
 
 
-const secret = "fnAFAvRqzxAATab0FXPaaSAsxPF8V8zp0UoZi1jR"
+const secret = "fnAFAwKWhbAAUZcKLK7BWQ9uyb3Sr7fJbsbtb9lA"
 
 var mg, domain, port, scheme
 let endpoint = 'https://db.fauna.com/'
