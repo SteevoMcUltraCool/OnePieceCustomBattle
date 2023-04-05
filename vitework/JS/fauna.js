@@ -1,13 +1,8 @@
 
 const faunadb = window.faunadb
 const q = faunadb.query
-
-const handler = async (event, context) => {
-
-  const value =  process.env.APIKEY;
-
-  return value
-};
+import * as dotenv from "dotenv";
+//dotenv.config()
 
 
 const secret = "fnAFAwKWhbAAUZcKLK7BWQ9uyb3Sr7fJbsbtb9lA"
