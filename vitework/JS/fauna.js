@@ -2,8 +2,9 @@
 const faunadb = window.faunadb
 const q = faunadb.query
 import * as dotenv from "dotenv";
-//dotenv.config()
-
+if (typeof process != "undefined"){
+  console.log(process)
+}
 
 const secret = "fnAFAwKWhbAAUZcKLK7BWQ9uyb3Sr7fJbsbtb9lA"
 

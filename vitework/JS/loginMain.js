@@ -32,7 +32,7 @@ DON.loginBu.onclick = async function(){
     let user = await UserLogInbyPH(DON.loginHash.value)
     deb=false
     if (user){
-    await localStorage.setItem("hash",user.personalizedHash)
+    localStorage.setItem("hash",user.personalizedHash)
     window.location.replace("../index.html")   
     return true
     }

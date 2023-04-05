@@ -6,6 +6,7 @@ DON.backBu.onclick = function(){
     window.location.replace("../index.html")   
 }
 import { UserLogInbyPH } from "./fauna.js";
+async function doStuff(){
 let hash = localStorage.getItem('hash'), user = false
 if (hash){
     user = await UserLogInbyPH(hash)
@@ -19,3 +20,5 @@ if (user){
 }
 
 document.body.appendChild(p)
+}
+doStuff()
