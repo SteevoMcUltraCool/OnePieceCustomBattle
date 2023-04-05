@@ -1,7 +1,7 @@
 
 const faunadb = window.faunadb
 const q = faunadb.query
-import * as dotenv from "dotenv";
+//import * as dotenv from "dotenv";
 if (typeof process != "undefined"){
   console.log(process)
 }else {
