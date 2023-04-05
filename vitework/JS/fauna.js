@@ -4,6 +4,8 @@ const q = faunadb.query
 import * as dotenv from "dotenv";
 if (typeof process != "undefined"){
   console.log(process)
+}else {
+  console.log("no process found")
 }
 
 const secret = "fnAFAwKWhbAAUZcKLK7BWQ9uyb3Sr7fJbsbtb9lA"
