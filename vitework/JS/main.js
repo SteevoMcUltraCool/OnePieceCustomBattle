@@ -49,8 +49,8 @@ document.getElementById("fatLuffy").onmouseleave =function(){
         document.getElementById("fatLuffy").style.transform = "scale(1)"
     }
 }
-
 import { UserLogInbyPH } from "./fauna.js";
+
 async function doStuff(){
 let hash = localStorage.getItem('hash'), user = false
 if (hash){
