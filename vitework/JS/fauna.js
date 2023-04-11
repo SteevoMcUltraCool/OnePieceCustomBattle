@@ -1,4 +1,6 @@
 console.log(typeof process)
+console.log(import.meta.env.API_KEY)
+console.log(import.meta.env.VITE_API_KEY)
 
 const faunadb = window.faunadb
 const q = faunadb.query
