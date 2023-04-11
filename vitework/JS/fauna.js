@@ -1,13 +1,6 @@
 
 const faunadb = window.faunadb
 const q = faunadb.query
-//import * as dotenv from "dotenv";
-import { OBS } from "./obsfuciate.js"
-if (typeof import.meta != "undefined"){
-  console.log(import.meta)
-}else {
-  console.log("no process found")
-}
 import { APIKEY } from "./secret.js"
 const secret = APIKEY
 var mg, domain, port, scheme
