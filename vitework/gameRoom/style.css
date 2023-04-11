@@ -191,7 +191,7 @@ body {
 
 #gameButtons {
     width: calc(100% - calc(5/7 * calc(49vh - 24px)));
-    height: calc(100%-10px);
+    height: calc(100% - 10px);
     min-width: 30%;
     border: 2px solid var(--borderColor)
 }

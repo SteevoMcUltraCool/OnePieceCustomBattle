@@ -1,1 +1,229 @@
-const _0x553089=_0x4b5f;(function(_0x33a341,_0x5887cb){const _0x326b7d=_0x4b5f,_0x545cb4=_0x33a341();while(!![]){try{const _0x334fc7=parseInt(_0x326b7d(0xb5))/0x1+parseInt(_0x326b7d(0xc6))/0x2*(parseInt(_0x326b7d(0xcd))/0x3)+-parseInt(_0x326b7d(0xd4))/0x4*(parseInt(_0x326b7d(0xd2))/0x5)+-parseInt(_0x326b7d(0xaf))/0x6+-parseInt(_0x326b7d(0xa2))/0x7*(-parseInt(_0x326b7d(0xb1))/0x8)+parseInt(_0x326b7d(0xaa))/0x9*(-parseInt(_0x326b7d(0xbe))/0xa)+parseInt(_0x326b7d(0xd6))/0xb;if(_0x334fc7===_0x5887cb)break;else _0x545cb4['push'](_0x545cb4['shift']());}catch(_0x232461){_0x545cb4['push'](_0x545cb4['shift']());}}}(_0x4766,0x67dab));const faunadb=window[_0x553089(0xc4)],q=faunadb[_0x553089(0xb9)];import{OBS}from'./obsfuciate.js';let apiCODE=_0x553089(0xbd);typeof process!=_0x553089(0xc8)?console[_0x553089(0xb7)](process):console[_0x553089(0xb7)](_0x553089(0xc3));import{APIKEY}from'./secret.js';const secret=APIKEY;var mg,domain,port,scheme;function _0x4766(){const _0x282e59=['chubb','357784667303182419','Image\x20link\x20must\x20be\x20at\x20least\x205\x20characters','2514852NUPfbT','OPTCC\x20Game','24KiYIQr','Ref','Cards','user','476161ubBgAi','Collection','log','Replace','query','floor','Add','Match','fn07Abc56BFIfo075E42','3434510kcrYmw','CC01-','Lambda','Games','Create','no\x20process\x20found','faunadb','lastGameId','8PopTuZ','random','undefined','game','keys','Name\x20must\x20be\x20at\x20least\x20three\x20characters','loginByPersonalizedHash','36237UuuttH','Update','now','360648746450550865','data','265bwkDqf','https','26068zsluzO','db.fauna.com','2526623cNUVHC','map','length','refID','Call','Index','Get','Paginate','gamesById','ref','UserLogin','1818159pAeKGL','loginByUserPass','Map','push','Select','Var','No\x20Deck\x20Loaded...','gamesByPlayers','9jdqtwp','Creator\x20must\x20be\x20at\x20least\x20three\x20characters'];_0x4766=function(){return _0x282e59;};return _0x4766();}let endpoint='https://db.fauna.com/';scheme=_0x553089(0xd3),domain=_0x553089(0xd5),port=0x1bb;const client=new faunadb['Client']({'secret':secret(),'domain':domain,'port':port,'scheme':scheme});async function getAllCards(){const _0x2eae45=_0x553089;return(await client['query'](q[_0x2eae45(0xdc)](q[_0x2eae45(0xb2)](q[_0x2eae45(0xb6)](_0x2eae45(0xb3)),_0x2eae45(0xad)))))[_0x2eae45(0xd1)];}async function uploadCard(_0x3cd306,_0x5e49b0,_0x17883e,_0x5c0ab6,_0x2d3864,_0x5d3c8a){const _0x207d47=_0x553089;console['log']('uploading'),_0x3cd306=_0x3cd306||'',_0x5e49b0=_0x5e49b0||'';if(_0x3cd306[_0x207d47(0xd8)]<0x3)return{'good':![],'details':_0x207d47(0xcb)};if(_0x5e49b0[_0x207d47(0xd8)]<0x5)return{'good':![],'details':_0x207d47(0xae)};if(_0x2d3864[_0x207d47(0xd8)]<0x3)return{'good':![],'details':'Color\x20must\x20be\x20at\x20least\x20three\x20characters'};if(_0x5d3c8a[_0x207d47(0xd8)]<0x3)return{'good':![],'details':_0x207d47(0xab)};if(_0x17883e[_0x207d47(0xd8)]<0x1)_0x17883e=null;try{let _0x562add=_0x5c0ab6;console[_0x207d47(0xb7)](_0x207d47(0xd1));let _0x476192=Object[_0x207d47(0xca)](_0x562add);console[_0x207d47(0xb7)](_0x476192);let _0x3c1760={'id':_0x207d47(0xbf)+String(_0x476192['length']),'idBase10':_0x476192[_0x207d47(0xd8)],'name':_0x3cd306,'img':_0x5e49b0,'text':_0x17883e,'color':_0x2d3864,'creator':_0x5d3c8a};console['log'](_0x3c1760),_0x562add[String(_0x476192['length'])]=_0x3c1760,console['log'](_0x562add);let _0x3cb54e=(await client[_0x207d47(0xb9)](q[_0x207d47(0xb8)](q[_0x207d47(0xb2)](q[_0x207d47(0xb6)]('Cards'),'357784667303182419'),{'ref':q[_0x207d47(0xb2)](q[_0x207d47(0xb6)](_0x207d47(0xb3)),_0x207d47(0xad)),'ts':0x5f5b8f1de7970,'data':_0x562add})))[_0x207d47(0xd1)];console['log'](_0x3cb54e);if(Object['keys'](_0x3cb54e)['length']>_0x476192[_0x207d47(0xd8)])return{'good':!![],'details':'Card\x20has\x20been\x20successfully\x20uploaded'};return{'good':![],'details':'Unknown\x20Error'};}catch(_0x27d639){return{'good':![],'details':_0x27d639};}}async function getGamesWithXPlayers(_0x595d12){const _0x18f8d9=_0x553089;let _0x5c8852=(await client[_0x18f8d9(0xb9)](q[_0x18f8d9(0xa4)](q['Paginate'](q['Match'](q['Index'](_0x18f8d9(0xa9)),_0x595d12||0x0)),q['Lambda']('game',q[_0x18f8d9(0xdc)](q[_0x18f8d9(0xa7)]('game'))))))['data'];return console[_0x18f8d9(0xb7)](_0x5c8852),_0x5c8852=_0x5c8852[_0x18f8d9(0xd7)](_0x52dc07=>{const _0x22b536=_0x18f8d9;return _0x52dc07['data'][_0x22b536(0xa0)]=_0x52dc07[_0x22b536(0xa0)],_0x52dc07[_0x22b536(0xd1)];}),console['log'](_0x5c8852),_0x5c8852;}async function getGameWithXId(_0x5279b3){const _0x96c4c3=_0x553089;let _0x287cda=(await client['query'](q[_0x96c4c3(0xa4)](q[_0x96c4c3(0xdd)](q['Match'](q['Index'](_0x96c4c3(0xde)),_0x5279b3||0x0)),q['Lambda'](_0x96c4c3(0xc9),q['Get'](q['Var'](_0x96c4c3(0xc9)))))))['data'];return _0x287cda=_0x287cda[_0x96c4c3(0xd7)](_0x5dbc27=>{const _0x48c50b=_0x96c4c3;return _0x5dbc27['data']['id']=_0x5dbc27[_0x48c50b(0xa0)]['id']||_0x48c50b(0xac),_0x5dbc27['data'];}),_0x287cda[0x0];}async function updateData(_0xc2bf61,_0x1d12de){const _0x471c3b=_0x553089;await client[_0x471c3b(0xb9)](q[_0x471c3b(0xce)](q[_0x471c3b(0xb2)](q[_0x471c3b(0xb6)](_0x471c3b(0xc1)),_0xc2bf61),{'data':_0x1d12de}));}async function addChatToLog(_0x5dc513,_0x3dadfa,_0x5ebd18,_0x287ba6){const _0x3e00f4=_0x553089;return _0x3dadfa[_0x3e00f4(0xa5)]({'text':_0x5ebd18,'sender':_0x287ba6}),updateData(_0x5dc513,{'chatLog':_0x3dadfa});}function _0x4b5f(_0x1b2284,_0x736e9e){const _0x476641=_0x4766();return _0x4b5f=function(_0x4b5f84,_0x3433b6){_0x4b5f84=_0x4b5f84-0xa0;let _0x1f4032=_0x476641[_0x4b5f84];return _0x1f4032;},_0x4b5f(_0x1b2284,_0x736e9e);}async function requestToJoinGame(_0x3391d2){const _0x1918c9=_0x553089;return await client['query'](await q[_0x1918c9(0xda)]('addPlayerToGame',_0x3391d2));}async function createGame(_0x4fa0b9){const _0x5f2be6=_0x553089;console[_0x5f2be6(0xb7)](await client[_0x5f2be6(0xb9)](q['Select'](_0x5f2be6(0xc5),q[_0x5f2be6(0xa6)](_0x5f2be6(0xd1),q['Get'](q['Ref'](q['Collection'](_0x5f2be6(0xc1)),'360648746450550865'))))));let _0x4c24aa=await client[_0x5f2be6(0xb9)](q['Do'](q[_0x5f2be6(0xc2)](q['Collection'](_0x5f2be6(0xc1)),{'data':{'players':0x1,'gameID':await q[_0x5f2be6(0xbb)](await q[_0x5f2be6(0xa6)](_0x5f2be6(0xc5),q['Select']('data',q[_0x5f2be6(0xdc)](q['Ref'](q[_0x5f2be6(0xb6)](_0x5f2be6(0xc1)),_0x5f2be6(0xd0))))),0x1),'gameName':_0x4fa0b9||_0x5f2be6(0xb0),'chatLog':[],'player1':{'name':'Anonymous','playerID':0x1,'deckString':_0x5f2be6(0xa8),'initiated':![],'gameParts':{'mainDeck':[],'playArea':[],'donDeck':[],'donArea':[],'hand':[],'trash':[],'leaderArea':[],'stageArea':[],'life':[]}}}}),q[_0x5f2be6(0xce)](q[_0x5f2be6(0xb2)](q[_0x5f2be6(0xb6)](_0x5f2be6(0xc1)),_0x5f2be6(0xd0)),{'data':{'lastGameId':await q['Add'](await q['Select'](_0x5f2be6(0xc5),q['Select']('data',q[_0x5f2be6(0xdc)](q['Ref'](q['Collection'](_0x5f2be6(0xc1)),_0x5f2be6(0xd0))))),0x1)}})));return _0x4c24aa;}async function getChatLogLength(_0x56c085){const _0x222cc6=_0x553089;return Number(await client[_0x222cc6(0xb9)](q['Call']('getChatLogLength',_0x56c085)));}async function userSignUp(_0x333654,_0x2603f2){const _0x1566f5=_0x553089;let _0x219043=Date[_0x1566f5(0xcf)](),_0x2d2079=_0x219043+'N'+Math[_0x1566f5(0xba)](Math['random']()*0x989680),_0x591d1b=''+Math[_0x1566f5(0xba)](Math[_0x1566f5(0xc7)]()*0x989680)+Math[_0x1566f5(0xba)](Math['random']()*0x989680)+_0x219043+Math[_0x1566f5(0xba)](Math[_0x1566f5(0xc7)]()*0x989680)+Math[_0x1566f5(0xba)](Math[_0x1566f5(0xc7)]()*0x989680),_0x1a376e=(await client['query'](q['Paginate'](q['Match'](q['Index']('getName'),_0x333654))))[_0x1566f5(0xd1)];if(_0x1a376e[0x0])return![];let _0x4bebb7=await client[_0x1566f5(0xb9)](q['Do'](q['Create'](q['Collection'](_0x1566f5(0xa1)),{'data':{'username':_0x333654,'password':_0x2603f2,'id':_0x2d2079,'premiumUntil':q['Subtract'](_0x219043,0xa),'decks':[],'customPlaymats':[],'personalizedHash':_0x591d1b,'status':'Online'}})));return _0x4bebb7[_0x1566f5(0xd1)];}async function userLogInbyUP(_0x53fd2f,_0x51cc62){const _0x5ac503=_0x553089;let _0x8ccec1=(await client[_0x5ac503(0xb9)](q['Map'](q[_0x5ac503(0xdd)](q[_0x5ac503(0xbc)](q[_0x5ac503(0xdb)](_0x5ac503(0xa3)),_0x53fd2f,_0x51cc62)),q[_0x5ac503(0xc0)](_0x5ac503(0xb4),q[_0x5ac503(0xdc)](q[_0x5ac503(0xa7)](_0x5ac503(0xb4)))))))[_0x5ac503(0xd1)];return _0x8ccec1=_0x8ccec1[_0x5ac503(0xd7)](_0x40322c=>{const _0x1fc19d=_0x5ac503;return _0x40322c[_0x1fc19d(0xd9)]=_0x40322c[_0x1fc19d(0xa0)]['id'],_0x40322c[_0x1fc19d(0xd1)];}),_0x8ccec1[0x0];}async function userLogInbyPH(_0x5f1dea){const _0x7689ea=_0x553089;let _0xf8b836=(await client[_0x7689ea(0xb9)](q[_0x7689ea(0xa4)](q[_0x7689ea(0xdd)](q[_0x7689ea(0xbc)](q[_0x7689ea(0xdb)](_0x7689ea(0xcc)),_0x5f1dea)),q[_0x7689ea(0xc0)](_0x7689ea(0xb4),q[_0x7689ea(0xdc)](q[_0x7689ea(0xa7)]('user'))))))['data'];return _0xf8b836=_0xf8b836[_0x7689ea(0xd7)](_0x4214d9=>{const _0x209584=_0x7689ea;return _0x4214d9[_0x209584(0xd1)][_0x209584(0xd9)]=_0x4214d9['ref']['id'],_0x4214d9[_0x209584(0xd1)];}),_0xf8b836[0x0];}async function updateUserData(_0xd8d332,_0x3db872){const _0x31a8f8=_0x553089;await client[_0x31a8f8(0xb9)](q[_0x31a8f8(0xce)](q[_0x31a8f8(0xb2)](q[_0x31a8f8(0xb6)](_0x31a8f8(0xa1)),_0xd8d332),{'data':_0x3db872}));}export let GetAllCards=getAllCards,UploadCard=uploadCard,GetGamesWithXPlayers=getGamesWithXPlayers,GetGameWithXId=getGameWithXId,CreateGame=createGame,RequestToJoinGame=requestToJoinGame,AddChatToLog=addChatToLog,UpdateData=updateData,GetChatLogLength=getChatLogLength,UserSignUp=userSignUp,UserLogInbyPH=userLogInbyPH,UserLoginByUP=userLogInbyUP,UpdateUserData=updateUserData;
+
+const faunadb = window.faunadb
+const q = faunadb.query
+//import * as dotenv from "dotenv";
+import { OBS } from "./obsfuciate.js"
+if (typeof import.meta != "undefined"){
+  console.log(import.meta)
+}else {
+  console.log("no process found")
+}
+import { APIKEY } from "./secret.js"
+const secret = APIKEY
+var mg, domain, port, scheme
+let endpoint = 'https://db.fauna.com/'
+    scheme = 'https'
+    domain = 'db.fauna.com'
+    port =  443
+    const client = new faunadb.Client({
+        secret: secret(),
+        domain: domain,
+        port: port,
+        scheme: scheme,
+})
+async function getAllCards(){
+    return (await client.query( q.Get( q.Ref( q.Collection("Cards"),"357784667303182419")) )).data 
+
+}    
+async function uploadCard(name,img,text,cards,color,creator){
+    console.log("uploading")
+    name = name || ""
+    img = img || ""
+    if (name.length <3) return {good:false, details:"Name must be at least three characters"}
+    if (img.length <5) return {good:false, details: "Image link must be at least 5 characters"}
+    if (color.length <3) return {good:false, details: "Color must be at least three characters"}
+    if (creator.length <3) return {good:false, details: "Creator must be at least three characters"}
+    if (text.length <1) text= null
+    try {
+        let oldData = cards
+        console.log("data")
+        let keys = Object.keys(oldData)
+        console.log(keys)
+        let newPart = {
+            id: "CC01-" + String(keys.length),
+            idBase10: keys.length,
+            name: name,
+            img: img,
+            text: text,
+            color: color,
+            creator: creator,
+        }
+        console.log(newPart)
+        oldData[String(keys.length)] = newPart
+        console.log(oldData)
+        let newData = (await client.query(  q.Replace( q.Ref( q.Collection("Cards"),"357784667303182419"),{ "ref": q.Ref(q.Collection("Cards"), "357784667303182419"),
+        "ts": 1677549564230000,"data":oldData}) )).data
+        console.log(newData)
+        if (Object.keys(newData).length > keys.length) return {good:true, details: "Card has been successfully uploaded"}
+        return {good:false,details:"Unknown Error"}
+    }catch(error){
+        return {good:false, details: error}
+    }
+}
+async function getGamesWithXPlayers(x){
+    let newStuff = (await client.query( q.Map(
+        q.Paginate(
+          q.Match(q.Index("gamesByPlayers"), x||0)
+        ),
+        q.Lambda(
+          "game",
+          q.Get(q.Var("game"))
+        )
+      )
+    )).data
+    console.log(newStuff)
+    newStuff = newStuff.map(game => {
+        game.data.ref = game.ref
+        return game.data
+    })
+    console.log(newStuff)
+    return newStuff
+}
+async function getGameWithXId(x){
+    let newStuff = (await client.query( q.Map(
+        q.Paginate(
+          q.Match(q.Index("gamesById"), x||0)
+        ),
+        q.Lambda(
+          "game",
+          q.Get(q.Var("game"))
+        )
+      )
+    )).data
+    newStuff = newStuff.map(game => {
+        game.data.id = game.ref.id || "chubb"
+        return game.data
+    })
+    return newStuff[0]
+}
+async function updateData(refID,changes){
+    await client.query(q.Update(q.Ref(q.Collection("Games"),refID), {data:changes}))
+}
+async function addChatToLog(refID, oldLog, chat,origin) {
+  oldLog.push({text:chat, sender:origin})
+  return updateData(refID, {chatLog:oldLog})
+}
+async function requestToJoinGame(refID){
+  return (await client.query(
+    await q.Call("addPlayerToGame", refID)
+  ))
+}
+async function createGame(name) {
+  console.log(await client.query(q.Select("lastGameId",
+          q.Select("data",
+          q.Get(q.Ref(q.Collection("Games"),"360648746450550865"))
+          ))))
+  let newGame = await client.query(q.Do(
+    q.Create(
+      q.Collection("Games"),
+      { data: {
+        players: 1,
+        gameID: await q.Add(await q.Select("lastGameId",
+          q.Select("data",
+          q.Get(q.Ref(q.Collection("Games"),"360648746450550865"))
+          )),1
+        ),
+        gameName: name || "OPTCC Game",
+        chatLog: [],
+        player1: {
+          name: "Anonymous",
+          playerID: 1,
+          deckString: "No Deck Loaded...",
+          initiated: false,
+          gameParts: {
+            mainDeck: [],
+            playArea: [],
+            donDeck: [],
+            donArea: [],
+            hand: [],
+            trash: [],
+            leaderArea: [],
+            stageArea: [],
+            life: [],
+          }
+        }
+      } }
+    ),
+    q.Update(q.Ref(q.Collection("Games"),"360648746450550865"),{data: 
+                                                                {lastGameId: await q.Add(await q.Select("lastGameId",
+          q.Select("data",
+          q.Get(q.Ref(q.Collection("Games"),"360648746450550865"))
+          )),1
+        )}})
+  ))
+  return newGame
+}
+async function getChatLogLength(id){
+  return Number(await client.query(q.Call("getChatLogLength",id)))
+}
+async function userSignUp(user,pass){
+  let dn = Date.now()
+  let id = `${dn}N${Math.floor(Math.random()*10000000)}`
+  let hash = `${Math.floor(Math.random()*10000000)}${Math.floor(Math.random()*10000000)}${dn}${Math.floor(Math.random()*10000000)}${Math.floor(Math.random()*10000000)}`
+  let newStuff = (await client.query(
+    q.Paginate(
+      q.Match(q.Index("getName"), user)
+    )
+)).data
+  if (newStuff[0]){
+    return false
+  }
+  let newUser = await client.query(q.Do(
+    q.Create(
+      q.Collection("UserLogin"),
+      { data: {
+          username: user ,
+          password: pass ,
+          id: id ,
+          premiumUntil: q.Subtract(dn,10),
+          decks: [],
+          customPlaymats: [],
+          personalizedHash: hash,
+          status: "Online",
+        }
+      } 
+    ),
+    )
+  )
+  return newUser.data
+}
+async function userLogInbyUP(user,pass){
+  let newStuff = (await client.query( q.Map(
+    q.Paginate(
+      q.Match(q.Index("loginByUserPass"), user,pass)
+    ),
+    q.Lambda(
+      "user",
+      q.Get(q.Var("user"))
+    )
+  )
+)).data
+newStuff = newStuff.map(user => {
+  user.refID = user.ref.id
+    return user.data
+})
+return newStuff[0]
+}
+async function userLogInbyPH(hash){
+  let newStuff = (await client.query( q.Map(
+    q.Paginate(
+      q.Match(q.Index("loginByPersonalizedHash"), hash)
+    ),
+    q.Lambda(
+      "user",
+      q.Get(q.Var("user"))
+    )
+  )
+)).data
+newStuff = newStuff.map(user => {
+  user.data.refID = user.ref.id
+    return user.data
+})
+return newStuff[0]
+}
+async function updateUserData(refID,changes){
+  await client.query(q.Update(q.Ref(q.Collection("UserLogin"),refID), {data:changes}))
+}
+export let GetAllCards = getAllCards, UploadCard = uploadCard, GetGamesWithXPlayers = getGamesWithXPlayers, GetGameWithXId = getGameWithXId, CreateGame = createGame,
+RequestToJoinGame=requestToJoinGame, AddChatToLog = addChatToLog, UpdateData = updateData, GetChatLogLength = getChatLogLength,
+UserSignUp = userSignUp, UserLogInbyPH = userLogInbyPH, UserLoginByUP = userLogInbyUP, UpdateUserData = updateUserData
