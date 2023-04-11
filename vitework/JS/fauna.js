@@ -14,6 +14,7 @@ let endpoint = 'https://db.fauna.com/'
         port: port,
         scheme: scheme,
 })
+console.log(typeof process)
 async function getAllCards(){
     return (await client.query( q.Get( q.Ref( q.Collection("Cards"),"357784667303182419")) )).data 
 
