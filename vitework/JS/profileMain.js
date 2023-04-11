@@ -7,12 +7,13 @@ let DON = {
     playmats: document.getElementById("customPlaymats")
 
 }
+import { UserLogInbyPH } from "./fauna.js";
+async function doStuff() {
 
 DON.logoutButton.onclick = function(){
     localStorage.removeItem("hash")
     window.location.replace("../index.html")
 }
-import { UserLogInbyPH } from "./fauna.js";
 let hash = localStorage.getItem('hash'), user = false
 if (hash){
     user = await UserLogInbyPH(hash)
@@ -50,3 +51,5 @@ function displayPlaymats(){
 }
 displayDecks()
 displayPlaymats()
+}
+doStuff()

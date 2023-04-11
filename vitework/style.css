@@ -1,16 +1,16 @@
 @font-face {
     font-family: punkKid;
-    src: url("./fonts/punk\ kid.ttf");
+    src: url("../fonts/punk\ kid.ttf");
 }
 
 @font-face {
     font-family: bandana;
-    src: url("./fonts/VTKS\ bandana.ttf");
+    src: url("../fonts/VTKS\ bandana.ttf");
 }
 
 @font-face {
     font-family: OPFont;
-    src: url("./fonts/one\ piece\ font.ttf");
+    src: url("../fonts/one\ piece\ font.ttf");
 }
 
 #cardImageLink {

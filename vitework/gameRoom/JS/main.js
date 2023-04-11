@@ -3,6 +3,7 @@ import { DWM } from "./realDeckworkModule.js";
 import { GetAllCards, GetGameWithXId, GetGamesWithXPlayers, UploadCard, RequestToJoinGame, AddChatToLog, UpdateData,GetChatLogLength} from "../../JS/fauna.js";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+async function doStuff(){
 let Cards = await GetAllCards();
 
 let  targeting = {
@@ -495,8 +496,8 @@ function loadBoard(first){
     DON.donCount.innerHTML = 10 - dCount
     DON.upDonCount.innerHTML = bottomPlayerP.donArea[0] ||0
     DON.sideDonCount.innerHTML = bottomPlayerP.donArea[1] ||0
-    if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.upDon.style.backgroundImage= "none"}
-    if (bottomPlayerP.donArea[1]>=1){DON.sideDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.sideDon.style.backgroundImage= "none"}
+    if (bottomPlayerP.donArea[0]>=1){DON.upDon.style.backgroundImage = `url('https://media.discordapp.net/attachments/1064371424690716693/1095196434531369001/DONface.png?width=750&height=1047')`}else{DON.upDon.style.backgroundImage= "none"}
+    if (bottomPlayerP.donArea[1]>=1){DON.sideDon.style.backgroundImage = `url('https://media.discordapp.net/attachments/1064371424690716693/1095196434531369001/DONface.png?width=750&height=1047')`}else{DON.sideDon.style.backgroundImage= "none"}
     //opponent board
       console.log(topPlayerP)
     if (topPlayerP && thisGame["player"+newPlayer].initiated) {
@@ -630,8 +631,8 @@ function loadBoard(first){
     DON.tdonCount.innerHTML = 10 - topPlayerP.donDeck[0]
     DON.tupDonCount.innerHTML = topPlayerP.donArea[0] ||0
     DON.tsideDonCount.innerHTML = topPlayerP.donArea[1] ||0
-    if (topPlayerP.donArea[0]>=1){DON.tupDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.tupDon.style.backgroundImage= "none"}
-    if (topPlayerP.donArea[1]>=1){DON.tsideDon.style.backgroundImage = `url(../../../images/DONface.png)`}else{DON.tsideDon.style.backgroundImage= "none"}
+    if (topPlayerP.donArea[0]>=1){DON.tupDon.style.backgroundImage = `url('https://media.discordapp.net/attachments/1064371424690716693/1095196434531369001/DONface.png?width=750&height=1047')`}else{DON.tupDon.style.backgroundImage= "none"}
+    if (topPlayerP.donArea[1]>=1){DON.tsideDon.style.backgroundImage = `url('https://media.discordapp.net/attachments/1064371424690716693/1095196434531369001/DONface.png?width=750&height=1047')`}else{DON.tsideDon.style.backgroundImage= "none"}
 }
    }catch(er){
         console.log(er)
@@ -1463,3 +1464,5 @@ document.getElementById("STT").onclick = async function(){
     await drawDonCard(dCount,PlayerOBJ.gameParts,2)
     await mainDeckDrawFrom(0,1)
 }
+}
+doStuff()
